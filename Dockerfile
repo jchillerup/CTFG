@@ -13,7 +13,7 @@ COPY . /ctfg
 RUN [ "php", "composer.phar", "install" ]
 
 
-CMD "php artisan serve --host 0.0.0.0 --port 80"
+CMD ["php", "artisan",  "serve", "--host",  "0.0.0.0", "--port", "80"]
 
 
 # COPY . /ctfg
