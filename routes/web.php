@@ -56,4 +56,7 @@ Route::get('/fill', [\App\Http\Controllers\TestController::class, 'fillCoverImag
 
 Route::get('/email-templates/contact-form', [\App\Http\Controllers\TestController::class, 'contactFormTemplate']);
 
-
+// For kamal
+Route::get('/up', function () {
+    return response()->noContent(200);
+});
