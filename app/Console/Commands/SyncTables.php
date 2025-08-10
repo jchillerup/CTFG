@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+use App\Models;
 
 class SyncTables extends Command
 {
@@ -36,6 +37,8 @@ class SyncTables extends Command
      * @return int
      */
     public function handle() {
+        error_log('test');
+
         try {
             app(\App\Http\Controllers\Airtable\Sync\CategoryController::class)->syncCategories();
 
@@ -60,7 +63,7 @@ class SyncTables extends Command
             app(\App\Http\Controllers\Airtable\Sync\ListingController::class)->syncListing();
 
         } catch (\Throwable $th) {
-            \Log::error('Error from Airtable auto sync cronjob: ' . $th->getMessage());
+            error_log('Error from Airtable auto sync cronjob: ' . $th->getMessage());
         }
     }
 }

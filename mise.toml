@@ -1,0 +1,4 @@
+[tools]
+"gem:kamal" = "latest"
+php = "8.4"
+ruby = "latest"

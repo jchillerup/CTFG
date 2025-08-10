@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Airtable;
 
 use App\Models\Category;
+use DB;
 
 class CategoryController extends Controller {
     /**
@@ -23,6 +24,7 @@ class CategoryController extends Controller {
 
         // Check if Airtable returned data then truncate table
         if ((Category::count() > 0) && (sizeof($airtableCategories) > 0)) {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
             Category::truncate();
         }
 
@@ -57,6 +59,8 @@ class CategoryController extends Controller {
         }
 
         $count = Category::count();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         \Log::info("Categories sync finished at ".date('Y-m-d H:i:s')." ... ".$count." records synced.");
     }
 }
