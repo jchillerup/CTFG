@@ -109,6 +109,27 @@ Route::get('/migrate-one', function () {
     }
 });
 
+// Check database permissions
+Route::get('/check-permissions', function () {
+    try {
+        $grants = DB::select('SHOW GRANTS FOR CURRENT_USER()');
+        $privileges = DB::select('SELECT * FROM information_schema.user_privileges WHERE grantee LIKE "%ctfg%"');
+        $schemaPrivs = DB::select('SELECT * FROM information_schema.schema_privileges WHERE grantee LIKE "%ctfg%"');
+        
+        return response()->json([
+            'grants' => $grants,
+            'user_privileges' => $privileges,
+            'schema_privileges' => $schemaPrivs,
+            'current_user' => DB::select('SELECT USER() as user, DATABASE() as db')
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
+
 // Debug database config route
 Route::get('/debug-db', function () {
     return response()->json([
