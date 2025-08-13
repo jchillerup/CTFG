@@ -182,35 +182,38 @@ Route::get('/test-migration-repo', function () {
     }
 });
 
-// Test the exact SQL from the failing migration via Artisan
-Route::get('/test-users-table-sql', function () {
+// Manual migration using Schema builder
+Route::get('/manual-migrate', function () {
     try {
-        $sql = "CREATE TABLE `users` (
-            `id` bigint unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            `name` varchar(255) NULL,
-            `email` varchar(255) NOT NULL,
-            `provider` varchar(255) NULL,
-            `provider_id` varchar(255) NULL,
-            `user_role` varchar(255) NULL,
-            `email_verified_at` timestamp NULL,
-            `password` varchar(255) NULL,
-            `remember_token` varchar(100) NULL,
-            `created_at` timestamp NULL,
-            `updated_at` timestamp NULL
-        ) DEFAULT CHARACTER SET utf8mb4 COLLATE 'utf8mb4_unicode_ci'";
+        $migrated = [];
         
-        // Try via direct DB
-        DB::statement($sql);
-        $directResult = "Direct DB: SUCCESS";
-        
-        // Try via Artisan
-        Artisan::call('tinker', ['--execute' => 'DB::statement("' . addslashes($sql) . '"); echo "Artisan DB: SUCCESS";']);
-        $artisanResult = Artisan::output();
+        // Create users table using Schema builder
+        if (!Schema::hasTable('users')) {
+            Schema::create('users', function ($table) {
+                $table->id();
+                $table->string('name')->nullable();
+                $table->string('email');
+                $table->string('provider')->nullable();
+                $table->string('provider_id')->nullable();
+                $table->string('user_role')->nullable();
+                $table->timestamp('email_verified_at')->nullable();
+                $table->string('password')->nullable();
+                $table->rememberToken();
+                $table->timestamps();
+            });
+            $migrated[] = 'users';
+            
+            // Record in migrations table
+            DB::table('migrations')->insert([
+                'migration' => '2014_10_12_000000_create_users_table',
+                'batch' => 1
+            ]);
+        }
         
         return response()->json([
             'status' => 'success',
-            'direct_result' => $directResult,
-            'artisan_result' => $artisanResult
+            'migrated_tables' => $migrated,
+            'message' => 'Manual migration completed'
         ]);
     } catch (Exception $e) {
         return response()->json([
