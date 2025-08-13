@@ -148,6 +148,40 @@ Route::get('/test-artisan-write', function () {
     }
 });
 
+// Test migration repository directly
+Route::get('/test-migration-repo', function () {
+    try {
+        $repository = app('migration.repository');
+        
+        // Try to get migrations table status
+        $exists = $repository->repositoryExists();
+        
+        if ($exists) {
+            $ran = $repository->getRan();
+            $batches = $repository->getMigrationBatches();
+            
+            return response()->json([
+                'status' => 'success',
+                'repository_exists' => $exists,
+                'ran_migrations' => $ran,
+                'batches' => $batches,
+                'next_batch' => $repository->getNextBatchNumber()
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Migration repository does not exist'
+            ]);
+        }
+    } catch (Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ], 500);
+    }
+});
+
 // Debug database config route
 Route::get('/debug-db', function () {
     return response()->json([
