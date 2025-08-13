@@ -11,8 +11,6 @@ description = "Deploy the app with database (idempotent)"
 run = [
     "echo 'Ensuring database is running...'",
     "kamal accessory boot db || echo 'Database already running'",
-    "echo 'Waiting for database to be ready...'",
-    "sleep 10",
     "echo 'Deploying application...'",
     "kamal deploy"
 ]

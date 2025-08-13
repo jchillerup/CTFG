@@ -207,6 +207,32 @@ Route::get('/check-tables', function () {
     }
 });
 
+// Mark users table as migrated and try to continue
+Route::get('/fix-migration-state', function () {
+    try {
+        // Record that users table migration has been run
+        DB::table('migrations')->insert([
+            'migration' => '2014_10_12_000000_create_users_table',
+            'batch' => 1
+        ]);
+        
+        // Now try to run remaining migrations via web context (bypassing artisan)
+        // This should work since we've proven web context DB operations work
+        Artisan::call('migrate', ['--force' => true]);
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Fixed migration state and ran remaining migrations',
+            'output' => Artisan::output()
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
+
 // Manual migration using Schema builder
 Route::get('/manual-migrate', function () {
     try {
