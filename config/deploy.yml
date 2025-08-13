@@ -39,7 +39,7 @@ builder:
 #
 env:
   clear:
-    DB_HOST: 49.12.97.157
+    DB_HOST: ctfg-db
     DB_PORT: 3306
     DB_DATABASE: ctfg
     DB_USERNAME: ctfg
