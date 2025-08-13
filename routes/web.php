@@ -182,6 +182,31 @@ Route::get('/test-migration-repo', function () {
     }
 });
 
+// Check what tables exist
+Route::get('/check-tables', function () {
+    try {
+        $tables = DB::select('SHOW TABLES');
+        $tableNames = array_map(function($table) {
+            $dbName = config('database.connections.mysql.database');
+            return $table->{"Tables_in_$dbName"};
+        }, $tables);
+        
+        $migrations = DB::table('migrations')->get();
+        
+        return response()->json([
+            'status' => 'success',
+            'tables' => $tableNames,
+            'migrations_in_db' => $migrations,
+            'users_exists' => Schema::hasTable('users')
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
+
 // Manual migration using Schema builder
 Route::get('/manual-migrate', function () {
     try {
