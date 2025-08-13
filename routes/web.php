@@ -77,6 +77,38 @@ Route::get('/migrate', function () {
     }
 });
 
+// Try migrate:install first
+Route::get('/migrate-install', function () {
+    try {
+        Artisan::call('migrate:install');
+        return response()->json([
+            'status' => 'success',
+            'output' => Artisan::output()
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
+
+// Try running just one migration
+Route::get('/migrate-one', function () {
+    try {
+        Artisan::call('migrate', ['--step' => 1, '--force' => true]);
+        return response()->json([
+            'status' => 'success',
+            'output' => Artisan::output()
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
+
 // Debug database config route
 Route::get('/debug-db', function () {
     return response()->json([
