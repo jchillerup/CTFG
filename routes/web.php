@@ -76,3 +76,23 @@ Route::get('/migrate', function () {
         ], 500);
     }
 });
+
+// Debug database config route
+Route::get('/debug-db', function () {
+    return response()->json([
+        'config' => [
+            'host' => config('database.connections.mysql.host'),
+            'port' => config('database.connections.mysql.port'),
+            'database' => config('database.connections.mysql.database'),
+            'username' => config('database.connections.mysql.username'),
+            'password_set' => !empty(config('database.connections.mysql.password')),
+        ],
+        'env' => [
+            'DB_HOST' => env('DB_HOST'),
+            'DB_PORT' => env('DB_PORT'),
+            'DB_DATABASE' => env('DB_DATABASE'),
+            'DB_USERNAME' => env('DB_USERNAME'),
+            'DB_PASSWORD_SET' => !empty(env('DB_PASSWORD')),
+        ]
+    ]);
+});
