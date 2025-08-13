@@ -136,3 +136,38 @@ Route::get('/create-migrations-table', function () {
         ], 500);
     }
 });
+
+// Debug artisan vs web database contexts
+Route::get('/debug-artisan', function () {
+    try {
+        // Test web context
+        $webConnection = DB::connection()->getPdo();
+        $webConfig = DB::connection()->getConfig();
+        
+        // Test what artisan sees by running a simple artisan command that touches DB
+        ob_start();
+        $artisanExitCode = Artisan::call('migrate:status');
+        $artisanOutput = Artisan::output();
+        ob_end_clean();
+        
+        return response()->json([
+            'web_context' => [
+                'connection' => 'OK',
+                'config' => $webConfig,
+                'pdo_class' => get_class($webConnection)
+            ],
+            'artisan_context' => [
+                'exit_code' => $artisanExitCode,
+                'output' => $artisanOutput,
+                'app_env' => app()->environment(),
+                'config_cached' => app()->configurationIsCached()
+            ]
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ], 500);
+    }
+});
