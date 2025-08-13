@@ -14,3 +14,11 @@ run = [
     "echo 'Deploying application...'",
     "kamal deploy"
 ]
+
+[tasks.migrate]
+description = "Run database migrations on deployed app"
+run = [
+    "echo 'Running database migrations...'",
+    "curl -f https://hymn.dk/migrate || echo 'Migration failed, trying via web route'",
+    "curl -f https://hymn.dk/fix-migration-state || echo 'Alternative migration approach failed'"
+]

@@ -207,23 +207,74 @@ Route::get('/check-tables', function () {
     }
 });
 
-// Mark users table as migrated and try to continue
-Route::get('/fix-migration-state', function () {
+// Fully manual migration - bypass Artisan entirely
+Route::get('/manual-full-migrate', function () {
     try {
-        // Record that users table migration has been run
-        DB::table('migrations')->insert([
-            'migration' => '2014_10_12_000000_create_users_table',
-            'batch' => 1
-        ]);
+        $migrated = [];
+        $batch = DB::table('migrations')->max('batch') + 1;
         
-        // Now try to run remaining migrations via web context (bypassing artisan)
-        // This should work since we've proven web context DB operations work
-        Artisan::call('migrate', ['--force' => true]);
+        // Users table
+        if (!Schema::hasTable('users')) {
+            Schema::create('users', function ($table) {
+                $table->id();
+                $table->string('name')->nullable();
+                $table->string('email');
+                $table->string('provider')->nullable();
+                $table->string('provider_id')->nullable();
+                $table->string('user_role')->nullable();
+                $table->timestamp('email_verified_at')->nullable();
+                $table->string('password')->nullable();
+                $table->rememberToken();
+                $table->timestamps();
+            });
+            $migrated[] = 'users';
+        }
+        
+        // Password resets table
+        if (!Schema::hasTable('password_resets')) {
+            Schema::create('password_resets', function ($table) {
+                $table->string('email')->index();
+                $table->string('token');
+                $table->timestamp('created_at')->nullable();
+            });
+            $migrated[] = 'password_resets';
+        }
+        
+        // Failed jobs table
+        if (!Schema::hasTable('failed_jobs')) {
+            Schema::create('failed_jobs', function ($table) {
+                $table->id();
+                $table->string('uuid')->unique();
+                $table->text('connection');
+                $table->text('queue');
+                $table->longText('payload');
+                $table->longText('exception');
+                $table->timestamp('failed_at')->useCurrent();
+            });
+            $migrated[] = 'failed_jobs';
+        }
+        
+        // Record migrations
+        $toRecord = [
+            '2014_10_12_000000_create_users_table',
+            '2014_10_12_100000_create_password_resets_table', 
+            '2019_08_19_000000_create_failed_jobs_table'
+        ];
+        
+        foreach ($toRecord as $migration) {
+            $exists = DB::table('migrations')->where('migration', $migration)->exists();
+            if (!$exists) {
+                DB::table('migrations')->insert([
+                    'migration' => $migration,
+                    'batch' => $batch
+                ]);
+            }
+        }
         
         return response()->json([
             'status' => 'success',
-            'message' => 'Fixed migration state and ran remaining migrations',
-            'output' => Artisan::output()
+            'migrated_tables' => $migrated,
+            'message' => 'Manual full migration completed'
         ]);
     } catch (Exception $e) {
         return response()->json([
