@@ -6,6 +6,9 @@ RUN apt-get update &&  DEBIAN_FRONTEND=noninteractive apt-get install --no-insta
 # Install MySQL PDO extension  
 RUN docker-php-ext-install pdo pdo_mysql
 
+# Increase PHP memory limit for Airtable sync operations
+RUN echo "memory_limit = 1G" > /usr/local/etc/php/conf.d/memory-limit.ini
+
 RUN mkdir /ctfg
 COPY install-composer.sh /ctfg
 WORKDIR /ctfg

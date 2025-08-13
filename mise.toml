@@ -21,3 +21,11 @@ run = [
     "echo 'Running database migrations...'",
     "kamal app exec --interactive 'php artisan migrate --force'"
 ]
+
+[tasks.sync]
+description = "Manually sync the Airtable"
+run = [
+    "echo 'Syncing Airtable...'",
+    "kamal app exec --interactive 'php artisan sync:tables'"
+]
+
