@@ -114,3 +114,25 @@ Route::get('/test-db', function () {
         ], 500);
     }
 });
+
+// Create migrations table manually
+Route::get('/create-migrations-table', function () {
+    try {
+        DB::statement('CREATE TABLE IF NOT EXISTS migrations (
+            id int unsigned NOT NULL AUTO_INCREMENT,
+            migration varchar(255) NOT NULL,
+            batch int NOT NULL,
+            PRIMARY KEY (id)
+        )');
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Migrations table created'
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
