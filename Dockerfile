@@ -3,6 +3,9 @@ FROM php:8.4-cli
 RUN apt-get update &&  DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --assume-yes \
     git unzip
 
+# Install MySQL PDO extension  
+RUN docker-php-ext-install pdo pdo_mysql
+
 RUN mkdir /ctfg
 COPY install-composer.sh /ctfg
 WORKDIR /ctfg
