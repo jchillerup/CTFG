@@ -60,3 +60,19 @@ Route::get('/email-templates/contact-form', [\App\Http\Controllers\TestControlle
 Route::get('/up', function () {
     return response()->noContent(200);
 });
+
+// Temporary migration route
+Route::get('/migrate', function () {
+    try {
+        Artisan::call('migrate', ['--force' => true]);
+        return response()->json([
+            'status' => 'success',
+            'output' => Artisan::output()
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
