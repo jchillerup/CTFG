@@ -130,6 +130,24 @@ Route::get('/check-permissions', function () {
     }
 });
 
+// Test artisan with a custom command that does DB writes
+Route::get('/test-artisan-write', function () {
+    try {
+        // Create a custom artisan command on the fly
+        Artisan::call('tinker', ['--execute' => 'DB::statement("CREATE TABLE IF NOT EXISTS test_artisan_write (id INT PRIMARY KEY)"); echo "Table created successfully";']);
+        
+        return response()->json([
+            'status' => 'success',
+            'output' => Artisan::output()
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
+
 // Debug database config route
 Route::get('/debug-db', function () {
     return response()->json([
