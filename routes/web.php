@@ -96,3 +96,21 @@ Route::get('/debug-db', function () {
         ]
     ]);
 });
+
+// Test direct database connection
+Route::get('/test-db', function () {
+    try {
+        $pdo = DB::connection()->getPdo();
+        $result = DB::select('SELECT VERSION() as version');
+        return response()->json([
+            'status' => 'success',
+            'connection' => 'OK',
+            'version' => $result[0]->version ?? 'unknown'
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'status' => 'error', 
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
