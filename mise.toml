@@ -26,6 +26,6 @@ run = [
 description = "Manually sync the Airtable"
 run = [
     "echo 'Syncing Airtable...'",
-    "kamal app exec --interactive 'php artisan sync:tables'"
+    "kamal app exec --interactive 'env LOG_CHANNEL=stderr LOG_LEVEL=info php artisan sync:tables'"
 ]
 
