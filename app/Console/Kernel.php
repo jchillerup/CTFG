@@ -25,8 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule) {
         $schedule->command('sync:tables')
-            ->dailyAt('2:00')
-            ->timezone('America/New_York');
+            ->dailyAt('3:00')
+            ->timezone('UTC');
 
         $schedule->command('render-cache:category')
             ->dailyAt('2:30')
