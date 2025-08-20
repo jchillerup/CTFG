@@ -7,7 +7,7 @@ image: jchillerup/ctfg
 # Deploy to these servers.
 servers:
   web:
-    - 49.12.97.157
+    - 51.68.47.136
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -19,7 +19,10 @@ servers:
 # Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
 proxy:
   ssl: true
-  host: hymn.dk
+  hosts:
+    - connectingcurrent.tech
+    - connectingcurrenttech.com
+    - connectingcurrenttech.org
 
 # Credentials for your image host.
 registry:
@@ -43,7 +46,7 @@ env:
     DB_PORT: 3306
     DB_DATABASE: ctfg
     DB_USERNAME: ctfg
-    APP_ENV: production  
+    APP_ENV: production
     APP_DEBUG: true
     LOG_CHANNEL: single
   secret:
@@ -86,7 +89,7 @@ env:
 accessories:
   db:
     image: mariadb:10.11
-    host: 49.12.97.157
+    host: 51.68.47.136
     port: 3306
     env:
       clear:
@@ -98,7 +101,7 @@ accessories:
         - MYSQL_PASSWORD
     directories:
       - data:/var/lib/mysql
-  
+
   scheduler:
     image: jchillerup/ctfg
     host: 49.12.97.157
@@ -109,7 +112,7 @@ accessories:
         DB_PORT: 3306
         DB_DATABASE: ctfg
         DB_USERNAME: ctfg
-        APP_ENV: production  
+        APP_ENV: production
         APP_DEBUG: true
         LOG_CHANNEL: single
       secret:
