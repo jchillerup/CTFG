@@ -56,7 +56,7 @@ accessories:
       - data:/var/lib/mysql
 
   scheduler:
-    image: jchillerup/ctfg
+    image: ghcr.io/jchillerup/ctfg
     host: 51.68.47.136
     cmd: php artisan schedule:work
     env:
