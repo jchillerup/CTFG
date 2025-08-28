@@ -50,6 +50,12 @@ class ListingController extends Controller {
         
         $start = Carbon::createFromFormat('Y-m-d H:s:i', date('Y-m-d H:i:s'));
         foreach ($listings as $l) {
+            // Debug: Log all available fields for the first few records
+            if (isset($l["fields"]) && !empty($l["fields"])) {
+                error_log("AIRTABLE_FIELDS_DEBUG - Available fields: " . json_encode(array_keys($l["fields"])));
+                break; // Only log for first record to avoid spam
+            }
+            
             if (!empty(@$l["fields"]["Project name"])) {
                 $slug = Str::of(@$l["fields"]["Project name"])->slug();
                 $escapedSlug = str_replace(['.', '(', ')', '!'], '', $slug);
@@ -122,6 +128,7 @@ class ListingController extends Controller {
                 $secondaryLanguage = @$l["fields"]["Languages(s)"][1];
                 
                 \Log::info("Airtable sync - Listing: " . @$l["fields"]["Name"] . " | Host Org: " . $hostOrgField . " | Host Org URL: " . $hostOrgUrlField . " | Languages field: " . json_encode($languagesField) . " | Primary: " . $primaryLanguage . " | Secondary: " . $secondaryLanguage);
+                // error_log("AIRTABLE_SYNC_DEBUG - Listing: " . @$l["fields"]["Name"] . " | Host Org: " . $hostOrgField . " | Languages: " . json_encode($languagesField));
                 
                 $list->language = $primaryLanguage;
                 $list->secondary_language = $secondaryLanguage;
@@ -149,6 +156,7 @@ class ListingController extends Controller {
         $listingsWithHostOrg = Listing::whereNotNull('host_organization')->count();
         $listingsWithHostOrgUrl = Listing::whereNotNull('host_organization_url')->count();
         \Log::info("Sync summary - Total listings: " . $count . " | With primary language: " . $listingsWithLanguage . " | With secondary language: " . $listingsWithSecondaryLanguage . " | With host org: " . $listingsWithHostOrg . " | With host org URL: " . $listingsWithHostOrgUrl);
+        error_log("AIRTABLE_SYNC_SUMMARY - Total: " . $count . " | Languages: " . $listingsWithLanguage . "/" . $listingsWithSecondaryLanguage . " | Host Orgs: " . $listingsWithHostOrg . "/" . $listingsWithHostOrgUrl);
 
         $this->syncRelations($dbListings, $listings);
         $this->updateEmbeds($dbListings);

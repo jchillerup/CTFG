@@ -4,9 +4,14 @@
     <title>{{ @$title }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/listing.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main-color.css') }}" id="colors">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
     @yield('styles')
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -28,12 +33,15 @@
                 <div class="container" style="width: 100% !important;">
                     <div class="left-side">
                         <div id="logo">
-                            <h2 class="site-title" style="margin-top: 2px;">
-                                <a class="site-title" href="https://connectingcurrent.tech/">
-                                    Connecting Current
-                                </a>
-                            </h2>
-                            <small style="font-size: .8em;">Sharing knowledge and productively growing the field</small>
+                            <a href="https://connectingcurrent.tech/" style="display: flex; align-items: center; text-decoration: none;">
+                                <img src="{{ asset('images/logo.png') }}" alt="Connecting Current Logo" style="height: 50px; margin-right: 15px;">
+                                <div>
+                                    <h2 class="site-title" style="margin-top: 2px; margin-bottom: 0;">
+                                        <span class="site-title">Connecting Current</span>
+                                    </h2>
+                                    <small style="font-size: .8em;">A Digital Democracy Knowledge Hub</small>
+                                </div>
+                            </a>
                         </div>
                         <!-- Mobile Navigation
                         <div class="mmenu-trigger">
@@ -50,24 +58,9 @@
                     <div class="right-side">
                         <div class="header-widget">
                             <div style="padding-right: 25px; font-size: 19px;">
-                                <a href="/" class="active" style="margin-right: 10px;">
-                                    Directory
-                                </a>
-                                <a href="https://connectingcurrent.tech/contribute" style="margin-right: 10px;">
-                                    Contribute
-                                </a>
-                                <a href="http://eepurl.com/gkg4WH" target="_blank" class="@if(@$menu == 'about') active @endif" style="margin-right: 10px;">
+                                <a href="https://gaggle.email/join/knowledgehub@gaggle.email" target="_blank" class="@if(@$menu == 'about') active @endif" style="margin-right: 10px;">
                                     Subscribe
                                 </a>
-                            </div>
-                            <div style="padding-right: 25px; margin-top: 10px;">
-                                <a href="/tech" class="overlay @if(@$menu == 'tech') active @endif" style="margin-right: 10px;">The Tech</a>
-                                <a href="/people" class="overlay @if(@$menu == 'people') active @endif" style="margin-right: 10px;">The People</a>
-                                <a href="/adjacent" class="overlay @if(@$menu == 'adj') active @endif" style="margin-right: 10px;">Adjacent Fields</a>
-                                <a href="/listing-categories" class="overlay @if(@$menu == 'categories') active @endif" style="margin-right: 10px;">All Categories</a>
-                                <a href="/tags" class="overlay @if(@$menu == 'tags') active @endif" style="margin-right: 10px;">Tags</a>
-                                <a href="/world-map" class="@if(@$menu == 'map') active @endif" style="margin-right: 10px;">World Map</a>
-                                <a href="https://airtable.com/embed/shrM34qRWRywrgENk?backgroundColor=blueLight" target="_blank" class="@if(@$menu == 'add-project') active @endif" style="margin: 20px 0 0 0 !important; margin-bottom: -5px !important; line-height: 26px !important; color: green;" class=" with-icon">Add Project <i class="sl sl-icon-plus"></i></a>
                             </div>
                         </div>
                     </div>

@@ -3,14 +3,59 @@
     @import "icons.css";
     @import "plugins/revolutionslider.css";
     @import 'https://fonts.googleapis.com/css?family=Raleway:300, 400, 500, 600, 700';
-    @import 'https://fonts.googleapis.com/css?family=Open+Sans:500, 600, 700';
+@import 'https://fonts.googleapis.com/css?family=Open+Sans:500, 600, 700';
+@import 'https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap';
 
     body {
         font-size: 1.4rem !important;
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
     }
 
     p.listing-description a, #listing-overview a {
         color: #0A78C2 !important;
+    }
+
+    /* DM Sans font for headings */
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'DM Sans', 'Raleway', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    }
+
+    /* DM Sans for navigation and main content */
+    #header, .header-widget, .site-title, nav, .main-navigation {
+        font-family: 'DM Sans', 'Raleway', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    }
+
+    /* Logo styling */
+    #logo img {
+        max-height: 50px;
+        width: auto;
+        display: block;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+
+    /* Cloned header logo quality fix */
+    #header.cloned #logo img {
+        max-height: 45px;
+        width: auto;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+    }
+
+    /* Responsive logo */
+    @media (max-width: 768px) {
+        #logo img {
+            max-height: 40px;
+        }
+        #header.cloned #logo img {
+            max-height: 35px;
+        }
     }
 
     li.cat-dropdown {
@@ -357,6 +402,10 @@ h2.site-title {
     transform: translate3d(0, 0, 0);
     max-width: 120px;
     margin-top: 1px;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 #header.cloned {
     padding: 18px 0 7px;

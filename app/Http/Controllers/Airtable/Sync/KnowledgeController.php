@@ -42,6 +42,8 @@ class KnowledgeController extends Controller {
             $kng->email = @$f["fields"]["Email"];
             $kng->phone = @$f["fields"]["Phone"];
             $kng->save();
+            
+            error_log("KNOWLEDGE_SYNC_DEBUG - Organization: " . @$f["fields"]["Name"] . " | ID: " . @$f["id"]);
         }
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
