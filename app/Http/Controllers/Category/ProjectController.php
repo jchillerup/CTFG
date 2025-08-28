@@ -108,16 +108,12 @@ class ProjectController extends Controller {
                     $builder->whereIn('type', $types);   
                 }
             })
-            ->when(request('organizationtypes'), function($builder) {
-                $organizationtypes = request('organizationtypes');
-                if (in_array("Other", $organizationtypes)) {
-                    $key = array_search("Other", $organizationtypes);
-                    $organizationtypes[$key] = NULL;
-
-                    $builder->whereIn('organization_type', $organizationtypes)->orWhereNull('organization_type');
-                } else {
-                    $builder->whereIn('organization_type', $organizationtypes);   
-                }
+            ->when(request('organizations'), function($builder) {
+                $organizations = request('organizations');
+                // Filter projects that are hosted by the selected organizations
+                $builder->whereHas('hostOrg', function($query) use ($organizations) {
+                    $query->whereIn('name', $organizations);
+                });
             })
             ->when(request('status'), function($builder) {
                 $status = request('status');

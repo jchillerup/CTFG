@@ -108,6 +108,28 @@ class ProjectController extends Controller {
                     $builder->whereIn('organization_type', $organizationtypes);   
                 }
             })
+            ->when(request('organizations'), function($builder) {
+                $organizations = request('organizations');
+                // Filter projects that are hosted by the selected organizations
+                $builder->whereHas('hostOrg', function($query) use ($organizations) {
+                    $query->whereIn('name', $organizations);
+                });
+            })
+            ->when(request('languages'), function($builder) {
+                $languages = request('languages');
+                $builder->where(function($query) use ($languages) {
+                    $query->whereIn('language', $languages)
+                          ->orWhereIn('secondary_language', $languages);
+                });
+            })
+            ->when(request('date_from'), function($builder) {
+                $dateFrom = request('date_from');
+                $builder->where('created', '>=', $dateFrom);
+            })
+            ->when(request('date_to'), function($builder) {
+                $dateTo = request('date_to');
+                $builder->where('created', '<=', $dateTo);
+            })
             ->when(request('status'), function($builder) {
                 $status = request('status');
                 if ($status == "Show active projects only") {
@@ -139,6 +161,10 @@ class ProjectController extends Controller {
             'filterOrgTypes' => request('organizationtypes'),
             'filterOpenSource' => request('opensource'),
             'filterTypes' => request('types'),
+            'filterOrganizations' => request('organizations'),
+            'filterLanguages' => request('languages'),
+            'filterDateFrom' => request('date_from'),
+            'filterDateTo' => request('date_to'),
             'allProjects' => $allProjects,
         ]);
 

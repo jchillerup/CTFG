@@ -48,8 +48,8 @@
                     </div>
 
                     <div class="col-md-4 col-sm-12">
-                        <label for="filter-project-type-input" class="visually-hidden">Project Type</label>
-                        <select id="filter-project-type-input" name="types[]" data-placeholder="Project type" class="chosen-select-no-single" multiple style="display: none;">
+                        <label for="filter-project-type-input" class="visually-hidden">Type</label>
+                        <select id="filter-project-type-input" name="types[]" data-placeholder="Type" class="chosen-select-no-single" multiple style="display: none;">
                             @foreach($listingTypes as $type)
                                 <option value="{{ $type }}"
                                     <?php
@@ -63,6 +63,21 @@
                     </div>
 
                     <div class="col-md-4 col-sm-12">
+                        <label for="filter-languages-input" class="visually-hidden">Languages</label>
+                        <select id="filter-languages-input" name="languages[]" data-placeholder="All Languages" class="chosen-select-no-single" multiple style="display: none;">
+                            @foreach($allLanguages as $lang)
+                                <option value="{{ $lang }}"
+                                    <?php
+                                        if (is_array($filterLanguages) && @in_array($lang, @$filterLanguages)) {
+                                            echo "selected";
+                                        }
+                                    ?>
+                                    >{{ $lang }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- <div class="col-md-4 col-sm-12">
                         <label for="filter-organization-type-input" class="visually-hidden">Organization Type</label>
                         <select id="filter-organization-type-input" name="organizationtypes[]" data-placeholder="Organization type" class="chosen-select-no-single" multiple style="display: none;">
                             @foreach($organizationTypes as $orgType)
@@ -75,7 +90,7 @@
                                     >{{ $orgType }}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
                     
                     <div class="col-md-4 col-sm-12">
                         <label for="filter-countries-input" class="visually-hidden">Countries</label>
@@ -93,6 +108,23 @@
                     </div>
 
                     <div class="col-md-4 col-sm-12">
+                        <label for="filter-organizations-input" class="visually-hidden">Organizations</label>
+                        <select id="filter-organizations-input" name="organizations[]" data-placeholder="All Organizations" class="chosen-select-no-single" multiple style="display: none;">
+                            @foreach($allOrganizations as $org)
+                                <option value="{{ $org }}"
+                                    <?php
+                                        if (is_array($filterOrganizations) && @in_array($org, @$filterOrganizations)) {
+                                            echo "selected";
+                                        }
+                                    ?>
+                                    >{{ $org }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+
+
+                    {{-- <div class="col-md-4 col-sm-12">
                         <label for="filter-open-source-input" class="visually-hidden">Open Source</label>
                         <select id="filter-open-source-input" name="opensource[]" data-placeholder="Open source" class="chosen-select-no-single" multiple style="display: none;">
                             <?php
@@ -108,29 +140,21 @@
                                     >{{ $ops }}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
 
                 </div>
                 <div class="row with-forms margin-bottom-30">
-                    <div class="col-md-4">
-                        <select id="filter-open-source-input" name="status" class="chosen-select-no-single" style="color: green;">
-                            <?php
-                                $statusArray = array("Show active projects only", "Show all projects");
-                            ?>
-                            @foreach($statusArray as $stry)
-                                <option value="{{ $stry }}"
-                                    <?php
-                                        if ($stry == @$filterStatus) {
-                                            echo "selected";
-                                        }
-                                    ?>
-                                    >{{ $stry }}
-                                </option>
-                            @endforeach
-                        </select>
+                    <div class="col-md-3 col-sm-12">
+                        <label for="filter-date-from-input" class="visually-hidden">Publication Date From</label>
+                        <input id="filter-date-from-input" name="date_from" type="date" placeholder="Publication Date From" value="{{ @$filterDateFrom }}" />
                     </div>
 
-                    <div class="col-md-8" style="text-align: right;">
+                    <div class="col-md-3 col-sm-12">
+                        <label for="filter-date-to-input" class="visually-hidden">Publication Date To</label>
+                        <input id="filter-date-to-input" name="date_to" type="date" placeholder="Publication Date To" value="{{ @$filterDateTo }}" />
+                    </div>
+
+                    <div class="col-md-6" style="text-align: right;">
                         <button class="button" id="search" style="padding: 8px 30px;">Search</button>
                     </div>
                 </div>

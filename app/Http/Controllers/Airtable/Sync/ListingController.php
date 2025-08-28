@@ -111,10 +111,20 @@ class ListingController extends Controller {
 
                 $list->shutdown_reason = @$l["fields"]["If shutdown,what happened?"];
                 $list->postmortem = @$l["fields"]["Postmortem"];
+                $list->host_organization = @$l["fields"]["Host organization"];
                 $list->host_organization_url = @$l["fields"]["Host organization URL"];
-                $list->language = @$l["fields"]["Languages(s)"][0];
-
-                $list->secondary_language = @$l["fields"]["Languages(s)"][1];
+                
+                // Log organization and language data from Airtable
+                $hostOrgField = @$l["fields"]["Host organization"];
+                $hostOrgUrlField = @$l["fields"]["Host organization URL"];
+                $languagesField = @$l["fields"]["Languages(s)"];
+                $primaryLanguage = @$l["fields"]["Languages(s)"][0];
+                $secondaryLanguage = @$l["fields"]["Languages(s)"][1];
+                
+                \Log::info("Airtable sync - Listing: " . @$l["fields"]["Name"] . " | Host Org: " . $hostOrgField . " | Host Org URL: " . $hostOrgUrlField . " | Languages field: " . json_encode($languagesField) . " | Primary: " . $primaryLanguage . " | Secondary: " . $secondaryLanguage);
+                
+                $list->language = $primaryLanguage;
+                $list->secondary_language = $secondaryLanguage;
                 $list->open_source = @$l["fields"]["Open source"];
                 $list->open_source_license = @$l["fields"]["Open source license"];
                 $list->created = @$l["fields"]["Created"];
@@ -132,6 +142,13 @@ class ListingController extends Controller {
         $count = $dbListings->count();
         $to = Carbon::createFromFormat('Y-m-d H:s:i', date('Y-m-d H:i:s'));
         \Log::info("Listings table sync finished at ".date('Y-m-d H:i:s')." - ".$to->diffInMinutes($start)." minutes ... ".$count." records synced.");
+        
+        // Log summary statistics
+        $listingsWithLanguage = Listing::whereNotNull('language')->count();
+        $listingsWithSecondaryLanguage = Listing::whereNotNull('secondary_language')->count();
+        $listingsWithHostOrg = Listing::whereNotNull('host_organization')->count();
+        $listingsWithHostOrgUrl = Listing::whereNotNull('host_organization_url')->count();
+        \Log::info("Sync summary - Total listings: " . $count . " | With primary language: " . $listingsWithLanguage . " | With secondary language: " . $listingsWithSecondaryLanguage . " | With host org: " . $listingsWithHostOrg . " | With host org URL: " . $listingsWithHostOrgUrl);
 
         $this->syncRelations($dbListings, $listings);
         $this->updateEmbeds($dbListings);
