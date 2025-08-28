@@ -23,7 +23,7 @@
         color: inherit;
     }
     a:hover{
-        color: #EA0630 !important;
+        color: green !important;
     }
     ::-moz-focus-inner{
         padding: 0;
@@ -107,7 +107,7 @@
         display: inline-block;
     }
     .sidebar .tag-open{
-        color: #EA0630
+        color: green
     }
     .sidebar .tag-open svg{
         margin: 0 !important;
@@ -116,7 +116,7 @@
     .sidebar .has-subtag.active {
         color: #fff !important;
         border-radius: 25px;
-        /* background-color: #EA0630; */
+        /* background-color: green; */
     }
 
     /*! CSS Used fontfaces */

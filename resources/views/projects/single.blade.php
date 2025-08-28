@@ -365,7 +365,7 @@
                                 </div>
                             @endif
                             @if ($errors->any())
-                                <div class="col-12" style="color: #EA0630;">
+                                <div class="col-12" style="color: green;">
                                     <div class="alert alert-danger">
                                         <ul>
                                             @foreach ($errors->all() as $error)
@@ -400,7 +400,7 @@
                             </div>
                             <div class="mt-3 col-12">
                                 <p style="margin-top: 30px; font-size: 12px; line-height: 20px;">
-                                    By hitting "Send", you agree that the Civic Tech Field Guide will share your email address and message with {{ $project->name }}. {{ $project->name }} has agreed to receive messages via this form but may not be able to reply to every message. This service does not imply any affiliation between {{ $project->name }} and the Civic Tech Field Guide. You will not be signed up for anything.
+                                    By hitting "Send", you agree that the Connecting Current will share your email address and message with {{ $project->name }}. {{ $project->name }} has agreed to receive messages via this form but may not be able to reply to every message. This service does not imply any affiliation between {{ $project->name }} and the Connecting Current. You will not be signed up for anything.
                                 </p>
                             </div>
                         </div>

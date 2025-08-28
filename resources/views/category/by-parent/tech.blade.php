@@ -99,7 +99,7 @@ a:hover{color: #f91942 !important;}
             </div>
         </div>
 
-        <!-- Civic data -->
+        <!-- Connecting Current data -->
         <div class="col-lg-4 col-md-4 col-sm-12">
             <div class="listings-container list-layout">
                 <h3 class="margin-top-0 margin-bottom-30" style="font-size: 2rem">

@@ -128,7 +128,7 @@ class ProjectController extends Controller {
         $allProjects = Listing::count();
 
         return view ('projects.search-results', [
-            'title' => 'Civic Tech Field Guide - Directory',
+            'title' => 'Connecting Current - Directory',
             'menu' => 'directory',
             'projects' => $projects,
             'query' => request('q'),

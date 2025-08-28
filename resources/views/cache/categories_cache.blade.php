@@ -22,7 +22,7 @@
         color: inherit;
     }
     a:hover {
-        color: #EA0630 !important;
+        color: green !important;
     }
     ::-moz-focus-inner{
         padding: 0;
@@ -104,7 +104,7 @@
         display: inline-block;
     }
     .sidebar .menu-open{
-        color: #EA0630
+        color: green
     }
     .sidebar .menu-open svg{
         margin: 0 !important;
@@ -113,7 +113,7 @@
     .sidebar .has-submenu.active {
         color: #fff !important;
         border-radius: 25px;
-        background-color: #EA0630;
+        background-color: green;
     }
     .sidebar li.nav-item a.nav-link:hover{
         color: #747674 !important;
@@ -315,9 +315,9 @@
                     </ul>
     </li>
                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-crowdfunding" title="Civic crowdfunding">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-crowdfunding" title="Connecting Current crowdfunding">
         <span class="text-sm cat-wrap ">
-            Civic crowdfunding
+            Connecting Current crowdfunding
         </span>
     </a>
                 <ul class="submenu collapse ">
@@ -426,9 +426,9 @@
                     </ul>
     </li>
                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-forums" title="Civic forums">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-forums" title="Connecting Current forums">
         <span class="text-sm cat-wrap ">
-            Civic forums
+            Connecting Current forums
         </span>
     </a>
                 <ul class="submenu collapse ">
@@ -446,9 +446,9 @@
                                     </ul>
     </li>
                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-crowdfunding-platforms" title="Civic crowdfunding platforms">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-crowdfunding-platforms" title="Connecting Current crowdfunding platforms">
         <span class="text-sm cat-wrap ">
-            Civic crowdfunding platforms
+            Connecting Current crowdfunding platforms
         </span>
     </a>
                 <ul class="submenu collapse ">
@@ -1094,9 +1094,9 @@
                                     </ul>
     </li>
                                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/high-tech-civic-tech" title="High-tech civic tech">
+    <a class="nav-link overlay" href="/listing-category/high-tech-connecting-current-tech" title="High-tech connecting current tech">
         <span class="text-sm cat-wrap ">
-            High-tech civic tech
+            High-tech connecting current tech
         </span>
     </a>
             <a class="nav-link submenu-button ">
@@ -2005,9 +2005,9 @@
                                     </ul>
     </li>
                                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-data" title="Civic data">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-data" title="Connecting Current data">
         <span class="text-sm cat-wrap ">
-            Civic data
+            Connecting Current data
         </span>
     </a>
             <a class="nav-link submenu-button ">
@@ -2028,9 +2028,9 @@
                     </ul>
     </li>
                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-data-apis" title="Civic data APIs">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-data-apis" title="Connecting Current data APIs">
         <span class="text-sm cat-wrap ">
-            Civic data APIs
+            Connecting Current data APIs
         </span>
     </a>
                 <ul class="submenu collapse ">
@@ -2180,9 +2180,9 @@
         </a>
                 <ul class="submenu collapse ">
                                                 <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-maps" title="Civic maps">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-maps" title="Connecting Current maps">
         <span class="text-sm cat-wrap ">
-            Civic maps
+            Connecting Current maps
         </span>
     </a>
                 <ul class="submenu collapse ">
@@ -2467,9 +2467,9 @@
                     </ul>
     </li>
                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/tech-companies-with-civic-teams" title="Tech companies with civic teams">
+    <a class="nav-link overlay" href="/listing-category/tech-companies-with-connecting-current-teams" title="Tech companies with connecting current teams">
         <span class="text-sm cat-wrap ">
-            Tech companies with civic teams
+            Tech companies with connecting current teams
         </span>
     </a>
             <a class="nav-link submenu-button ">
@@ -2481,9 +2481,9 @@
         </a>
                 <ul class="submenu collapse ">
                                                 <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-features" title="Civic features">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-features" title="Connecting Current features">
         <span class="text-sm cat-wrap ">
-            Civic features
+            Connecting Current features
         </span>
     </a>
                 <ul class="submenu collapse ">
@@ -2537,9 +2537,9 @@
                     </ul>
     </li>
                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-hackathons" title="Civic hackathons">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-hackathons" title="Connecting Current hackathons">
         <span class="text-sm cat-wrap ">
-            Civic hackathons
+            Connecting Current hackathons
         </span>
     </a>
                 <ul class="submenu collapse ">
@@ -2621,9 +2621,9 @@
         </a>
                 <ul class="submenu collapse ">
                                                 <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-and-social-impact-companies" title="Civic and social impact companies">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-and-social-impact-companies" title="Connecting Current and social impact companies">
         <span class="text-sm cat-wrap ">
-            Civic and social impact companies
+            Connecting Current and social impact companies
         </span>
     </a>
                 <ul class="submenu collapse ">
@@ -2684,9 +2684,9 @@
                     </ul>
     </li>
                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-tech-community-surveys" title="Civic tech community surveys">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-tech-community-surveys" title="Connecting Current tech community surveys">
         <span class="text-sm cat-wrap ">
-            Civic tech community surveys
+            Connecting Current tech community surveys
         </span>
     </a>
                 <ul class="submenu collapse ">
@@ -2788,9 +2788,9 @@
                     </ul>
     </li>
                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-tech-legislation" title="Civic tech legislation">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-tech-legislation" title="Connecting Current tech legislation">
         <span class="text-sm cat-wrap ">
-            Civic tech legislation
+            Connecting Current tech legislation
         </span>
     </a>
                 <ul class="submenu collapse ">
@@ -2849,9 +2849,9 @@
                     </ul>
     </li>
                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/support-civic-projects-with-tech" title="Support civic projects with tech">
+    <a class="nav-link overlay" href="/listing-category/support-connecting-current-projects-with-tech" title="Support connecting current projects with tech">
         <span class="text-sm cat-wrap ">
-            Support civic projects with tech
+            Support connecting current projects with tech
         </span>
     </a>
                 <ul class="submenu collapse ">
@@ -2874,9 +2874,9 @@
         </a>
                 <ul class="submenu collapse ">
                                                 <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-hacking-meetups" title="Civic hacking meetups">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-hacking-meetups" title="Connecting Current hacking meetups">
         <span class="text-sm cat-wrap ">
-            Civic hacking meetups
+            Connecting Current hacking meetups
         </span>
     </a>
                 <ul class="submenu collapse ">
@@ -3028,9 +3028,9 @@
                     </ul>
     </li>
                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-tech-forums" title="Civic tech forums">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-tech-forums" title="Connecting Current tech forums">
         <span class="text-sm cat-wrap ">
-            Civic tech forums
+            Connecting Current tech forums
         </span>
     </a>
                 <ul class="submenu collapse ">
@@ -3059,9 +3059,9 @@
                                     </ul>
     </li>
                                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/learn-about-civic-tech" title="Learn about civic tech">
+    <a class="nav-link overlay" href="/listing-category/learn-about-connecting-current-tech" title="Learn about connecting current tech">
         <span class="text-sm cat-wrap ">
-            Learn about civic tech
+            Learn about connecting current tech
         </span>
     </a>
             <a class="nav-link submenu-button ">
@@ -3082,18 +3082,18 @@
                     </ul>
     </li>
                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-imagination" title="Civic imagination">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-imagination" title="Connecting Current imagination">
         <span class="text-sm cat-wrap ">
-            Civic imagination
+            Connecting Current imagination
         </span>
     </a>
                 <ul class="submenu collapse ">
                     </ul>
     </li>
                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-tech-catalogs" title="Civic tech catalogs">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-tech-catalogs" title="Connecting Current tech catalogs">
         <span class="text-sm cat-wrap ">
-            Civic tech catalogs
+            Connecting Current tech catalogs
         </span>
     </a>
                 <ul class="submenu collapse ">
@@ -3134,9 +3134,9 @@
                     </ul>
     </li>
                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-fiction" title="Civic fiction">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-fiction" title="Connecting Current fiction">
         <span class="text-sm cat-wrap ">
-            Civic fiction
+            Connecting Current fiction
         </span>
     </a>
                 <ul class="submenu collapse ">
@@ -3197,9 +3197,9 @@
                     </ul>
     </li>
                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-tech-media-coverage" title="Civic tech media coverage">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-tech-media-coverage" title="Connecting Current tech media coverage">
         <span class="text-sm cat-wrap ">
-            Civic tech media coverage
+            Connecting Current tech media coverage
         </span>
     </a>
                 <ul class="submenu collapse ">
@@ -3439,9 +3439,9 @@
                                     </ul>
     </li>
                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/civic-literacy" title="Civic literacy">
+    <a class="nav-link overlay" href="/listing-category/connecting-current-literacy" title="Connecting Current literacy">
         <span class="text-sm cat-wrap ">
-            Civic literacy
+            Connecting Current literacy
         </span>
     </a>
                 <ul class="submenu collapse ">
@@ -3740,9 +3740,9 @@
                 </a>
                                     <ul class="submenu collapse ">
                                                     <li class="nav-item has-submenu ">
-    <a class="nav-link overlay" href="/listing-category/active-battles-in-civic-tech" title="Active battles in civic tech">
+    <a class="nav-link overlay" href="/listing-category/active-battles-in-connecting-current-tech" title="Active battles in connecting current tech">
         <span class="text-sm cat-wrap ">
-            Active battles in civic tech
+            Active battles in connecting current tech
         </span>
     </a>
                 <ul class="submenu collapse ">

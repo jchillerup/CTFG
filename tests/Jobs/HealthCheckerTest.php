@@ -10,7 +10,7 @@ class HealthCheckerTest extends TestCase
     private $record = [
         'id' => 'id',
         'fields' => [
-            'Website URL' => "https://civictech.guide"
+            'Website URL' => "https://connectingcurrent.tech"
         ]
     ];
 
@@ -103,7 +103,7 @@ class HealthCheckerTest extends TestCase
             true
         );
         $testee->expects($this->once())->method('findWaybackLink')->willReturn(
-            "archive:https://civictech.guide"
+            "archive:https://connectingcurrent.tech"
         );
         $testee->expects($this->once())->method('updateAirtableRecord');
         $testee->expects($this->never())->method('logToCheckManually');

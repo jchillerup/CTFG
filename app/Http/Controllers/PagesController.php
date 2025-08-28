@@ -8,7 +8,7 @@ class PagesController extends Controller {
     // Get about page
     public function about() {
         return view ('pages.about', [
-            'title' => 'About Civic Tech Field Guide',
+            'title' => 'About Connecting Current',
             'menu' => 'about',
         ]);
     }

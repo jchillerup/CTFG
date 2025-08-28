@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://directory.civictech.guide'),
+    'url' => env('APP_URL', 'https://directory.connectingcurrent.tech'),
 
     'asset_url' => env('ASSET_URL', null),
 

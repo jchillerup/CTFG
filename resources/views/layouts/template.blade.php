@@ -29,8 +29,8 @@
                     <div class="left-side">
                         <div id="logo">
                             <h2 class="site-title" style="margin-top: 2px;">
-                                <a class="site-title" href="https://civictech.guide/">
-                                    Civic Tech Field Guide
+                                <a class="site-title" href="https://connectingcurrent.tech/">
+                                    Connecting Current
                                 </a>
                             </h2>
                             <small style="font-size: .8em;">Sharing knowledge and productively growing the field</small>
@@ -53,7 +53,7 @@
                                 <a href="/" class="active" style="margin-right: 10px;">
                                     Directory
                                 </a>
-                                <a href="https://civictech.guide/contribute" style="margin-right: 10px;">
+                                <a href="https://connectingcurrent.tech/contribute" style="margin-right: 10px;">
                                     Contribute
                                 </a>
                                 <a href="http://eepurl.com/gkg4WH" target="_blank" class="@if(@$menu == 'about') active @endif" style="margin-right: 10px;">
@@ -67,7 +67,7 @@
                                 <a href="/listing-categories" class="overlay @if(@$menu == 'categories') active @endif" style="margin-right: 10px;">All Categories</a>
                                 <a href="/tags" class="overlay @if(@$menu == 'tags') active @endif" style="margin-right: 10px;">Tags</a>
                                 <a href="/world-map" class="@if(@$menu == 'map') active @endif" style="margin-right: 10px;">World Map</a>
-                                <a href="https://airtable.com/embed/shrM34qRWRywrgENk?backgroundColor=blueLight" target="_blank" class="@if(@$menu == 'add-project') active @endif" style="margin: 20px 0 0 0 !important; margin-bottom: -5px !important; line-height: 26px !important; color: #EA0630;" class=" with-icon">Add Project <i class="sl sl-icon-plus"></i></a>
+                                <a href="https://airtable.com/embed/shrM34qRWRywrgENk?backgroundColor=blueLight" target="_blank" class="@if(@$menu == 'add-project') active @endif" style="margin: 20px 0 0 0 !important; margin-bottom: -5px !important; line-height: 26px !important; color: green;" class=" with-icon">Add Project <i class="sl sl-icon-plus"></i></a>
                             </div>
                         </div>
                     </div>

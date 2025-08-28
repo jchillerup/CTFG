@@ -27,7 +27,7 @@ class ListingContactForm extends Controller {
         );
 
         try {
-            $link = 'https://directory.civictech.guide/listing/'.$validated['slug'];
+            $link = 'https://directory.connectingcurrent.tech/listing/'.$validated['slug'];
             // Sent email
             ListingContactFormEmailJob::dispatch($validated['recipient'], $validated['email'], $validated['message'], $link);
 

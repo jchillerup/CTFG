@@ -20,13 +20,13 @@
     li.cat-dropdown.active {
         color: #fff !important;
         border-radius: 25px;
-        background-color: #EA0630;
+        background-color: green;
     }
 
     li.cat-dropdown.active, li.cat-dropdown-single.active {
         color: #fff !important;
         border-radius: 25px;
-        background-color: #EA0630;
+        background-color: green;
     }
 
     #more {display: none;}
@@ -121,8 +121,8 @@
     .pagination a {
         text-decoration: none;
         padding: 0.2rem 0.4rem;
-        color: #EA0630;
-        border: 0.5px solid #EA0630;
+        color: green;
+        border: 0.5px solid green;
         border-radius: 4px;
     }
 
@@ -2348,7 +2348,7 @@ input[type=range]:focus+.rangeslider .rangeslider__handle {
     text-overflow: ellipsis;
     white-space: nowrap;
     /*color: #747674; */
-    color: #EA0630;
+    color: green;
     font-size: 16px;
     font-family: raleway, helveticaneue, helvetica neue, Helvetica, Arial, sans-serif;
 }
@@ -3589,7 +3589,7 @@ body .user-profile-name {
     display: none;
 }
 .code-button:hover {
-    background-color: #EA0630;
+    background-color: green;
     color: #fff;
 }
 .coupon-link-icon {
@@ -12412,8 +12412,8 @@ body #submit_map {
     transition: .3s;
 }
 .leaflet-control-zoom-in:hover, .leaflet-control-zoom-out:hover {
-    background-color: #EA0630;
-    -webkit-text-stroke: 1px #EA0630;
+    background-color: green;
+    -webkit-text-stroke: 1px green;
     color: #fff;
 }
 .marker-container:hover .marker-card, .clicked .marker-container .marker-card, .map-marker-container.clicked .marker-card {
@@ -12546,8 +12546,8 @@ body #submit_map {
 }
 .leaflet-container a.leaflet-popup-close-button:hover {
     color: #fff;
-    background-color: #EA0630;
-    -webkit-text-stroke: 1px #EA0630;
+    background-color: green;
+    -webkit-text-stroke: 1px green;
 }
 .leaflet-container a.leaflet-popup-close-button:before {
     content: "\f00d";
@@ -12684,12 +12684,12 @@ body #submit_map {
     position: relative;
 }
 .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div {
-    background-color: #EA0630;
+    background-color: green;
 }
 .marker-cluster div:before {
-    border: 7px solid #EA0630;
+    border: 7px solid green;
     opacity: .2;
-    box-shadow: inset 0 0 0 4px #EA0630;
+    box-shadow: inset 0 0 0 4px green;
     content: '';
     position: absolute;
     border-radius: 50%;

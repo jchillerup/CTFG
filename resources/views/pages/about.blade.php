@@ -6,22 +6,22 @@
             <div class="listings-container list-layout">
                 <h2>About Us</h2>
                 <p>
-                    The Civic Tech Field Guide is curated by <a href="https://twitter.com/mstem" style="color: #0A78C2;">Matt Stempeck</a>, <a href="https://twitter.com/mlsif" style="color: #0A78C2;">Micah Sifry</a>, and <a href="https://civictech.guide/submit-listing/" style="color: #0A78C2;">people like you</a>. You can learn about <a href="https://blogs.microsoft.com/on-the-issues/2016/04/27/towards-taxonomy-civic-technology/" style="color: #0A78C2;">the original motivations for this project</a>.
+                    The Connecting Current is curated by <a href="https://twitter.com/mstem" style="color: #0A78C2;">Matt Stempeck</a>, <a href="https://twitter.com/mlsif" style="color: #0A78C2;">Micah Sifry</a>, and <a href="https://connectingcurrent.tech/submit-listing/" style="color: #0A78C2;">people like you</a>. You can learn about <a href="https://blogs.microsoft.com/on-the-issues/2016/04/27/towards-taxonomy-connecting-current-technology/" style="color: #0A78C2;">the original motivations for this project</a>.
                 </p>
                 <p>
-                    The Field Guide is an independent project supported by <a href="https://knightfoundation.org/" style="color: #0A78C2;">Knight Foundation</a> and <a href="https://luminategroup.com/" style="color: #0A78C2;">Luminate</a>. <a href="http://civichall.org/" style="color: #0A78C2;">Civic Hall</a> is our Founding Organization.
+                    The Field Guide is an independent project supported by <a href="https://knightfoundation.org/" style="color: #0A78C2;">Knight Foundation</a> and <a href="https://luminategroup.com/" style="color: #0A78C2;">Luminate</a>. <a href="http://civichall.org/" style="color: #0A78C2;">Connecting Current</a> is our Founding Organization.
                 </p>
                 <p>
-                    <a href="https://twitter.com/esmpsn?lang=en" style="color: #0A78C2;">Erin Simpson</a> helped create <a href="https://bit.ly/organizecivictech" style="color: #0A78C2;">the first version of this guide</a>.
+                    <a href="https://twitter.com/esmpsn?lang=en" style="color: #0A78C2;">Erin Simpson</a> helped create <a href="https://bit.ly/organizeconnectingcurrent" style="color: #0A78C2;">the first version of this guide</a>.
                 </p>
                 <p>
-                    We benefit from expert curators who help us stay apprised of their areas of expertise and domains within civic tech.
+                    We benefit from expert curators who help us stay apprised of their areas of expertise and domains within connecting current tech.
                 </p>
                 <p>
                     They are:<br>
                     Drones for Good: Fatima Sarah Khalid<br>
                     Get social benefits: Greg Bloom<br>
-                    Civic data: Deblina Mukherjee<br>
+                    Connecting Current data: Deblina Mukherjee<br>
                     Connectivity: Georgia Bullen<br>
                     Promise trackers: Farhad Souzanchi
 

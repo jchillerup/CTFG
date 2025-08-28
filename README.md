@@ -1,10 +1,10 @@
-# Civic Tech Field Guide Directory
+# Connecting Current Directory
 
-> The [Civic Tech Field Guide](https://civictech.guide) is the world's biggest collection of projects using tech for the common good.
+> The [Connecting Current](https://connectingcurrent.tech) is the world's biggest collection of projects using tech for the common good.
 
 ## General
 
-We use Superbloom Design's `#civic-tech-field-guide` Slack channel for project coordination and discussion.
+We use Superbloom Design's `#connecting-current-tech-field-guide` Slack channel for project coordination and discussion.
 If you want to help out, you should [join the Slack community](https://simplysecure.slack.com) and the channel and say hi.
 
 All contributions are welcome. If you found a bug and want to provide a fix, fork the repo, work on the fix and [create a PR](https://docs.github.com/en/github-ae@latest/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
@@ -37,8 +37,8 @@ If you have access to the Airtable database and provided the `AIRTABLE_KEY` and 
 
 ## Other ways to contribute
 
-You don't have to be a developer to contribute. Check out our [Contribute page](https://civictech.guide/contribute/) to find details about all the ways you can help us.
+You don't have to be a developer to contribute. Check out our [Contribute page](https://connectingcurrent.tech/contribute/) to find details about all the ways you can help us.
 
 ## License
 
-Our directory code is open source, available under [MIT License](https://github.com/sprblm/CTFG?tab=MIT-1-ov-file#readme). Our [website content](https://civictech.guide/) and [database](https://directory.civictech.guide/) are free to use, re-use, adapt, and modify for non-commercial purposes as long as you link back with attribution, and share alike with the same license ([Creative Commons BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en).
+Our directory code is open source, available under [MIT License](https://github.com/sprblm/CTFG?tab=MIT-1-ov-file#readme). Our [website content](https://connectingcurrent.tech/) and [database](https://directory.connectingcurrent.tech/) are free to use, re-use, adapt, and modify for non-commercial purposes as long as you link back with attribution, and share alike with the same license ([Creative Commons BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en).

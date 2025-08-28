@@ -77,7 +77,7 @@
                                                 target="_blank"
                                                 data-saferedirecturl="https://www.google.com/url?q=https://support.ultimatefosters.com&amp;source=gmail&amp;ust=1675321274438000&amp;usg=AOvVaw3YXWjCNI5D63cKsjtsFhDt"
                                             >
-                                                CIVIC TECH FIELD GUIDE
+                                                CONNECTING CURRENT FIELD GUIDE
                                             </a>
                                         </td>
                                     </tr>
@@ -149,7 +149,7 @@
                                                                     text-align: left;
                                                                 "
                                                             >
-                                                                You have a new message for your <a href="{{ $link }}">project</a> on Civic Tech Field Guide Directory
+                                                                You have a new message for your <a href="{{ $link }}">project</a> on Connecting Current Directory
                                                             </p>
                                                             
                                                             <p>
@@ -180,7 +180,7 @@
 
                                                             <p>
                                                                 <br><br>
-                                                                This message was sent via your contact form at {{ $link }}. You can email us at info@civictech.guide with any questions. 
+                                                                This message was sent via your contact form at {{ $link }}. You can email us at info@connectingcurrent.tech with any questions. 
                                                             </p>
 
                                                         </td>

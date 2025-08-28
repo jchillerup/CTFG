@@ -27,7 +27,7 @@ use Carbon\Carbon;
 class TestController extends Controller {
     public function contactFormTemplate() {
         return view('emails.listing-contact-form', [
-            'link' => 'https://civictech.guide/listing/%PROJECTNAME%',
+            'link' => 'https://connectingcurrent.tech/listing/%PROJECTNAME%',
             'email' => '<sender email>',
             'body' => '<email body>',
             ''
@@ -53,7 +53,7 @@ class TestController extends Controller {
         $message = "This is a test message";
 
         try {
-            $link = 'https://directory.civictech.guide/listing/'.$slug;
+            $link = 'https://directory.connectingcurrent.tech/listing/'.$slug;
             // Sent email
             ListingContactFormEmailJob::dispatch($recipient, $email, $message, $link);
 
@@ -87,7 +87,7 @@ class TestController extends Controller {
         \Log::info($locations[2]["fields"]["Country"][0]->Country);*/
         
 
-        //$str = '<p>The web and other technologies should be accessible to all people. The ability to use technology regardless of disability or status is a fundamental precursor to that technology serving civic goals.</p> <p>**Suggested resources: ** <a href="https://www.youtube.com/watch?v=JdbPd_ACGOA">Dollars for Change: How to fund accessibility panel at Code for All Summit 2022</a></p>';
+        //$str = '<p>The web and other technologies should be accessible to all people. The ability to use technology regardless of disability or status is a fundamental precursor to that technology serving connecting current goals.</p> <p>**Suggested resources: ** <a href="https://www.youtube.com/watch?v=JdbPd_ACGOA">Dollars for Change: How to fund accessibility panel at Code for All Summit 2022</a></p>';
 
         
 

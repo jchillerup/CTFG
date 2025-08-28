@@ -117,7 +117,7 @@ class GuestController extends Controller {
         $allProjects = Listing::count();
 
         return view ('projects.search-results', [
-            'title' => 'Civic Tech Field Guide - Directory',
+            'title' => 'Connecting Current - Directory',
             'menu' => 'directory',
             'projects' => $projects,
             'query' => request('q'),
@@ -138,7 +138,7 @@ class GuestController extends Controller {
         $projects = Listing::whereNotNull('latitude')->whereNotNull('longitude')->get(['latitude', 'longitude', 'first_location',  'hq_location', 'name', 'slug']);
 
         return view ('map.all-projects', [
-            'title' => 'Civic Tech Field Guide - World Map',
+            'title' => 'Connecting Current - World Map',
             'projects' => $projects,
             'template' => 'map',
             'menu' => 'map',

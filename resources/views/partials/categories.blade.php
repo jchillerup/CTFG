@@ -22,7 +22,7 @@
         color: inherit;
     }
     a:hover {
-        color: #EA0630 !important;
+        color: green !important;
     }
     ::-moz-focus-inner{
         padding: 0;
@@ -104,7 +104,7 @@
         display: inline-block;
     }
     .sidebar .menu-open{
-        color: #EA0630
+        color: green
     }
     .sidebar .menu-open svg{
         margin: 0 !important;
@@ -113,7 +113,7 @@
     .sidebar .has-submenu.active {
         color: #fff !important;
         border-radius: 25px;
-        background-color: #EA0630;
+        background-color: green;
     }
     .sidebar li.nav-item a.nav-link:hover{
         color: #747674 !important;

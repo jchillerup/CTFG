@@ -77,7 +77,7 @@ class HealthChecker implements ShouldQueue
     {
         try {
             $userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36';
-            $referer = 'https://directory.civictech.guide';
+            $referer = 'https://directory.connectingcurrent.tech';
 
             $response = Http::withHeaders([
                 'User-Agent' => $userAgent,

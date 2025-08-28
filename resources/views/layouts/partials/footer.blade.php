@@ -25,26 +25,26 @@
                         background: #747674 !important;
                     }
                     #mc-embedded-subscribe:hover {
-                        background: #EA0630 !important;
+                        background: green !important;
                     }
                 </style>
             </div>
             <div class="col-md-4 col-sm-6 ">
                 <h2>Helpful Links</h2>
                 <ul class="footer-links" style="width: 100%;">
-                    <li><a href="https://civictech.guide/map/">Civic Tech World Map</a></li>
-                    <li><a href="https://civictech.guide/causes/">Projects by cause</a></li>
+                    <li><a href="https://connectingcurrent.tech/map/">Connecting Current World Map</a></li>
+                    <li><a href="https://connectingcurrent.tech/causes/">Projects by cause</a></li>
                 </ul>
 
                 <ul class="footer-links" style="width: 100%;">
-                    <li><a href="https://civictech.guide/calendar/">Events</a></li>
-                    <li><a href="https://civictech.guide/research/">Research</a></li>
+                    <li><a href="https://connectingcurrent.tech/calendar/">Events</a></li>
+                    <li><a href="https://connectingcurrent.tech/research/">Research</a></li>
                 </ul>
 
                 <ul class="footer-links" style="width: 100%;">
-                    <li><a href="https://civictech.guide/what-can-i-do-with-the-civic-tech-field-guide/">How to use this site</a></li>
-                    <li><a href="https://civictech.guide/guiding-principles/">Guiding principles</a></li>
-                    <li><a href="https://civictech.guide/blog/">Blog</a></li>
+                    <li><a href="https://connectingcurrent.tech/what-can-i-do-with-the-connecting-current-tech-field-guide/">How to use this site</a></li>
+                    <li><a href="https://connectingcurrent.tech/guiding-principles/">Guiding principles</a></li>
+                    <li><a href="https://connectingcurrent.tech/blog/">Blog</a></li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -52,26 +52,26 @@
                 <h2>Reach Out</h2>
                 <div class="text-widget">
                     <span>
-                        info@civictech.guide or <a href="https://civictech.guide/contact">Contact us</a>
+                        info@connectingcurrent.tech or <a href="https://connectingcurrent.tech/contact">Contact us</a>
                     </span>
                 </div>
                 <ul class="social-icons margin-top-20">
                     <li>
-                        <a class="facebook" href="https://www.facebook.com/civictechguide/">
+                        <a class="facebook" href="https://www.facebook.com/connectingcurrentguide/">
                             <i class="icon-facebook"></i>
-                            <span class="visually-hidden">Civic Tech Guide Facebook account</span>
+                            <span class="visually-hidden">Connecting Current Guide Facebook account</span>
                         </a>
                     </li>
                     <li>
-                        <a class="twitter" href="https://twitter.com/civictechguide">
+                        <a class="twitter" href="https://twitter.com/connectingcurrentguide">
                             <i class="icon-twitter"></i>
-                            <span class="visually-hidden">Civic Tech Guide Twitter account</span>
+                            <span class="visually-hidden">Connecting Current Guide Twitter account</span>
                         </a>
                     </li>
                     <li>
-                        <a class="instagram" href="https://www.instagram.com/civictechguide/">
+                        <a class="instagram" href="https://www.instagram.com/connectingcurrentguide/">
                             <i class="icon-instagram"></i>
-                            <span class="visually-hidden">Civic Tech Guide Instagram account</span>
+                            <span class="visually-hidden">Connecting Current Guide Instagram account</span>
                         </a>
                     </li>
                 </ul>
@@ -79,7 +79,7 @@
             </div>
         </div>
     </div>
-    <div class="container" style="width: 100%;">
+    {{-- <div class="container" style="width: 100%;">
         <div class="row">
             <div class="col-md-12" style="text-align: center;">
                 <div class="row social-icons margin-top-20">
@@ -96,7 +96,7 @@
                             </div>
                             <div class="col-md-12 margin-top-20" style="text-align: center;">
                                 <h3>Founding Organization</h3>
-                                <p style="color: #28303d"><strong>Civic Hall</strong></p>
+                                <p style="color: #28303d"><strong>Connecting Current</strong></p>
                             </div>
                         </div>
                     </div>
@@ -108,7 +108,7 @@
             </div>
         </div>
         
-    </div>
+    </div> --}}
     <div class="container">
         <!-- Copyright -->
         <div class="row">
@@ -118,7 +118,7 @@
                         This guide and directory are free to use, re-use, adapt, and modify for non-commercial purposes as long as you link back with attribution.
                     </span>
                     <div style="margin-top: 20px;">
-                        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="{{ asset('images/cc.png') }}" alt="Creative Commons license usage sign" /></a> Civic Tech Field Guide
+                        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="{{ asset('images/cc.png') }}" alt="Creative Commons license usage sign" /></a> Connecting Current
                     </div>
                 </div>
             </div>

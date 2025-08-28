@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 
 use App\Models\Category;
 
-class CategoryHierarchy extends Controller {
-    public function getCategoryHierarchy() {
+class CategoryHierarchy extends Controller
+{
+    public function getCategoryHierarchy()
+    {
         $hierarchies = Category::whereNull('parent_id')->whereIn('name', ['The Tech', 'The People', 'Adjacent Fields', 'More'])->orderByRaw("FIELD(name , 'The Tech', 'The People', 'Adjacent Fields', 'More') ASC")->with('childItems')->orderBy('order_sort', 'ASC')->get();
 
-        return view ('category.hierarchies', [
+        return view('category.hierarchies', [
             'items' => $hierarchies,
             'title' => 'Category Hierarchies',
             'menu' => 'categories',
