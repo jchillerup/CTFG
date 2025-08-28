@@ -133,8 +133,6 @@ class ProjectController extends Controller {
             ->orderBy('created', 'DESC')
             ->paginate(50);
 
-        dd(\DB::getQueryLog());
-
         $category->update([
             'hits' => $category->hits + 1,
         ]);
@@ -173,8 +171,6 @@ class ProjectController extends Controller {
 
         //$projects = $tag->listings()
         $listingIds = ListingTag::where('tag_id', $tag->id)->pluck('listing_id')->toArray();
-
-        \DB::enableQueryLog();
 
         $projects = Listing::query()
             ->whereIn('id', $listingIds)

@@ -33,6 +33,10 @@ class AppServiceProvider extends ServiceProvider
             \URL::forceScheme('https');
             $this->app['request']->server->set('HTTPS','on');
         }
+
+        if ($this->app->environment('local')) {
+            \URL::forceScheme('http');
+        }
         /*DB::listen(function($query) {
             File::append(
                 storage_path('/logs/query.log'),
