@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>{{ @$title }}</title>
     <meta charset="utf-8">
@@ -11,19 +12,25 @@
     <link rel="stylesheet" href="{{ asset('css/main-color.css') }}" id="colors">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+        rel="stylesheet">
     @yield('styles')
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-R1HZWFGK53"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
 
-      gtag('config', 'G-R1HZWFGK53');
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-R1HZWFGK53');
     </script>
 </head>
+
 <body>
     <!-- Wrapper -->
     <div id="wrapper">
@@ -33,14 +40,16 @@
                 <div class="container" style="width: 100% !important;">
                     <div class="left-side">
                         <div id="logo">
-                            <a href="https://connectingcurrent.tech/" style="display: flex; align-items: center; text-decoration: none;">
-                                <img src="{{ asset('images/logo.png') }}" alt="Connecting Current Logo" style="height: 50px; margin-right: 15px;">
-                                <div>
-                                    <h2 class="site-title" style="margin-top: 2px; margin-bottom: 0;">
+                            <a href="https://connectingcurrent.tech/"
+                                style="display: flex; align-items: center; text-decoration: none;">
+                                <img src="{{ asset('images/logo.png') }}" alt="Connecting Current Logo"
+                                    style="height: 50px; margin-right: 15px;">
+                                {{-- <div> --}}
+                                    {{-- <h2 class="site-title" style="margin-top: 2px; margin-bottom: 0;">
                                         <span class="site-title">Connecting Current</span>
                                     </h2>
-                                    <small style="font-size: .8em;">A Digital Democracy Knowledge Hub</small>
-                                </div>
+                                    <small style="font-size: .8em;">A Digital Democracy Knowledge Hub</small> --}}
+                                {{-- </div> --}}
                             </a>
                         </div>
                         <!-- Mobile Navigation
@@ -58,24 +67,25 @@
                     <div class="right-side">
                         <div class="header-widget">
                             <div style="padding-right: 25px; font-size: 19px;">
-                                <a href="https://gaggle.email/join/knowledgehub@gaggle.email" target="_blank" class="@if(@$menu == 'about') active @endif" style="margin-right: 10px;">
+                                <a href="https://gaggle.email/join/knowledgehub@gaggle.email" target="_blank"
+                                    class="@if (@$menu == 'about') active @endif" style="margin-right: 10px;">
                                     Subscribe
                                 </a>
                             </div>
                         </div>
                     </div>
-               
+
                 </div>
             </div>
         </header>
         <div class="clearfix"></div>
-        
-        @if(@$template != "map")
-            <div id="titlebar" class="gradient" style="margin-bottom: 1px;"></div> 
+
+        @if (@$template != 'map')
+            <div id="titlebar" class="gradient" style="margin-bottom: 1px;"></div>
         @else
             <div>&nbsp;</div>
         @endif
-        
+
         <div class="container" style="width: 100%">
             @yield('content')
         </div>
@@ -84,8 +94,8 @@
 
         <div id="backtotop"><a href="#"><span class="visually-hidden">Back to Top</span></a></div>
     </div>
-    
-    
+
+
     <script type="text/javascript" src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery-migrate-3.1.0.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/mmenu.min.js') }}"></script>
@@ -99,8 +109,9 @@
     <script type="text/javascript" src="{{ asset('js/tooltips.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js">
+    </script>
+
     <script type="text/javascript">
         var path = "{{ route('autocomplete') }}";
 
@@ -119,25 +130,27 @@
 
         $('input.typeahead').typeahead({
             displayKey: 'name',
-            source:  function (query, process) {
-                return $.get(path, { query: query }, function (data) {
+            source: function(query, process) {
+                return $.get(path, {
+                    query: query
+                }, function(data) {
                     return process(data);
                 });
             },
-            afterSelect: function (data) {
+            afterSelect: function(data) {
                 $.LoadingOverlay("show");
                 //window.location.replace("/listings/search?q="+data.name);
-                window.location.replace("/listing/"+data.slug);
+                window.location.replace("/listing/" + data.slug);
             }
-            
-        }).keydown(function( event ) {
-            if ( event.which == 13 ) {
+
+        }).keydown(function(event) {
+            if (event.which == 13) {
                 $(this).blur();
                 $(this).focus();
                 var q = $(".typeahead").val();
 
                 $.LoadingOverlay("show");
-                window.location.replace("/listings/search?q="+q);
+                window.location.replace("/listings/search?q=" + q);
                 return false;
             }
         });
@@ -176,10 +189,10 @@
         $(".overlay").click(function() {
             $.LoadingOverlay("show");
         });
-
     </script>
-    
+
     @yield('scripts')
 
 </body>
+
 </html>
