@@ -113,12 +113,12 @@
                     </div>
 
                     <div class="col-md-4 col-sm-12">
-                        <label for="filter-organizations-input" class="visually-hidden">Organizations</label>
-                        <select id="filter-organizations-input" name="organizations[]" data-placeholder="All Organizations" class="chosen-select-no-single" multiple style="display: none;">
-                            @foreach($allOrganizations as $org)
+                        <label for="filter-parent-organizations-input" class="visually-hidden">Organizations</label>
+                        <select id="filter-parent-organizations-input" name="parentorganizations[]" data-placeholder="All Organizations" class="chosen-select-no-single" multiple style="display: none;">
+                            @foreach($allParentOrganizations as $org)
                                 <option value="{{ $org }}"
                                     <?php
-                                        if (is_array($filterOrganizations) && @in_array($org, @$filterOrganizations)) {
+                                        if (is_array($filterParentOrganizations) && @in_array($org, @$filterParentOrganizations)) {
                                             echo "selected";
                                         }
                                     ?>

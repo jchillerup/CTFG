@@ -40,7 +40,7 @@
                 <div class="container" style="width: 100% !important;">
                     <div class="left-side">
                         <div id="logo">
-                            <a href="https://connectingcurrent.tech/"
+                            <a href="/"
                                 style="display: flex; align-items: center; text-decoration: none;">
                                 <img src="{{ asset('images/logo.png') }}" alt="Connecting Current Logo"
                                     style="height: 50px; margin-right: 15px;">

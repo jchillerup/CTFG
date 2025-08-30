@@ -31,11 +31,21 @@ class ListingController extends Controller {
      */ 
     public function syncListing () {
         \Log::info("Listings table sync started at ".date('Y-m-d H:i:s'));
+        error_log("=== LISTINGS SYNC STARTED ===");
 
         // Recreate listings
         $listings = Airtable::table('listings')->all();
+        error_log("AIRTABLE_DATA_RETRIEVED - Total records: " . count($listings));
+        
+        // Log first record details
+        if (count($listings) > 0) {
+            $firstRecord = $listings[0];
+            error_log("AIRTABLE_FIRST_RECORD - ID: " . $firstRecord['id']);
+            error_log("AIRTABLE_FIRST_RECORD - Fields: " . json_encode(array_keys($firstRecord['fields'])));
+            error_log("AIRTABLE_FIRST_RECORD - Project name: " . @$firstRecord["fields"]["Project name"]);
+        }
 
-        if ((Listing::count() > 0) && (sizeof($listings) > 0)) {
+        if (sizeof($listings) > 0) {
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
             Listing::truncate();
             DB::table('listing_categories')->truncate();
@@ -49,14 +59,21 @@ class ListingController extends Controller {
         }
         
         $start = Carbon::createFromFormat('Y-m-d H:s:i', date('Y-m-d H:i:s'));
-        foreach ($listings as $l) {
+        $processedCount = 0;
+        $savedCount = 0;
+        
+        foreach ($listings as $index => $l) {
+            error_log("AIRTABLE_PROCESSING_RECORD - Record " . ($index + 1) . " of " . count($listings));
+            error_log("AIRTABLE_RECORD_ID - " . $l['id']);
+            
             // Debug: Log all available fields for the first few records
-            if (isset($l["fields"]) && !empty($l["fields"])) {
-                error_log("AIRTABLE_FIELDS_DEBUG - Available fields: " . json_encode(array_keys($l["fields"])));
-                break; // Only log for first record to avoid spam
+            if (isset($l["fields"]) && !empty($l["fields"]) && $index < 3) {
+                error_log("AIRTABLE_FIELDS_DEBUG - Record " . ($index + 1) . " fields: " . json_encode(array_keys($l["fields"])));
             }
             
             if (!empty(@$l["fields"]["Project name"])) {
+                $processedCount++;
+                error_log("AIRTABLE_SYNC_DEBUG - Processing record " . $processedCount . ": " . @$l["fields"]["Project name"]);
                 $slug = Str::of(@$l["fields"]["Project name"])->slug();
                 $escapedSlug = str_replace(['.', '(', ')', '!'], '', $slug);
 
@@ -119,25 +136,68 @@ class ListingController extends Controller {
                 $list->postmortem = @$l["fields"]["Postmortem"];
                 $list->host_organization = @$l["fields"]["Host organization"];
                 $list->host_organization_url = @$l["fields"]["Host organization URL"];
+                $list->parent_organization = @$l["fields"]["Parent Organisation"];
                 
                 // Log organization and language data from Airtable
                 $hostOrgField = @$l["fields"]["Host organization"];
                 $hostOrgUrlField = @$l["fields"]["Host organization URL"];
-                $languagesField = @$l["fields"]["Languages(s)"];
-                $primaryLanguage = @$l["fields"]["Languages(s)"][0];
-                $secondaryLanguage = @$l["fields"]["Languages(s)"][1];
+                
+                // Check different possible language field names
+                $languagesField1 = @$l["fields"]["Languages(s)"];
+                $languagesField2 = @$l["fields"]["Languages"];
+                $languagesField3 = @$l["fields"]["Language(s)"];
+                $languagesField4 = @$l["fields"]["Language"];
+                
+                // Use the first non-null field
+                $languagesField = $languagesField1 ?: $languagesField2 ?: $languagesField3 ?: $languagesField4;
+                $primaryLanguage = is_array($languagesField) ? @$languagesField[0] : null;
+                $secondaryLanguage = is_array($languagesField) ? @$languagesField[1] : null;
+                
+                // Debug language and location fields
+                $locationField = @$l["fields"]["Location"];
+                $countryValue = null;
+                if (is_array($locationField) && !empty($locationField)) {
+                    $locationId = $locationField[0];
+                    $location = \App\Models\Location::where('airtable_id', $locationId)->first();
+                    $countryValue = $location ? $location->country : null;
+                } elseif ($locationField) {
+                    $location = \App\Models\Location::where('airtable_id', $locationField)->first();
+                    $countryValue = $location ? $location->country : null;
+                }
+                error_log("AIRTABLE_LANGUAGE_DEBUG - Record: " . @$l["fields"]["Project name"] . " | Languages(s): " . json_encode($languagesField1) . " | Languages: " . json_encode($languagesField2) . " | Language(s): " . json_encode($languagesField3) . " | Language: " . json_encode($languagesField4) . " | Final: " . json_encode($languagesField) . " | Primary: " . ($primaryLanguage ?: 'NULL') . " | Secondary: " . ($secondaryLanguage ?: 'NULL') . " | Location field: " . json_encode($locationField) . " | Country value: " . ($countryValue ?: 'NULL'));
                 
                 \Log::info("Airtable sync - Listing: " . @$l["fields"]["Name"] . " | Host Org: " . $hostOrgField . " | Host Org URL: " . $hostOrgUrlField . " | Languages field: " . json_encode($languagesField) . " | Primary: " . $primaryLanguage . " | Secondary: " . $secondaryLanguage);
                 // error_log("AIRTABLE_SYNC_DEBUG - Listing: " . @$l["fields"]["Name"] . " | Host Org: " . $hostOrgField . " | Languages: " . json_encode($languagesField));
                 
                 $list->language = $primaryLanguage;
                 $list->secondary_language = $secondaryLanguage;
+                
+                // Resolve location from Locations table
+                $locationField = @$l["fields"]["Location"];
+                $countryValue = null;
+                if (is_array($locationField) && !empty($locationField)) {
+                    $locationId = $locationField[0];
+                    $location = \App\Models\Location::where('airtable_id', $locationId)->first();
+                    $countryValue = $location ? $location->country : null;
+                } elseif ($locationField) {
+                    $location = \App\Models\Location::where('airtable_id', $locationField)->first();
+                    $countryValue = $location ? $location->country : null;
+                }
+                $list->country = $countryValue;
+                
                 $list->open_source = @$l["fields"]["Open source"];
                 $list->open_source_license = @$l["fields"]["Open source license"];
+                $list->hide = @$l["fields"]["Hide"];
                 $list->created = @$l["fields"]["Created"];
                 $list->last_modified = @$l["fields"]["Last Modified"];
 
-                $list->save();
+                $saveResult = $list->save();
+                if ($saveResult) {
+                    $savedCount++;
+                    error_log("AIRTABLE_SAVE_SUCCESS - Record " . $savedCount . ": " . @$l["fields"]["Project name"] . " (DB ID: " . $list->id . ", Airtable ID: " . $l['id'] . ")");
+                } else {
+                    error_log("AIRTABLE_SAVE_FAILED - Record: " . @$l["fields"]["Project name"] . " (Airtable ID: " . $l['id'] . ")");
+                }
             }
             
         }
@@ -149,6 +209,13 @@ class ListingController extends Controller {
         $count = $dbListings->count();
         $to = Carbon::createFromFormat('Y-m-d H:s:i', date('Y-m-d H:i:s'));
         \Log::info("Listings table sync finished at ".date('Y-m-d H:i:s')." - ".$to->diffInMinutes($start)." minutes ... ".$count." records synced.");
+        
+        error_log("=== LISTINGS SYNC SUMMARY ===");
+        error_log("AIRTABLE_TOTAL_RECORDS: " . count($listings));
+        error_log("AIRTABLE_PROCESSED_RECORDS: " . $processedCount);
+        error_log("AIRTABLE_SAVED_RECORDS: " . $savedCount);
+        error_log("DATABASE_FINAL_COUNT: " . $count);
+        error_log("=== LISTINGS SYNC SUMMARY END ===");
         
         // Log summary statistics
         $listingsWithLanguage = Listing::whereNotNull('language')->count();

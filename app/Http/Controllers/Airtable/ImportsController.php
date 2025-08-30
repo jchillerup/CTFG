@@ -27,25 +27,25 @@ use Illuminate\Support\Str;
 class ImportsController extends Controller {
     public function manualSync() {
         try {
-            app(\App\Http\Controllers\Airtable\Sync\CategoryController::class)->syncCategories();
+            // app(\App\Http\Controllers\Airtable\Sync\CategoryController::class)->syncCategories();
 
-            app(\App\Http\Controllers\Airtable\Sync\FundingController::class)->syncFunding();
+            // app(\App\Http\Controllers\Airtable\Sync\FundingController::class)->syncFunding();
 
-            app(\App\Http\Controllers\Airtable\Sync\ImpactController::class)->syncImpact();
+            // app(\App\Http\Controllers\Airtable\Sync\ImpactController::class)->syncImpact();
 
-            app(\App\Http\Controllers\Airtable\Sync\KnowledgeController::class)->syncKnowledge();
+            // app(\App\Http\Controllers\Airtable\Sync\KnowledgeController::class)->syncKnowledge();
 
-            app(\App\Http\Controllers\Airtable\Sync\BoundaryController::class)->syncBoundary();
+            // app(\App\Http\Controllers\Airtable\Sync\BoundaryController::class)->syncBoundary();
 
-            app(\App\Http\Controllers\Airtable\Sync\LocationController::class)->syncLocation();
+            // app(\App\Http\Controllers\Airtable\Sync\LocationController::class)->syncLocation();
 
-            app(\App\Http\Controllers\Airtable\Sync\MediaController::class)->syncMedia();
+            // app(\App\Http\Controllers\Airtable\Sync\MediaController::class)->syncMedia();
 
-            app(\App\Http\Controllers\Airtable\Sync\PeopleController::class)->syncPeople();
+            // app(\App\Http\Controllers\Airtable\Sync\PeopleController::class)->syncPeople();
 
-            app(\App\Http\Controllers\Airtable\Sync\TagController::class)->syncTag();
+            // app(\App\Http\Controllers\Airtable\Sync\TagController::class)->syncTag();
 
-            app(\App\Http\Controllers\Airtable\Sync\LinkController::class)->syncLinks();
+            // app(\App\Http\Controllers\Airtable\Sync\LinkController::class)->syncLinks();
 
             app(\App\Http\Controllers\Airtable\Sync\ListingController::class)->syncListing();
 

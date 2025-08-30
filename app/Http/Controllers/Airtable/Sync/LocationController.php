@@ -23,14 +23,21 @@ class LocationController extends Controller {
         \Log::info("Location table sync started at ".date('Y-m-d H:i:s'));
         $locations = Airtable::table('locations')->all();
 
+        error_log("LOCATION_SYNC_DEBUG - Total locations from Airtable: " . count($locations));
 
         if ((Location::count() > 0) && (sizeof($locations) > 0)) {
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
             Location::truncate();
         }
 
+        $processedCount = 0;
         // Recreate locations
         foreach($locations as $loc) {
+            $processedCount++;
+            if ($processedCount % 100 == 0) {
+                error_log("LOCATION_SYNC_DEBUG - Processed " . $processedCount . " of " . count($locations) . " locations");
+            }
+            
             $boundary = @$loc["fields"]["Boundaries"][0];
             $boundary = Boundary::where('airtable_id', $boundary)->first();
             $country = null;

@@ -53,9 +53,9 @@ class ComposerServiceProvider extends ServiceProvider
             'App\Http\ViewComposers\Countries'
         );
 
-        view()->composer(
+                view()->composer(
             ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],
-            'App\Http\ViewComposers\Organizations'
+            'App\Http\ViewComposers\ParentOrganizations'
         );
 
         view()->composer(
