@@ -42,14 +42,14 @@
                         <div id="logo">
                             <a href="/"
                                 style="display: flex; align-items: center; text-decoration: none;">
-                                <img src="{{ asset('images/logo.png') }}" alt="Connecting Current Logo"
+                                <img src="{{ asset('images/favicon.png') }}" alt="Connecting Current Logo"
                                     style="height: 50px; margin-right: 15px;">
-                                {{-- <div> --}}
-                                    {{-- <h2 class="site-title" style="margin-top: 2px; margin-bottom: 0;">
+                                <div>
+                                    <h2 class="site-title" style="margin-top: 2px; margin-bottom: 0;">
                                         <span class="site-title">Connecting Current</span>
                                     </h2>
-                                    <small style="font-size: .8em;">A Digital Democracy Knowledge Hub</small> --}}
-                                {{-- </div> --}}
+                                    <small style="font-size: .8em;">A Digital Democracy Knowledge Hub</small>
+                                </div>
                             </a>
                         </div>
                         <!-- Mobile Navigation

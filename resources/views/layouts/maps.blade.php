@@ -28,12 +28,11 @@
                 <div class="container" style="width: 100%">
                     <div class="left-side">
                         <div id="logo">
-                            <h2 class="site-title" style="margin-top: 2px;">
-                                <a class="site-title" href="https://connectingcurrent.tech/">
-                                    Connecting Current
-                                </a>
-                            </h2>
-                            <small style="font-size: .8em;">Sharing knowledge and productively growing the field</small>
+                            <a href="/"
+                                style="display: flex; align-items: center; text-decoration: none;">
+                                <img src="{{ asset('images/logo.png') }}" alt="Connecting Current Logo"
+                                    style="height: 50px; margin-right: 15px;">
+                            </a>
                         </div>
                         <!-- Mobile Navigation -->
                         <div class="mmenu-trigger">
