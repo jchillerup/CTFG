@@ -30,7 +30,18 @@ class MediaController extends Controller {
         foreach ($media as $f) {
             $md = new Media;
             $md->airtable_id = @$f["id"];
-            $md->link = @$f["fields"]["Link"];
+            
+            // Try to get image URL from File field first, then fall back to Link field
+            $imageUrl = null;
+            if (!empty(@$f["fields"]["File"]) && is_array(@$f["fields"]["File"]) && count(@$f["fields"]["File"]) > 0) {
+                // Extract URL from the first file attachment
+                $imageUrl = @$f["fields"]["File"][0]["url"];
+            } else {
+                // Fall back to Link field if File field is empty
+                $imageUrl = @$f["fields"]["Link"];
+            }
+            
+            $md->link = $imageUrl;
             $md->type = @$f["fields"]["Type"];
             $md->save();
         }
