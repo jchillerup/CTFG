@@ -2,6 +2,15 @@
 "gem:kamal" = "latest"
 ruby = "latest"
 "ubi:adwinying/php" = "8.4"
+"ubi:composer/composer" = "latest"
+
+[hooks]
+postinstall = """
+composer_dir=$(mise where ubi:composer/composer)
+if [ -f "$composer_dir/composer.phar" ]; then
+  mv "$composer_dir/composer.phar" "$composer_dir/composer"
+fi
+"""
 
 [env]
 _.file = ".env"
