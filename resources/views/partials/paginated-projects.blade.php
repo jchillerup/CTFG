@@ -6,16 +6,17 @@
     </div>
 </div>
 @foreach($projects as $project)
-    <div class="listing-item">
-        <a href="/listing/{{ $project->slug }}" class="listing-img-container">
-            @if(@$project->media->first())
-                <img src="{{ @$project->media->first()->display_url }}" loading="lazy" alt="{{ $project->name }}" style="display: block !important; height: auto; width: auto;">
-            @else
-                <img src="{{ asset('images/gray.png') }}" loading="lazy" alt="{{ $project->name }}">
-            @endif
-        </a>
-        
-        <div class="listing-content">
+    <div class="listing-item-container list-layout">
+        <div class="listing-item">
+            <div class="listing-item-image">
+                <a href="/listing/{{ $project->slug }}" class="listing-img-container">
+                    @if(@$project->media->first())
+                        <img src="{{ @$project->media->first()->display_url }}" loading="lazy" alt="{{ $project->name }}" style="filter: none;">
+                    @endif
+                </a>
+            </div>
+            
+            <div class="listing-item-content">
             <div class="listing-title">
                 <h4>
                     <a href="/listing/{{ $project->slug }}">
@@ -56,6 +57,7 @@
                     </a>
                 </div>
             @endif
+            </div>
         </div>
     </div>
 @endforeach

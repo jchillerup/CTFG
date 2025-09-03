@@ -3256,7 +3256,8 @@ button.fs-map-btn.button {
     position: relative;
 }
 .listings-container.fs-listings.list-layout {
-    padding: 0 40px;
+    padding: 20px 40px;
+    margin: 0 15px;
 }
 .listings-container.fs-listings.list-layout .listing-content {
     flex: 4;
@@ -3269,6 +3270,38 @@ button.fs-map-btn.button {
     .listings-container.fs-listings.grid-layout .listing-item {
     width: 100%;
     margin: 0 0 30px;
+}
+
+.listing-item-container.list-layout .listing-item {
+    flex-direction: column;
+    height: auto;
+    min-height: auto;
+}
+
+.listing-item-container.list-layout .listing-item-image {
+    flex: none;
+    height: 200px;
+    border-radius: 8px 8px 0 0;
+    margin: 10px 10px 0 10px;
+}
+
+.listing-item-container.list-layout .listing-img-container img {
+    border-radius: 8px 8px 0 0;
+    max-width: 150px;
+    max-height: 150px;
+    filter: none !important;
+    -webkit-filter: none !important;
+}
+
+.listing-item-container.list-layout .listing-img-container img[src*="favicon"] {
+    max-width: 100px;
+    max-height: 100px;
+    padding: 15px;
+}
+
+.listing-item-container.list-layout .listing-item-content {
+    border-radius: 0 0 8px 8px;
+    margin: 0 10px 10px 10px;
 }
 .listings-container.fs-listings.grid-layout {
     padding: 0 40px;
@@ -9753,8 +9786,13 @@ body .notification strong {
 }
 .listing-item-container.list-layout {
     background: 0 0;
-    background-color: #f9f9f9;
+    background-color: transparent;
     margin-bottom: 25px;
+    margin-left: 15px;
+    margin-right: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 .listing-item-container.list-layout:hover {
     transform: translate3d(6px, 0, 0);
@@ -9763,6 +9801,9 @@ body .notification strong {
     display: flex;
     background-color: transparent;
     height: 220px;
+    align-items: stretch;
+    margin: 10px;
+    min-height: 200px;
 }
 .listing-item-container.list-layout .listing-item:before {
     display: none;
@@ -9775,18 +9816,78 @@ body .notification strong {
     position: relative;
     bottom: 0;
     left: 0;
-    padding: 0;
+    padding: 30px;
     width: 100%;
     z-index: 50;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px 0;
+    background-color: transparent;
+    border-radius: 0 8px 8px 0;
 }
 .listing-item-container.list-layout .listing-item-image {
     min-height: 200px;
     flex: 2;
     height: 100%;
     overflow: hidden;
-    border-radius: 4px 0 0 4px;
+    border-radius: 8px 0 0 8px;
     position: relative;
+    margin: 10px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.listing-item-container.list-layout .listing-img-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    min-width: 180px;
+    min-height: 180px;
+}
+
+.listing-item-container.list-layout .listing-img-container img {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    background-color: transparent;
+    padding: 15px;
+    max-width: 180px;
+    max-height: 180px;
+    filter: none !important;
+    -webkit-filter: none !important;
+    -moz-filter: none !important;
+    -ms-filter: none !important;
+}
+
+.listing-item-container.list-layout .listing-img-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    min-width: 180px;
+    min-height: 180px;
+}
+
+.listing-item-container.list-layout .listing-img-container:hover img {
+    transform: scale(1.05);
+}
+
+/* Override any existing grey scale filters */
+.listing-item-container.list-layout img,
+.listing-item-container.list-layout .listing-img-container img {
+    filter: none !important;
+    -webkit-filter: none !important;
+    -moz-filter: none !important;
+    -ms-filter: none !important;
 }
 .listing-item-container.list-layout .listing-item-image:before {
     content: "";
@@ -9795,8 +9896,8 @@ body .notification strong {
     position: absolute;
     z-index: 1;
     display: block;
-    background-color: #272729;
-    opacity: .2;
+    background-color: transparent;
+    opacity: 0;
 }
 .listing-item-container.list-layout span.like-icon {
     bottom: 50%;
@@ -9810,17 +9911,25 @@ body .notification strong {
     color: #fff;
 }
 .listing-item-container.list-layout .listing-item-inner {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 35px;
+    position: relative;
+    top: auto;
+    transform: none;
+    left: 0;
+    padding: 30px;
     padding-right: 120px;
 }
-.listing-item-container.list-layout .listing-item-inner h3 {
+.listing-item-container.list-layout .listing-item-inner h3,
+.listing-item-container.list-layout .listing-title h4 {
     color: #333;
+    margin: 0 0 10px 0;
+    font-size: 20px;
+    line-height: 1.4;
 }
-.listing-item-container.list-layout .listing-item-inner span {
-    color: gray;
+.listing-item-container.list-layout .listing-item-inner span,
+.listing-item-container.list-layout .listing-title span,
+.listing-item-container.list-layout .listing-title i {
+    color: #666;
+    font-size: 14px;
 }
 .listing-item-container.list-layout .star-rating {
     padding: 8px 0 0;
@@ -9830,11 +9939,12 @@ body .notification strong {
     display: block;
 }
 .listing-item-container.list-layout .listing-item-details {
-    position: absolute;
-    bottom: 25px;
-    right: 35px;
-    left: auto;
+    position: relative;
+    bottom: auto;
+    right: auto;
+    left: 0;
     top: auto;
+    margin: 15px 0;
     padding: 0;
     width: auto;
     z-index: 50;
@@ -16318,6 +16428,27 @@ a.dashboard-responsive-nav-trigger.active {
 #titlebar {
     padding: 60px 0;
     margin-bottom: 60px;
+}
+
+.search-results-header {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.search-results-container {
+    margin: 20px 15px;
+    padding: 20px;
+}
+
+.search-results-title {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 .panel-dropdown {
     margin-right: 4px;
