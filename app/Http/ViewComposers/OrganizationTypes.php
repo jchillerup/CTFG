@@ -15,7 +15,12 @@ class OrganizationTypes
      * @return void
      */
     public function __construct() {
-        $types = Listing::distinct('organization_type')->orderBy('organization_type', 'DESC')->pluck('organization_type');
+        $types = Listing::select('organization_type')
+            ->whereNotNull('organization_type')
+            ->where('organization_type', '!=', '')
+            ->distinct()
+            ->orderBy('organization_type', 'ASC')
+            ->pluck('organization_type');
 
         $typesArray = array();
         foreach ($types as $type) {

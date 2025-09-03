@@ -36,6 +36,12 @@ class ListingController extends Controller {
         // Recreate listings
         $listings = Airtable::table('listings')->all();
         error_log("AIRTABLE_DATA_RETRIEVED - Total records: " . count($listings));
+        error_log("AIRTABLE_LISTINGS_RAW_RESPONSE: " . json_encode($listings));
+        
+        if (count($listings) > 0) {
+            error_log("AIRTABLE_LISTINGS_FIRST_RECORD: " . json_encode($listings[0]));
+            error_log("AIRTABLE_LISTINGS_FIRST_RECORD_FIELDS: " . json_encode(array_keys($listings[0]['fields'])));
+        }
         
         // Log first record details
         if (count($listings) > 0) {
@@ -249,7 +255,7 @@ class ListingController extends Controller {
                     }
 
                     // Update cover image - used in sort algo
-                    $cover = $dbList->media->first()->link ?? null;
+                    $cover = $dbList->media->first()->display_url ?? null;
                     $dbList->update([
                         'cover_image' => $cover
                     ]);
@@ -368,7 +374,7 @@ class ListingController extends Controller {
         $listings = Listing::get();
 
         foreach ($listings as $record) {
-            $cover = $record->media->first()->link ?? null;
+            $cover = $record->media->first()->display_url ?? null;
             $record->update([
                 'cover_image' => $cover
             ]);
@@ -449,7 +455,7 @@ class ListingController extends Controller {
      */ 
     public function updateCoverImages($listings) {
         foreach ($listings as $list) {
-            $cover = $list->media->first()->link ?? null;
+            $cover = $list->media->first()->display_url ?? null;
             $list->update([
                 'cover_image' => $cover,
             ]);

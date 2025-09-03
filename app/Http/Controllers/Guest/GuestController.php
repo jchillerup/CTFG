@@ -83,12 +83,10 @@ class GuestController extends Controller {
                     $builder->whereIn('organization_type', $organizationtypes);   
                 }
             })
-            ->when(request('organizations'), function($builder) {
-                $organizations = request('organizations');
-                // Filter projects that are hosted by the selected organizations
-                $builder->whereHas('hostOrg', function($query) use ($organizations) {
-                    $query->whereIn('name', $organizations);
-                });
+            ->when(request('parentorganizations'), function($builder) {
+                $parentOrganizations = request('parentorganizations');
+                // Filter projects by parent organization
+                $builder->whereIn('parent_organization', $parentOrganizations);
             })
             ->when(request('languages'), function($builder) {
                 $languages = request('languages');
@@ -150,7 +148,7 @@ class GuestController extends Controller {
             'filterOrgTypes' => request('organizationtypes'),
             'filterOpenSource' => request('opensource'),
             'filterTypes' => request('types'),
-            'filterOrganizations' => request('organizations'),
+            'filterParentOrganizations' => request('parentorganizations'),
             'filterLanguages' => request('languages'),
             'filterDateFrom' => request('date_from'),
             'filterDateTo' => request('date_to'),

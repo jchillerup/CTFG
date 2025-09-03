@@ -1,0 +1,4 @@
+PHP Deprecated:  Illuminate\Log\Logger::__construct(): Implicitly marking parameter $dispatcher as nullable is deprecated, the explicit nullable type must be used instead in /home/munene/work/simon/CTFG/CTFG/vendor/laravel/framework/src/Illuminate/Log/Logger.php on line 43
+
+   WARN  Warning: 'S' is not in the list of known options, but still passed to Electron/Chromium.  
+

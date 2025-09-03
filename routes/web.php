@@ -53,6 +53,8 @@ Route::get('/sync/manual/links', [\App\Http\Controllers\Airtable\Sync\LinkContro
 Route::get('/a/test', [\App\Http\Controllers\Airtable\ImportsController::class, 'test']);
 Route::get('/t', [\App\Http\Controllers\TestController::class, 'test']);
 Route::get('/fill', [\App\Http\Controllers\TestController::class, 'fillCoverImages']);
+Route::get('/download-expired-images', [\App\Http\Controllers\Airtable\Sync\MediaController::class, 'downloadExpiredImages']);
+Route::get('/test-media-controller', [\App\Http\Controllers\Airtable\Sync\MediaController::class, 'test']);
 
 Route::get('/email-templates/contact-form', [\App\Http\Controllers\TestController::class, 'contactFormTemplate']);
 

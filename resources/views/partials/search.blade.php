@@ -82,7 +82,7 @@
                         </select>
                     </div>
 
-                    {{-- <div class="col-md-4 col-sm-12">
+                    <div class="col-md-4 col-sm-12">
                         <label for="filter-organization-type-input" class="visually-hidden">Organization Type</label>
                         <select id="filter-organization-type-input" name="organizationtypes[]" data-placeholder="Organization type" class="chosen-select-no-single" multiple style="display: none;">
                             @foreach($organizationTypes as $orgType)
@@ -95,7 +95,7 @@
                                     >{{ $orgType }}</option>
                             @endforeach
                         </select>
-                    </div> --}}
+                    </div>
                     
                     <div class="col-md-4 col-sm-12">
                         <label for="filter-countries-input" class="visually-hidden">Countries</label>
@@ -126,6 +126,8 @@
                             @endforeach
                         </select>
                     </div>
+
+
 
 
 

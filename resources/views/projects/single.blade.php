@@ -170,7 +170,7 @@
                     <div class="col-lg-4 col-md-4">
                         <!-- <img src="{{ @$project->media->last()->link }}" height="150px" title="Project image" alt="Graphic representing {!! $project->name !!}"/> -->
                         @if (@$project->media->first())
-                            <img src="{{ @$project->media->first()->link }}" loading="lazy"
+                            <img src="{{ @$project->media->first()->display_url }}" loading="lazy"
                                 alt="Graphic representing {!! $project->name !!}">
                         @else
                             <img src="{{ asset('images/gray.png') }}" loading="lazy"

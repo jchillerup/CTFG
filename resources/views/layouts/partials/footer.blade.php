@@ -65,7 +65,10 @@
                 <div class="copyrights">
                     <a href="https://connectingcurrent.tech/">Connecting Current</a> ©️ 2025 by <a
                         href="https://globaltfokus.dk/en">Global Focus</a> is licensed under <a
-                        href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a><img
+                        href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. Based on the <a
+                        href="https://directory.civictech.guide/">Civic Tech Field Guide Directory</a> <a
+                        href="https://github.com/sprblm/CTFG">open source code base</a> available under <a
+                        href="https://github.com/sprblm/CTFG/blob/main/LICENSE">MIT License</a>.<img
                         src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt=""
                         style="max-width: 1em;max-height:1em;margin-left: .2em;"><img
                         src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt=""

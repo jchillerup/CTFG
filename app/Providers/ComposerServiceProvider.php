@@ -62,5 +62,10 @@ class ComposerServiceProvider extends ServiceProvider
             ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],
             'App\Http\ViewComposers\Languages'
         );
+
+        view()->composer(
+            ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],
+            'App\Http\ViewComposers\Organizations'
+        );
     }
 }

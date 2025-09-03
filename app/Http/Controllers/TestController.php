@@ -38,7 +38,7 @@ class TestController extends Controller {
         $listings = Listing::get();
 
         foreach ($listings as $record) {
-            $cover = $record->media->first()->link ?? null;
+            $cover = $record->media->first()->display_url ?? null;
 
             $record->update([
                 'cover_image' => $cover
