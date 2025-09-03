@@ -5,4 +5,4 @@ sudo apt install -y build-essential autoconf libssl-dev libyaml-dev zlib1g-dev l
 
 sudo gpasswd -a $USER docker
 
-mise config experimental true
+mise settings set experimental true

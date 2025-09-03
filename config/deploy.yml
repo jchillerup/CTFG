@@ -13,8 +13,8 @@ registry:
   # Specify the registry server, if you're not using Docker Hub
   server: ghcr.io
   username: jchillerup
-  password:
-    - KAMAL_REGISTRY_PASSWORD
+  password: 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
+#    - KAMAL_REGISTRY_PASSWORD
 builder:
   arch: amd64
 env:

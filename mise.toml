@@ -1,16 +1,7 @@
 [tools]
 "gem:kamal" = "latest"
+php = "8.4"
 ruby = "latest"
-"ubi:adwinying/php" = "8.4"
-"ubi:composer/composer" = "latest"
-
-[hooks]
-postinstall = """
-composer_dir=$(mise where ubi:composer/composer)
-if [ -f "$composer_dir/composer.phar" ]; then
-  mv "$composer_dir/composer.phar" "$composer_dir/composer"
-fi
-"""
 
 [env]
 _.file = ".env"
@@ -28,7 +19,7 @@ run = [
 description = "Run database migrations on deployed app"
 run = [
     "echo 'Running database migrations...'",
-    "kamal app exec --interactive 'php artisan migrate --force'"
+    "kamal app exec --interactive 'env php artisan migrate --force'"
 ]
 
 [tasks.sync]
