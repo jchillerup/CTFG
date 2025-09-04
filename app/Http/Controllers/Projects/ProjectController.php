@@ -51,6 +51,16 @@ class ProjectController extends Controller {
 
     // Search
     public function search(Request $request) {
+        if(request('status')){
+            $filterStatus = request('status');
+        } else {
+            $filterStatus = 'Show active projects only';
+        }
+
+        request()->merge([
+            'status' => $filterStatus
+        ]);
+
         $projects = Listing::query()
             ->when(request('q'), function($builder) {
                 $builder->searchQuery(request('q'));
@@ -149,7 +159,7 @@ class ProjectController extends Controller {
             'filterCategories' => request('categories'),
             'filterTags' => request('tags'),
             'filterCountries' => request('countries'),
-            'filterStatus' => request('status'),
+            'filterStatus' => $filterStatus,
             'filterOrgTypes' => request('organizationtypes'),
             'filterOpenSource' => request('opensource'),
             'filterTypes' => request('types'),

@@ -253,6 +253,199 @@ class ProjectController extends Controller {
         ]);
     }
 
+    // Get projects by organization
+    public function getProjectsByOrganization(Request $request) {
+        $id = $request->segment(2);
+
+        $organization = \App\Models\Organization::where('id', $id)->first();
+
+        if (!$organization) {
+            return abort(404);
+        }
+
+        $projects = Listing::query()
+            ->where('organization_id', $id)
+            ->when(request('categories'), function($builder) {
+                $categories = request('categories');
+
+                $builder->whereHas('categories', function($builder) use ($categories) {
+                    $builder->whereIn('name', $categories);
+                });
+            })
+            ->when(request('tags'), function($builder) {
+                $tags = request('tags');
+
+                $builder->whereHas('tags', function($builder) use ($tags) {
+                    $builder->whereIn('name', $tags);
+                });
+            })
+            ->when(request('countries'), function($builder) {
+                $countries = request('countries');
+
+                $builder->when(count($countries),function ($builder)use ($countries) {
+                    $builder->whereHas('location', function($builder) use ($countries) {
+                        $builder->where( function($builder) use ($countries) {
+                            foreach ($countries as $country) {
+                                $builder->orWhere('country', 'LIKE', '%' . $country . '%');
+                            }
+                        });
+                    });
+                }); 
+            })
+            ->when(request('opensource'), function($builder) {
+                $builder->where('open_source', request('opensource'));
+            })
+            ->when(request('types'), function($builder) {
+                $types = request('types');
+                if (in_array("Other", $types)) {
+                    $key = array_search("Other", $types);
+                    $types[$key] = NULL;
+
+                    $builder->whereIn('type', $types)->orWhereNull('type');
+                } else {
+                    $builder->whereIn('type', $types);   
+                }
+            })
+            ->when(request('organizationtypes'), function($builder) {
+                $organizationtypes = request('organizationtypes');
+                if (in_array("Other", $organizationtypes)) {
+                    $key = array_search("Other", $organizationtypes);
+                    $organizationtypes[$key] = NULL;
+
+                    $builder->whereIn('organization_type', $organizationtypes)->orWhereNull('organization_type');
+                } else {
+                    $builder->whereIn('organization_type', $organizationtypes);   
+                }
+            })
+            ->when(request('status'), function($builder) {
+                $status = request('status');
+                if ($status == "Show active projects only") {
+                    $builder->whereIn('status', ['Active', 'N/A']);
+                } else {
+                    $builder->whereIn('status', ['Active', 'N/A', 'Inactive', 'Document']);
+                }
+            }, function($builder) {
+                $builder->whereIn('status', ['Active', 'N/A']);
+            })
+            ->when(request('q'), function($builder) {
+                $builder->searchQuery(request('q'));
+            })
+            ->with('organization')
+            ->orderBy('created', 'DESC')
+            ->paginate(50);
+
+        if (count(request()->all()) == 0) {
+            $filterStatus = "Active";
+        } else if(request('status')){
+            $filterStatus = request('status');
+        } else {
+            $filterStatus = '';
+        }
+
+        return view ('projects.projects-by-organization', [
+            'projects' => $projects,
+            'title' => 'Projects - '.$organization->name,
+            'organizationName' => $organization->name,
+            'organization' => $organization,
+            'activeOrganization' => $organization,
+            'query' => request('q'),
+            'filterCategories' => request('categories'),
+            'filterTags' => request('tags'),
+            'filterCountries' => request('countries'),
+            'filterStatus' => $filterStatus,
+            'filterOrgTypes' => request('organizationtypes'),
+            'filterOpenSource' => request('opensource'),
+            'filterTypes' => request('types'),
+        ]);
+    }
+
+    // Get projects by organization type
+    public function getProjectsByOrganizationType(Request $request) {
+        $type = urldecode($request->route('type'));
+
+        $projects = Listing::query()
+            ->where('organization_type', $type)
+            ->when(request('categories'), function($builder) {
+                $categories = request('categories');
+
+                $builder->whereHas('categories', function($builder) use ($categories) {
+                    $builder->whereIn('name', $categories);
+                });
+            })
+            ->when(request('tags'), function($builder) {
+                $tags = request('tags');
+
+                $builder->whereHas('tags', function($builder) use ($tags) {
+                    $builder->whereIn('name', $tags);
+                });
+            })
+            ->when(request('countries'), function($builder) {
+                $countries = request('countries');
+
+                $builder->when(count($countries),function ($builder)use ($countries) {
+                    $builder->whereHas('location', function($builder) use ($countries) {
+                        $builder->where( function($builder) use ($countries) {
+                            foreach ($countries as $country) {
+                                $builder->orWhere('country', 'LIKE', '%' . $country . '%');
+                            }
+                        });
+                    });
+                }); 
+            })
+            ->when(request('opensource'), function($builder) {
+                $builder->where('open_source', request('opensource'));
+            })
+            ->when(request('types'), function($builder) {
+                $types = request('types');
+                if (in_array("Other", $types)) {
+                    $key = array_search("Other", $types);
+                    $types[$key] = NULL;
+
+                    $builder->whereIn('type', $types)->orWhereNull('type');
+                } else {
+                    $builder->whereIn('type', $types);   
+                }
+            })
+            ->when(request('organizations'), function($builder) {
+                $organizations = request('organizations');
+
+                $builder->whereHas('organization', function($builder) use ($organizations) {
+                    $builder->whereIn('name', $organizations);
+                });
+            })
+            ->whereIn('status', ['Active', 'N/A'])
+            ->when(request('q'), function($builder) {
+                $builder->searchQuery(request('q'));
+            })
+            ->with('organization')
+            ->orderBy('created', 'DESC')
+            ->paginate(50);
+
+        if (count(request()->all()) == 0) {
+            $filterStatus = "Active";
+        } else if(request('status')){
+            $filterStatus = request('status');
+        } else {
+            $filterStatus = '';
+        }
+
+        return view ('projects.projects-by-organization-type', [
+            'projects' => $projects,
+            'title' => 'Projects - '.$type,
+            'organizationTypeName' => $type,
+            'organizationType' => $type,
+            'activeOrganizationType' => $type,
+            'query' => request('q'),
+            'filterCategories' => request('categories'),
+            'filterTags' => request('tags'),
+            'filterCountries' => request('countries'),
+            'filterStatus' => $filterStatus,
+            'filterOrganizations' => request('organizations'),
+            'filterOpenSource' => request('opensource'),
+            'filterTypes' => request('types'),
+        ]);
+    }
+
     // Get tags table
     public function tagsTable() {
         $tags = Tag::whereNull('parent_id')

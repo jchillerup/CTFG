@@ -17,7 +17,7 @@ class CategoryHierarchies {
      * @return void
      */
     public function __construct() {
-        $catHierarchies = Category::whereNull('parent_id')->whereIn('name', ['Program', 'Organization', 'Resource'])->orderByRaw("FIELD(name , 'Program', 'Organization', 'Resource') ASC")->with('childItems')->get();
+        $catHierarchies = Category::whereNull('parent_id')->orderBy('order_sort', 'ASC')->orderBy('name', 'ASC')->with('childItems')->get();
 
         $this->catHierarchies = $catHierarchies;
     }

@@ -40,38 +40,38 @@ class ComposerServiceProvider extends ServiceProvider
         );
 
         view()->composer(
-            ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],
+            ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.projects-by-organization', 'projects.projects-by-organization-type', 'projects.search-results'],
             'App\Http\ViewComposers\Tags'
         );
 
         view()->composer(
-            ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],
+            ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.projects-by-organization', 'projects.projects-by-organization-type', 'projects.search-results'],
             'App\Http\ViewComposers\TagHierarchies'
         );
 
 
         view()->composer(
-            ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],
+            ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.projects-by-organization', 'projects.projects-by-organization-type', 'projects.search-results'],
             'App\Http\ViewComposers\ParentOrganizations'
         );
 
         view()->composer(
-            ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],
+            ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.projects-by-organization', 'projects.projects-by-organization-type', 'projects.search-results'],
             'App\Http\ViewComposers\Languages'
         );
 
         view()->composer(
-            ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],
+            ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.projects-by-organization', 'projects.projects-by-organization-type', 'projects.search-results'],
             'App\Http\ViewComposers\Organizations'
         );
 
         view()->composer(
-            ['projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],
+            ['projects.projects-by-category', 'projects.projects-by-tag', 'projects.projects-by-organization', 'projects.projects-by-organization-type', 'projects.search-results'],
             'App\Http\ViewComposers\Categories'
         );
 
         view()->composer(
-            ['projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],
+            ['projects.projects-by-category', 'projects.projects-by-tag', 'projects.projects-by-organization', 'projects.projects-by-organization-type', 'projects.search-results'],
             'App\Http\ViewComposers\ListingTypes'
         );
 

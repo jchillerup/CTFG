@@ -9,6 +9,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
 use App\Models\Tag;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Log;
 
 class RenderTagView implements ShouldQueue
 {
@@ -30,16 +32,14 @@ class RenderTagView implements ShouldQueue
      */
     public function handle() {
         $tags = Tag::whereNull('parent_id')
-            ->whereIn('name', ['Publication', 'Digital Democracy Initiative', 'Research'])
-            ->orderByRaw("FIELD(name , 'Publication', 'Digital Democracy Initiative', 'Research') ASC")
+            ->orderBy('order_sort', 'ASC')
+            ->orderBy('name', 'ASC')
             ->with('childItems')
             ->get();
 
-        $html = \View::make('partials.tags', ['tagHierarchies' => $tags, 'activeTag' => null, 'activeParentTag' => null])->render();
+        $html = View::make('partials.tags', ['tagHierarchies' => $tags, 'activeTag' => null, 'activeParentTag' => null])->render();
         file_put_contents(resource_path('views/cache/tags_cache.blade.php'), $html);
 
-        \Log::info("Done rendering tag view cache");
-
-        return true;
+        Log::info("Done rendering tag view cache");
     }
 }

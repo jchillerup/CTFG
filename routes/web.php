@@ -31,6 +31,9 @@ Route::get('/listing-category/{slug}', [\App\Http\Controllers\Category\ProjectCo
 
 Route::get('/listing-tag/{name}', [\App\Http\Controllers\Category\ProjectController::class, 'getProjectsByTag']);
 
+Route::get('/listing-organization/{id}', [\App\Http\Controllers\Category\ProjectController::class, 'getProjectsByOrganization']);
+Route::get('/listing-organization-type/{type}', [\App\Http\Controllers\Category\ProjectController::class, 'getProjectsByOrganizationType'])->where('type', '.*');
+
 Route::get('/tags', [\App\Http\Controllers\Category\ProjectController::class, 'tagsTable']);
 
 Route::get('/log-search', [\App\Http\Controllers\Projects\SearchController::class, 'log']);

@@ -130,9 +130,16 @@
     <ul class="nav flex-column" id="nav_accordion">
         <!-- Dynamic Tags from Database -->
                                     <li class="nav-item has-subtag ">
-                    <a class="nav-link" href="/listing-tag/Publication" title="Publication">
+                    <a class="nav-link" href="/listing-tag/Advocacy" title="Advocacy">
                         <span class="text-sm ">
-                            Publication
+                            Advocacy
+                        </span>
+                    </a>
+                                    </li>
+                            <li class="nav-item has-subtag ">
+                    <a class="nav-link" href="/listing-tag/AI" title="AI">
+                        <span class="text-sm ">
+                            AI
                         </span>
                     </a>
                                     </li>
@@ -144,9 +151,37 @@
                     </a>
                                     </li>
                             <li class="nav-item has-subtag ">
+                    <a class="nav-link" href="/listing-tag/Digital Safety" title="Digital Safety">
+                        <span class="text-sm ">
+                            Digital Safety
+                        </span>
+                    </a>
+                                    </li>
+                            <li class="nav-item has-subtag ">
+                    <a class="nav-link" href="/listing-tag/Library" title="Library">
+                        <span class="text-sm ">
+                            Library
+                        </span>
+                    </a>
+                                    </li>
+                            <li class="nav-item has-subtag ">
+                    <a class="nav-link" href="/listing-tag/Publication" title="Publication">
+                        <span class="text-sm ">
+                            Publication
+                        </span>
+                    </a>
+                                    </li>
+                            <li class="nav-item has-subtag ">
                     <a class="nav-link" href="/listing-tag/Research" title="Research">
                         <span class="text-sm ">
                             Research
+                        </span>
+                    </a>
+                                    </li>
+                            <li class="nav-item has-subtag ">
+                    <a class="nav-link" href="/listing-tag/Tool" title="Tool">
+                        <span class="text-sm ">
+                            Tool
                         </span>
                     </a>
                                     </li>

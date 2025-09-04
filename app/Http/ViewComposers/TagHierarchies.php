@@ -19,8 +19,8 @@ class TagHierarchies {
     public function __construct() {
 
         $tagHierarchies = Tag::whereNull('parent_id')
-            ->whereIn('name', ['Publication', 'Digital Democracy Initiative', 'Research'])
-            ->orderByRaw("FIELD(name , 'Publication', 'Digital Democracy Initiative', 'Research') ASC")
+            ->orderBy('order_sort', 'ASC')
+            ->orderBy('name', 'ASC')
             ->with('childItems')
             ->get();
 

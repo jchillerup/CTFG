@@ -134,9 +134,9 @@
     <ul class="nav flex-column" id="nav_accordion">
         <!-- Dynamic Categories from Database -->
                                     <li class="nav-item has-submenu ">
-                    <a class="nav-link overlay" href="/listing-category/program" title="Program">
+                    <a class="nav-link overlay" href="/listing-category/library" title="Library">
                         <span class="text-sm ">
-                            Program
+                            Library
                         </span>
                     </a>
                                     </li>
@@ -148,9 +148,23 @@
                     </a>
                                     </li>
                             <li class="nav-item has-submenu ">
+                    <a class="nav-link overlay" href="/listing-category/program" title="Program">
+                        <span class="text-sm ">
+                            Program
+                        </span>
+                    </a>
+                                    </li>
+                            <li class="nav-item has-submenu ">
                     <a class="nav-link overlay" href="/listing-category/resource" title="Resource">
                         <span class="text-sm ">
                             Resource
+                        </span>
+                    </a>
+                                    </li>
+                            <li class="nav-item has-submenu ">
+                    <a class="nav-link overlay" href="/listing-category/toolkit" title="Toolkit">
+                        <span class="text-sm ">
+                            Toolkit
                         </span>
                     </a>
                                     </li>

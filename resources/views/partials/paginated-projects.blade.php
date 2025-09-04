@@ -62,7 +62,7 @@
                     <div style="margin-bottom: 15px;">
                         <strong style="color: #333; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Organization:</strong>
                         <div style="margin-top: 5px;">
-                            <span style="display: inline-block; background: #007bff; color: white; padding: 4px 8px; margin: 2px 4px 2px 0; border-radius: 4px; font-size: 12px;">{{ @$project->organization->name }}</span>
+                            <a href="/listing-organization/{{ @$project->organization->id }}" style="display: inline-block; background: #007bff; color: white; padding: 4px 8px; margin: 2px 4px 2px 0; border-radius: 4px; text-decoration: none; font-size: 12px;">{{ @$project->organization->name }}</a>
                         </div>
                     </div>
                 @endif
@@ -71,7 +71,7 @@
                     <div style="margin-bottom: 15px;">
                         <strong style="color: #333; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Organization Type:</strong>
                         <div style="margin-top: 5px;">
-                            <span style="display: inline-block; background: #6c757d; color: white; padding: 4px 8px; margin: 2px 4px 2px 0; border-radius: 4px; font-size: 12px;">{{ @$project->organization_type }}</span>
+                            <a href="/listing-organization-type/{{ urlencode(@$project->organization_type) }}" style="display: inline-block; background: #6c757d; color: white; padding: 4px 8px; margin: 2px 4px 2px 0; border-radius: 4px; text-decoration: none; font-size: 12px;">{{ @$project->organization_type }}</a>
                         </div>
                     </div>
                 @endif
