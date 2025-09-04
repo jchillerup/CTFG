@@ -29,7 +29,7 @@ class RenderCategoryView implements ShouldQueue
      * @return void
      */
     public function handle() {
-        $categories = Category::whereNull('parent_id')->whereIn('name', ['The Tech', 'The People', 'Adjacent Fields', 'More'])->orderByRaw("FIELD(name , 'The Tech', 'The People', 'Adjacent Fields', 'More') ASC")->with('childItems')->get();
+        $categories = Category::whereNull('parent_id')->whereIn('name', ['Program', 'Organization', 'Resource'])->orderByRaw("FIELD(name , 'Program', 'Organization', 'Resource') ASC")->with('childItems')->get();
 
         $html = \View::make('partials.categories', ['catHierarchies' => $categories, 'activeCat' => null, 'activeParent' => null, 'activeGrandParent' => null])->render();
         file_put_contents(resource_path('views/cache/categories_cache.blade.php'), $html);

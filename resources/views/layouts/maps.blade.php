@@ -62,7 +62,7 @@
                             <div style="padding-right: 25px; margin-top: 15px;">
                                 <a href="/tech" class="overlay @if(@$menu == 'tech') active @endif" style="margin-right: 10px;">The Tech</a>
                                 <a href="/people" class="overlay @if(@$menu == 'people') active @endif" style="margin-right: 10px;">The People</a>
-                                <a href="/adjacent" class="overlay @if(@$menu == 'adj') active @endif" style="margin-right: 10px;">Adjacent Fields</a>
+                                <a href="/adjacent" class="overlay @if(@$menu == 'adjacent') active @endif" style="margin-right: 10px;">Adjacent Fields</a>
                                 <a href="/listing-categories" class="overlay @if(@$menu == 'categories') active @endif" style="margin-right: 10px;">All Categories</a>
                                 <a href="/tags" class="overlay @if(@$menu == 'tags') active @endif" style="margin-right: 10px;">Tags</a>
                                 <a href="/world-map" class="@if(@$menu == 'map') active @endif" style="margin-right: 10px;">World Map</a>

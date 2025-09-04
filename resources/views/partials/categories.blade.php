@@ -132,29 +132,41 @@
 
 <nav class="sidebar card py-2 mb-4">
     <ul class="nav flex-column" id="nav_accordion">
-        @foreach($catHierarchies as $catHierachy)
-            <li class="nav-item has-submenu <?php if(/*@$activeParent->name == $catHierachy->name || */@$activeCat == $catHierachy->name ) { echo 'active'; } ?>">
-                <a class="nav-link overlay" href="/listing-category/{{ $catHierachy->slug }}" title="{{ $catHierachy->name }}">
-                    <span class="text-sm <?php if(@$activeCat == $catHierachy->name ) { echo 'text-white-600'; } ?>">
-                        {{ $catHierachy->name }}
-                    </span>
-                </a>
-                <a class="nav-link submenu-button <?php if(/*@$activeParent->name == $catHierachy->name || */@$activeCat == $catHierachy->name ) { echo 'menu-open'; } ?>">
-                    <span class="text-sm" style="margin-top: -15px !important;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"  style="margin-top: -15px !important;">
-                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                        </svg>
-                    </span>
-                </a>
-                @if(count($catHierachy->childItems))
-                    <ul class="submenu collapse <?php if(@$activeParent->name == $catHierachy->name || @$activeCat == $catHierachy->name ) { echo 'show'; } ?>">
-                        @foreach($catHierachy->childItems as $childItems)
-                            @include('partials.sub_menus', ['sub_items' => $childItems])
-                        @endforeach
-                    </ul>
-                @endif
+        <!-- Dynamic Categories from Database -->
+        @if(isset($catHierarchies) && count($catHierarchies) > 0)
+            @foreach($catHierarchies as $category)
+                <li class="nav-item has-submenu <?php if(@$activeCat == $category->name ) { echo 'active'; } ?>">
+                    <a class="nav-link overlay" href="/listing-category/{{ $category->slug }}" title="{{ $category->name }}">
+                        <span class="text-sm <?php if(@$activeCat == $category->name ) { echo 'text-white-600'; } ?>">
+                            {{ $category->name }}
+                        </span>
+                    </a>
+                    @if(count($category->childItems) > 0)
+                        <a class="nav-link submenu-button <?php if(@$activeCat == $category->name ) { echo 'menu-open'; } ?>">
+                            <span class="text-sm" style="margin-top: -15px !important;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"  style="margin-top: -15px !important;">
+                                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                            </span>
+                        </a>
+                        <ul class="collapse submenu">
+                            @foreach($category->childItems as $childItem)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/listing-category/{{ $childItem->slug }}" title="{{ $childItem->name }}">
+                                        <span class="text-sm">{{ $childItem->name }}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </li>
+            @endforeach
+        @else
+            <!-- Fallback if no categories found -->
+            <li class="nav-item">
+                <span class="text-sm text-muted">No categories available</span>
             </li>
-        @endforeach
+        @endif
     </ul>
 </nav>
 

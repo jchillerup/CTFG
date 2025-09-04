@@ -30,8 +30,8 @@ class RenderTagView implements ShouldQueue
      */
     public function handle() {
         $tags = Tag::whereNull('parent_id')
-            ->whereIn('name', ['Issue', 'Format', 'Community', 'Current event', 'Sustainable Development Goals', 'Political unit', 'Platform', 'Feature', 'coop', 'Other'])
-            ->orderByRaw("FIELD(name , 'Issue', 'Format', 'Community', 'Current event', 'Sustainable Development Goals', 'Political unit', 'Platform', 'Feature', 'coop', 'Other') ASC")
+            ->whereIn('name', ['Publication', 'Digital Democracy Initiative', 'Research'])
+            ->orderByRaw("FIELD(name , 'Publication', 'Digital Democracy Initiative', 'Research') ASC")
             ->with('childItems')
             ->get();
 

@@ -142,7 +142,8 @@ class ListingController extends Controller {
                 $list->postmortem = @$l["fields"]["Postmortem"];
                 $list->host_organization = @$l["fields"]["Host organization"];
                 $list->host_organization_url = @$l["fields"]["Host organization URL"];
-                $list->parent_organization = @$l["fields"]["Parent Organisation"];
+                // Use Organization type as parent_organization since "Parent organization(s)" field doesn't exist
+                $list->parent_organization = @$l["fields"]["Organization type"][0];
                 
                 // Log organization and language data from Airtable
                 $hostOrgField = @$l["fields"]["Host organization"];
@@ -243,24 +244,25 @@ class ListingController extends Controller {
      */ 
     public function updateParents($listings) {
         foreach ($listings as $listing) {
-            if (!empty(@$listing["fields"]["Parent organization(s)"]) && sizeof(@$listing["fields"]["Parent organization(s)"]) > 0) {
-                $dbList = Listing::where('airtable_id', $listing["id"])->first();
-                if ($dbList) {
-                    $parentListing = Listing::where('airtable_id', $listing["fields"]["Parent organization(s)"][0])->first();
+            // Note: "Parent organization(s)" field doesn't exist in Airtable
+            // if (!empty(@$listing["fields"]["Parent organization(s)"]) && sizeof(@$listing["fields"]["Parent organization(s)"]) > 0) {
+            //     $dbList = Listing::where('airtable_id', $listing["id"])->first();
+            //     if ($dbList) {
+            //         $parentListing = Listing::where('airtable_id', $listing["fields"]["Parent organization(s)"][0])->first();
 
-                    if ($parentListing) {
-                        $dbList->update([
-                            'parent_id' => $parentListing->id
-                        ]);
-                    }
+            //         if ($parentListing) {
+            //         $dbList->update([
+            //             'parent_id' => $parentListing->id
+            //         ]);
+            //     }
 
-                    // Update cover image - used in sort algo
-                    $cover = $dbList->media->first()->display_url ?? null;
-                    $dbList->update([
-                        'cover_image' => $cover
-                    ]);
-                }
-            }
+            //         // Update cover image - used in sort algo
+            //         $cover = $dbList->media->first()->display_url ?? null;
+            //         $dbList->update([
+            //             'cover_image' => $cover
+            //         ]);
+            //     }
+            // }
         }
     }
 

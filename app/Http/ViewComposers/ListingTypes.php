@@ -37,6 +37,6 @@ class ListingTypes
      */
     public function compose(View $view)
     {
-        $view->with(['listingTypes' => $this->types]);
+        $view->with(['listingTypes' => $this->types, 'filterTypes' => $this->types]);
     }
 }

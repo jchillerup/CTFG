@@ -50,7 +50,11 @@
                 </div>
 
                 <div class="col-lg-12 col-md-12">
-                    {{ $projects->withQueryString()->links() }}
+                    @if(method_exists($projects, 'withQueryString'))
+                        {{ $projects->withQueryString()->links() }}
+                    @else
+                        {{ $projects->links() }}
+                    @endif
                 </div>
 
             </div>

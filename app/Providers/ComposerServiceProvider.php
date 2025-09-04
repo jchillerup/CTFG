@@ -27,13 +27,9 @@ class ComposerServiceProvider extends ServiceProvider
             '*', 'App\Http\ViewComposers\Categories',
         );
 
-        /*view()->composer(
+        view()->composer(
             '*', 'App\Http\ViewComposers\CategoryHierarchies',
         );
-
-        view()->composer(
-            '*', 'App\Http\ViewComposers\TagHierarchies',
-        ); */
 
         view()->composer(
             '*', 'App\Http\ViewComposers\ListingTypes',
@@ -50,10 +46,15 @@ class ComposerServiceProvider extends ServiceProvider
 
         view()->composer(
             ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],
+            'App\Http\ViewComposers\TagHierarchies'
+        );
+
+        view()->composer(
+            ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],
             'App\Http\ViewComposers\Countries'
         );
 
-                view()->composer(
+        view()->composer(
             ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],
             'App\Http\ViewComposers\ParentOrganizations'
         );
@@ -67,5 +68,16 @@ class ComposerServiceProvider extends ServiceProvider
             ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],
             'App\Http\ViewComposers\Organizations'
         );
+
+        view()->composer(
+            ['projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],
+            'App\Http\ViewComposers\Categories'
+        );
+
+        view()->composer(
+            ['projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],
+            'App\Http\ViewComposers\ListingTypes'
+        );
+
     }
 }

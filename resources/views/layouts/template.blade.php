@@ -86,7 +86,7 @@
             <div>&nbsp;</div>
         @endif
 
-        <div class="container" style="width: 100%">
+        <div class="container" style="width: 100%; max-width: 1400px; padding: 0 20px;">
             @yield('content')
         </div>
 

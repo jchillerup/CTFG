@@ -268,8 +268,8 @@ class ProjectController extends Controller {
     // Get tags table
     public function tagsTable() {
         $tags = Tag::whereNull('parent_id')
-            ->whereIn('name', ['Issue', 'Format', 'Community', 'Current event', 'Sustainable Development Goals', 'Political unit', 'Platform', 'Feature', 'coop', 'Other'])
-            ->orderByRaw("FIELD(name , 'Issue', 'Format', 'Community', 'Current event', 'Sustainable Development Goals', 'Political unit', 'Platform', 'Feature', 'coop', 'Other') ASC")
+            ->whereIn('name', ['Publication'])
+            ->orderByRaw("FIELD(name , 'Publication') ASC")
             ->with('childItems')
             ->get();
 

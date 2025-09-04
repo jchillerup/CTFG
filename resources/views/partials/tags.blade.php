@@ -128,35 +128,41 @@
 
 <nav class="sidebar card py-2 mb-4">
     <ul class="nav flex-column" id="nav_accordion">
-        @foreach($tagHierarchies as $tagHierarchy)
-            <li class="nav-item has-subtag">
-                <a class="nav-link" href="/listing-tag/{{ $tagHierarchy->name }}" title="{{ $tagHierarchy->name }}">
-                    <span class="text-sm <?php if(@$activeTag->name == $tagHierarchy->name ) { echo 'text-white-600'; } ?>">
-                        {{ $tagHierarchy->name }}
-                    </span>
-                </a>
-                <a class="nav-link subtag-button">
-                    <span class="text-sm" style="margin-top: -15px !important;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"  style="margin-top: -15px !important;">
-                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                        </svg>
-                    </span>
-                </a>
-                @if(count($tagHierarchy->childItems))
-                    {{-- <ul class="subtag collapse <?php if(@$activeParentTag->name == $tagHierarchy->name ) { echo 'show'; } ?>">
-                        @foreach($tagHierarchy->childItems as $childItems)
-                            @include('partials.sub_tags', ['sub_tags' => $childItems])
-                        @endforeach
-                    </ul> --}}
-
-                    <ul class="subtag collapse">
-                        @foreach($tagHierarchy->childItems as $childItems)
-                            @include('partials.sub_tags', ['sub_tags' => $childItems])
-                        @endforeach
-                    </ul>
-                @endif
+        <!-- Dynamic Tags from Database -->
+        @if(isset($tagHierarchies) && count($tagHierarchies) > 0)
+            @foreach($tagHierarchies as $tag)
+                <li class="nav-item has-subtag <?php if(@$activeTag->name == $tag->name ) { echo 'active'; } ?>">
+                    <a class="nav-link" href="/listing-tag/{{ $tag->name }}" title="{{ $tag->name }}">
+                        <span class="text-sm <?php if(@$activeTag->name == $tag->name ) { echo 'text-white-600'; } ?>">
+                            {{ $tag->name }}
+                        </span>
+                    </a>
+                    @if(count($tag->childItems) > 0)
+                        <a class="nav-link subtag-button <?php if(@$activeTag->name == $tag->name ) { echo 'tag-open'; } ?>">
+                            <span class="text-sm" style="margin-top: -15px !important;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"  style="margin-top: -15px !important;">
+                                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                            </span>
+                        </a>
+                        <ul class="collapse subtag">
+                            @foreach($tag->childItems as $childTag)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/listing-tag/{{ $childTag->name }}" title="{{ $childTag->name }}">
+                                        <span class="text-sm">{{ $childTag->name }}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </li>
+            @endforeach
+        @else
+            <!-- Fallback if no tags found -->
+            <li class="nav-item">
+                <span class="text-sm text-muted">No tags available</span>
             </li>
-        @endforeach
+        @endif
     </ul>
 </nav>
 

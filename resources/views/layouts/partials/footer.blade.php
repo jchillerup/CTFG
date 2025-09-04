@@ -36,21 +36,28 @@
             <div class="col-md-12" style="text-align: center;">
                 <div class="row">
                     <div class="col-md-12 margin-top-20">
-                        <h3 style="margin-bottom: 20px;">Connecting Current is a project under the Digital Democracy
-                            Initiative</h3>
-                        <img src="{{ asset('images/ddi-logo.png') }}" alt="Digital Democracy Initiative logo"
-                            style="max-height: 80px; margin-bottom: 30px;" />
+                        <h3 style="margin-bottom: 20px;">Connecting Current is a project under the <a
+                                href="https://digitaldemocracyinitiative.net/">Digital Democracy
+                                Initiative</a></h3>
+                        <a href="https://digitaldemocracyinitiative.net/">
+                            <img src="{{ asset('images/ddi-logo.png') }}" alt="Digital Democracy Initiative logo"
+                                style="max-height: 80px; margin-bottom: 30px;">
+                        </a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12 margin-top-20">
-                        <h3 style="margin-bottom: 20px;">Built in collaboration between Global Focus and CIVICUS</h3>
+                        <h3 style="margin-bottom: 20px;">Built in collaboration between <a
+                                href="https://globaltfokus.dk/en">Global Focus</a> and <a
+                                href="https://www.civicus.org/index.php/what-we-do/enabling-and-resourcing/digital-democracy-initiative">CIVICUS</a>
+                        </h3>
                         <div
                             style="display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap;">
                             <img src="{{ asset('images/global-focus-logo.png') }}" alt="Global Focus logo"
-                                style="max-height: 60px;" />
+                                style="max-height: 60px;"> <a href="https://globaltfokus.dk/en" /></img>
                             <img src="{{ asset('images/civicus-logo.jpg') }}" alt="CIVICUS logo"
-                                style="max-height: 60px;" />
+                                style="max-height: 60px;" /><a
+                                href="https://www.civicus.org/index.php/what-we-do/enabling-and-resourcing/digital-democracy-initiative" />
                         </div>
                     </div>
                 </div>

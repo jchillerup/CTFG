@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 
 class ParentCategoryController extends Controller {
-    // Get categories under the Tech
+    // Get categories under The Tech
     public function theTech() {
-        $tech = Category::where('name', 'The Tech')->first();
+        $theTech = Category::where('name', 'The Tech')->first();
 
-        $categories = Category::where('parent_id', $tech->id)->orderBy('order_sort', 'ASC')->with('childItems')->get();
+        $categories = Category::where('parent_id', $theTech->id)->orderBy('order_sort', 'ASC')->with('childItems')->get();
         return view ('category.hierarchies', [
             'items' => $categories,
             'title' => 'The Tech',
@@ -20,11 +20,11 @@ class ParentCategoryController extends Controller {
         ]);
     }
 
-    // Get categories under the People
+    // Get categories under The People
     public function thePeople() {
-        $people = Category::where('name', 'The People')->first();
+        $thePeople = Category::where('name', 'The People')->first();
 
-        $categories = Category::where('parent_id', $people->id)->orderBy('order_sort', 'ASC')->with('childItems')->get();
+        $categories = Category::where('parent_id', $thePeople->id)->orderBy('order_sort', 'ASC')->with('childItems')->get();
 
         return view ('category.hierarchies', [
             'items' => $categories,
@@ -33,16 +33,16 @@ class ParentCategoryController extends Controller {
         ]);
     }
 
-    // Get categories under adjacent technologies
+    // Get categories under Adjacent Fields
     public function adjacent() {
-        $adj = Category::where('name', 'Adjacent Fields')->first();
+        $adjacent = Category::where('name', 'Adjacent Fields')->first();
 
-        $categories = Category::where('parent_id', $adj->id)->orderBy('order_sort', 'ASC')->with('childItems')->get();
+        $categories = Category::where('parent_id', $adjacent->id)->orderBy('order_sort', 'ASC')->with('childItems')->get();
         
         return view ('category.hierarchies', [
             'items' => $categories,
             'title' => 'Adjacent Fields',
-            'menu' => 'adj',
+            'menu' => 'adjacent',
         ]);
     }
 }
