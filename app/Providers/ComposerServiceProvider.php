@@ -49,10 +49,6 @@ class ComposerServiceProvider extends ServiceProvider
             'App\Http\ViewComposers\TagHierarchies'
         );
 
-        view()->composer(
-            ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],
-            'App\Http\ViewComposers\Countries'
-        );
 
         view()->composer(
             ['welcome', 'projects.projects-by-category', 'projects.projects-by-tag', 'projects.search-results'],

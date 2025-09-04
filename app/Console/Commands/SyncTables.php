@@ -58,13 +58,10 @@ class SyncTables extends Command
             app(\App\Http\Controllers\Airtable\Sync\KnowledgeController::class)->syncKnowledge();
             error_log('=== KNOWLEDGE SYNC COMPLETED ===');
 
-            error_log('=== STARTING BOUNDARIES SYNC ===');
-            app(\App\Http\Controllers\Airtable\Sync\BoundaryController::class)->syncBoundary();
-            error_log('=== BOUNDARIES SYNC COMPLETED ===');
+            error_log('=== STARTING ORGANIZATIONS SYNC ===');
+            app(\App\Http\Controllers\Airtable\Sync\OrganizationController::class)->syncOrganizations();
+            error_log('=== ORGANIZATIONS SYNC COMPLETED ===');
 
-            error_log('=== STARTING LOCATIONS SYNC ===');
-            app(\App\Http\Controllers\Airtable\Sync\LocationController::class)->syncLocation();
-            error_log('=== LOCATIONS SYNC COMPLETED ===');
 
             error_log('=== STARTING MEDIA SYNC ===');
             app(\App\Http\Controllers\Airtable\Sync\MediaController::class)->syncMedia();

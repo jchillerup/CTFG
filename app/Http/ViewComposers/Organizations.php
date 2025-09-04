@@ -15,8 +15,8 @@ class Organizations
      * @return void
      */
     public function __construct() {
-        // Get organizations from the knowledge table (dedicated organizations table)
-        $organizations = \App\Models\Knowledge::select('name')
+        // Get organizations from the organizations table
+        $organizations = \App\Models\Organization::select('name')
             ->distinct()
             ->orderBy('name', 'ASC')
             ->pluck('name');

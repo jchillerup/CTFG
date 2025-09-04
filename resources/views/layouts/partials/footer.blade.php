@@ -53,11 +53,13 @@
                         </h3>
                         <div
                             style="display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap;">
+                            <a href="https://globaltfokus.dk/en" />
                             <img src="{{ asset('images/global-focus-logo.png') }}" alt="Global Focus logo"
-                                style="max-height: 60px;"> <a href="https://globaltfokus.dk/en" /></img>
-                            <img src="{{ asset('images/civicus-logo.jpg') }}" alt="CIVICUS logo"
-                                style="max-height: 60px;" /><a
+                                style="max-height: 60px;"> </a>
+                            <a
                                 href="https://www.civicus.org/index.php/what-we-do/enabling-and-resourcing/digital-democracy-initiative" />
+                            <img src="{{ asset('images/civicus-logo.jpg') }}" alt="CIVICUS logo"
+                                style="max-height: 60px;"></a>
                         </div>
                     </div>
                 </div>

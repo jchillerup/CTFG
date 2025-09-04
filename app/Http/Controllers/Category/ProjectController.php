@@ -80,20 +80,6 @@ class ProjectController extends Controller {
                     $builder->whereIn('name', $categories);
                 });
             })
-            ->when(request('countries'), function($builder) {
-                $countries = request('countries');
-
-                $builder->when(count($countries),function ($builder) use ($countries) {
-                    $builder->whereHas('location', function($builder) use ($countries) {
-                        $builder->where( function($builder) use ($countries) {
-                            foreach ($countries as $country) {
-                                $builder->orWhere('country', 'LIKE', '%' . $country . '%');
-                                //$builder->orWhere('name', 'LIKE', '%' . $country . '%');
-                            }
-                        });
-                    });
-                }); 
-            })
             ->when(request('opensource'), function($builder) {
                 $builder->where('open_source', request('opensource'));
             })
@@ -124,6 +110,7 @@ class ProjectController extends Controller {
             ->when(request('q'), function($builder) {
                 $builder->searchQuery(request('q'));
             })
+            ->with('organization')
             ->orderBy('created', 'DESC')
             ->paginate(50);
 
@@ -234,6 +221,7 @@ class ProjectController extends Controller {
             ->when(request('q'), function($builder) {
                 $builder->searchQuery(request('q'));
             })
+            ->with('organization')
             ->orderBy('created', 'DESC')
             ->paginate(50);
 

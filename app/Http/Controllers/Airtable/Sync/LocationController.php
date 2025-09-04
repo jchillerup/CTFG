@@ -9,7 +9,6 @@ use Airtable;
 use DB;
 
 use App\Models\Location;
-use App\Models\Country;
 use App\Models\Boundary;
 
 class LocationController extends Controller {
@@ -84,20 +83,4 @@ class LocationController extends Controller {
         \Log::info("Location table sync finished at ".date('Y-m-d H:i:s')." ... ".$count." records synced (filtered from " . count($allLocations) . " total).");
     }
 
-    /**
-     * Sync country names
-     * 
-     */
-    public function syncCountryNames() {
-        // Turkey
-        $alias = "Türkiye";
-        $turkey = Location::where('name', 'LIKE', '%'.$alias.'%')->get();
-        if ($turkey->count() > 0) {
-            foreach ($turkey as $tk) {
-                $tk->update([
-                    'country' => 'Turkey',
-                ]);
-            }
-        }
-    } 
 }

@@ -25,16 +25,22 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule) {
         $schedule->command('sync:tables')
-            ->dailyAt('3:00')
+            ->hourly()
             ->timezone('UTC');
 
         $schedule->command('render-cache:category')
-            ->dailyAt('2:30')
-            ->timezone('America/New_York');
+            ->hourly()
+            ->timezone('America/New_York')
+            ->after(function () {
+                // Run 5 minutes after sync to ensure data is available
+            });
 
         $schedule->command('render-cache:tag')
-            ->dailyAt('2:45')
-            ->timezone('America/New_York');
+            ->hourly()
+            ->timezone('America/New_York')
+            ->after(function () {
+                // Run 5 minutes after sync to ensure data is available
+            });
 
         $environment = App::environment();
         if ($environment == "production") {

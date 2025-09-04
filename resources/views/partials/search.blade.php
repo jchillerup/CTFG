@@ -11,7 +11,7 @@
             </div>
         </div>
         <!-- <div class="col-md-2">
-            <a href="/search-log" style="color: #0A78C2; line-height: 70px; float: right;">
+            <a href="/search-log" style="color: #28a745; line-height: 70px; float: right;">
                 Search Log
             </a>
         </div> -->
@@ -22,7 +22,7 @@
             <div class="main-search-box no-shadow margin-bottom-30" style="border-bottom: 2px dotted #ccc;">
                 <div class="row with-forms margin-bottom-30">
                     <!-- <input type="hidden" name="q" value="{{ @$query }}"> -->
-                    <div class="col-md-4 col-sm-12">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                         <label for="filter-categories-input" class="visually-hidden">Categories</label>
                         <select id="filter-categories-input" name="categories[]" data-placeholder="All Categories" class="chosen-select-no-single" multiple style="display: none;">
                             @foreach($categories as $cat)
@@ -31,7 +31,7 @@
                         </select>
                     </div>
 
-                    <div class="col-md-4 col-sm-12">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                         <label for="filter-tags-input" class="visually-hidden">Tags</label>
                         <select id="filter-tags-input" name="tags[]" data-placeholder="All Tags" class="chosen-select-no-single" multiple style="display: none;">
                             @foreach($allTags as $tag)
@@ -40,7 +40,7 @@
                         </select>
                     </div>
 
-                    <div class="col-md-4 col-sm-12">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                         <label for="filter-project-type-input" class="visually-hidden">Type</label>
                         <select id="filter-project-type-input" name="types[]" data-placeholder="Type" class="chosen-select-no-single" multiple style="display: none;">
                             @foreach($listingTypes as $type)
@@ -49,7 +49,7 @@
                         </select>
                     </div>
 
-                    <div class="col-md-4 col-sm-12">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                         <label for="filter-languages-input" class="visually-hidden">Languages</label>
                         <select id="filter-languages-input" name="languages[]" data-placeholder="All Languages" class="chosen-select-no-single" multiple style="display: none;">
                             @foreach($allLanguages as $lang)
@@ -58,20 +58,10 @@
                         </select>
                     </div>
 
-                    
-                    <div class="col-md-4 col-sm-12">
-                        <label for="filter-countries-input" class="visually-hidden">Countries</label>
-                        <select id="filter-countries-input" name="countries[]" data-placeholder="All Countries" id="countries" class="chosen-select-no-single" multiple style="display: none;">
-                            @foreach($allCountries as $country)
-                                <option value="{{ $country->name }}">{{ $country->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="col-md-4 col-sm-12">
-                        <label for="filter-parent-organizations-input" class="visually-hidden">Organizations</label>
-                        <select id="filter-parent-organizations-input" name="parentorganizations[]" data-placeholder="All Organizations" class="chosen-select-no-single" multiple style="display: none;">
-                            @foreach($allParentOrganizations as $org)
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <label for="filter-organizations-input" class="visually-hidden">Organizations</label>
+                        <select id="filter-organizations-input" name="organizations[]" data-placeholder="All Organizations" class="chosen-select-no-single" multiple style="display: none;">
+                            @foreach($allOrganizations as $org)
                                 <option value="{{ $org }}">{{ $org }}</option>
                             @endforeach
                         </select>
@@ -101,17 +91,17 @@
 
                 </div>
                 <div class="row with-forms margin-bottom-30">
-                    <div class="col-md-3 col-sm-12">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                         <label for="filter-date-from-input" class="visually-hidden">Publication Date From</label>
                         <input id="filter-date-from-input" name="date_from" type="date" placeholder="Publication Date From" value="{{ @$filterDateFrom }}" />
                     </div>
 
-                    <div class="col-md-3 col-sm-12">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                         <label for="filter-date-to-input" class="visually-hidden">Publication Date To</label>
                         <input id="filter-date-to-input" name="date_to" type="date" placeholder="Publication Date To" value="{{ @$filterDateTo }}" />
                     </div>
 
-                    <div class="col-md-6" style="text-align: right;">
+                    <div class="col-lg-6 col-md-4 col-sm-12 col-12" style="text-align: right;">
                         <button class="button" id="search" style="padding: 8px 30px;">Search</button>
                     </div>
                 </div>

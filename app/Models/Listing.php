@@ -9,7 +9,7 @@ class Listing extends Model {
     protected $table = "listings";
 
     protected $fillable = [
-        'parent_id', 'host_org_id', 'host_organization', 'parent_organization', 'slug', 'name', 'raw_description', 'markdown_description', 'is_twitter_feed', 'is_youtube_channel', 'is_slideshare_embed', 'project_stage', 'features', 'used_by', 'no_of_employees', 'pricing_information', 'wikidata_api_field', 'last_modified', 'created', 'slack_url', 'crunchbase_url', 'wikimedia_url', 'tiktok_url', 'has_iframe_embed', 'has_twitter_feed', 'first_location', 'first_country', 'country', 'cover_image', 'introduction', 'type', 'github_url', 'hq_location', 'contact_form_email', 'hide',
+        'parent_id', 'host_org_id', 'organization_id', 'host_organization', 'parent_organization', 'slug', 'name', 'raw_description', 'markdown_description', 'is_twitter_feed', 'is_youtube_channel', 'is_slideshare_embed', 'project_stage', 'features', 'used_by', 'no_of_employees', 'pricing_information', 'wikidata_api_field', 'last_modified', 'created', 'slack_url', 'crunchbase_url', 'wikimedia_url', 'tiktok_url', 'has_iframe_embed', 'has_twitter_feed', 'first_location', 'first_country', 'country', 'cover_image', 'introduction', 'type', 'github_url', 'hq_location', 'contact_form_email', 'hide',
     ];
 
     protected $casts = [
@@ -30,6 +30,10 @@ class Listing extends Model {
 
     public function hostOrg() {
         return $this->belongsTo('App\Models\Knowledge', 'host_org_id');
+    }
+
+    public function organization() {
+        return $this->belongsTo('App\Models\Organization', 'organization_id');
     }
 
     public function categories() {

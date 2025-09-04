@@ -28,7 +28,7 @@ class ProjectController extends Controller {
     public function singleProject(Request $request) {
         $slug = $request->segment(2);
 
-        $project = Listing::where('slug', $slug)->first();
+        $project = Listing::with('organization')->where('slug', $slug)->first();
 
         if (!$project) {
             return abort(404);
@@ -69,20 +69,6 @@ class ProjectController extends Controller {
                     $builder->whereIn('name', $categories);
                 });
             })
-            ->when(request('countries'), function($builder) {
-                $countries = request('countries');
-
-                $builder->when(count($countries),function ($builder) use ($countries) {
-                    $builder->whereHas('location', function($builder) use ($countries) {
-                        $builder->where( function($builder) use ($countries) {
-                            foreach ($countries as $country) {
-                                $builder->orWhere('country', 'LIKE', '%' . $country . '%');
-                                //$builder->orWhere('name', 'LIKE', '%' . $country . '%');
-                            }
-                        });
-                    });
-                }); 
-            })
             ->when(request('opensource'), function($builder) {
                 $builder->where('open_source', request('opensource'));
             })
@@ -115,8 +101,8 @@ class ProjectController extends Controller {
             })
             ->when(request('organizations'), function($builder) {
                 $organizations = request('organizations');
-                // Filter projects that are hosted by the selected organizations
-                $builder->whereHas('hostOrg', function($query) use ($organizations) {
+                // Filter projects by the selected organizations
+                $builder->whereHas('organization', function($query) use ($organizations) {
                     $query->whereIn('name', $organizations);
                 });
             })
@@ -144,6 +130,7 @@ class ProjectController extends Controller {
                     });
                 }
             })
+            ->with('organization')
             ->orderBy('created', 'DESC')
             ->paginate(50);
 

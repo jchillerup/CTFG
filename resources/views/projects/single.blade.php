@@ -12,19 +12,6 @@
             margin: 0 auto;
         }
 
-        .listing-titlebar {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        .listing-titlebar img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 6px;
-        }
 
         .listing-section {
             background: #fff;
@@ -63,13 +50,11 @@
         }
 
         /* Content spacing inside cards */
-        .listing-titlebar > *,
         .listing-section > *,
         .additional-info-section > * {
             margin-bottom: 10px;
         }
 
-        .listing-titlebar > *:last-child,
         .listing-section > *:last-child,
         .additional-info-section > *:last-child {
             margin-bottom: 0;
@@ -100,13 +85,11 @@
         }
 
         /* Content spacing inside cards */
-        .listing-titlebar > *,
         .listing-section > *,
         .additional-info-section > * {
             margin-bottom: 10px;
         }
 
-        .listing-titlebar > *:last-child,
         .listing-section > *:last-child,
         .additional-info-section > *:last-child {
             margin-bottom: 0;
@@ -118,7 +101,6 @@
                 padding: 0 15px;
             }
 
-            .listing-titlebar,
             .listing-section,
             .additional-info-section {
                 padding: 10px;
@@ -137,6 +119,72 @@
             .table-responsive th {
                 min-width: 120px;
             }
+
+            /* Mobile-specific listing item styles */
+            .listing-item-container {
+                padding: 15px !important;
+                margin-bottom: 20px !important;
+            }
+
+            .listing-item {
+                display: block !important;
+                flex-wrap: unset !important;
+            }
+
+            .listing-item-image {
+                flex: none !important;
+                width: 100% !important;
+                margin-right: 0 !important;
+                margin-bottom: 15px !important;
+                min-height: 120px !important;
+            }
+
+            .listing-item-content {
+                flex: none !important;
+                width: 100% !important;
+                padding: 0 !important;
+            }
+
+            .listing-title h4 {
+                font-size: 18px !important;
+                line-height: 1.4 !important;
+            }
+
+            .listing-title h4 a {
+                word-wrap: break-word !important;
+                overflow-wrap: break-word !important;
+            }
+
+            /* Mobile link styles */
+            .listing-footer a {
+                font-size: 12px !important;
+                word-break: break-all !important;
+                display: block !important;
+                margin-top: 10px !important;
+            }
+
+            /* Mobile badge styles */
+            .listing-item-content span {
+                font-size: 11px !important;
+                padding: 3px 6px !important;
+                margin: 1px 2px 1px 0 !important;
+            }
+
+            /* Mobile table responsiveness */
+            .table-responsive {
+                font-size: 12px;
+            }
+
+            .table-responsive th,
+            .table-responsive td {
+                padding: 8px 4px;
+                word-break: break-word;
+            }
+
+            .table-responsive th {
+                min-width: 80px;
+                font-size: 11px;
+            }
         }
 
         /* Tablet responsiveness */
@@ -145,7 +193,6 @@
                 padding: 0 20px;
             }
 
-            .listing-titlebar,
             .listing-section,
             .additional-info-section {
                 padding: 15px;
@@ -165,55 +212,36 @@
 @section('content')
     <div class="row sticky-wrapper">
         <div class="col-lg-12 col-md-12 col-sm-12">
-            <div id="titlebar" class="listing-titlebar">
+            <!-- Project Title Section -->
+            <div class="listing-section">
                 <div class="row">
                     <div class="col-lg-4 col-md-4">
-                        <!-- <img src="{{ @$project->media->last()->link }}" height="150px" title="Project image" alt="Graphic representing {!! $project->name !!}"/> -->
                         @if (@$project->media->first())
                             <img src="{{ @$project->media->first()->display_url }}" loading="lazy"
-                                alt="Graphic representing {!! $project->name !!}">
+                                alt="Graphic representing {!! $project->name !!}" style="max-width: 100%; height: auto; border-radius: 6px;">
                         @else
                             <img src="{{ asset('images/gray.png') }}" loading="lazy"
-                                alt="Graphic representing {!! $project->name !!}">
+                                alt="Graphic representing {!! $project->name !!}" style="max-width: 100%; height: auto; border-radius: 6px;">
                         @endif
-
                     </div>
                     <div class="col-lg-8 col-md-8">
-                        <div class="listing-titlebar-title">
-                            <h2>{!! $project->name !!}</h2>
-                            {{-- @if (!empty($project->email))
-                            <br>
-                            <span>
-                                <a href="#">
-                                    <i class="fa fa-envelope-o"></i>
-                                    {{ @$project->email }}
+                        <h1 style="margin-top: 0; margin-bottom: 15px; color: #333;">{!! $project->name !!}</h1>
+                        @if (!empty($project->website_url))
+                            <p style="margin-bottom: 10px;">
+                                <a href="{{ @$project->website_url }}" target="_blank" style="color: #28a745; text-decoration: none;">
+                                    <i class="fa fa-globe"></i>
+                                    {{ @$project->website_url }}
                                 </a>
-                            </span>
-                        @endif --}}
-                            @if (!empty($project->website_url))
-                                <br>
-                                <span>
-                                    <a href="{{ @$project->website_url }}" target="_blank">
-                                        <i class="fa fa-globe"></i>
-                                        {{ @$project->website_url }}
-                                    </a>
-                                </span>
-                            @endif
-                            @if ($project->location->count() > 0)
-                                <br>
-                                <span>
-                                    {{-- <a href="https://maps.google.com/?q={{ $project->latitude }},{{ $project->longitude }}&label={{ $project->name }}" class="popup-gmaps">
-                                    <i class="fa fa-map-marker"></i>
-                                    {{ @$project->location->first()->name }}
-                                </a> --}}
-                                    <i class="fa fa-map-marker"></i>
-                                    {{ @$project->location->first()->name }}
-                                </span>
-                            @endif
-                        </div>
+                            </p>
+                        @endif
+                        @if ($project->location->count() > 0)
+                            <p style="margin-bottom: 10px; color: #666;">
+                                <i class="fa fa-map-marker"></i>
+                                {{ @$project->location->first()->name }}
+                            </p>
+                        @endif
                     </div>
                 </div>
-
             </div>
 
             <div id="listing-overview" class="listing-section">
@@ -242,6 +270,12 @@
                     <div class="table-responsive">
                         <table class="table">
                             <tbody>
+                                @if (!empty(@$project->organization_id) && !empty(@$project->organization))
+                                    <tr>
+                                        <th>Organization: </th>
+                                        <td>{{ $project->organization->name }}</td>
+                                    </tr>
+                                @endif
                                 @if (!empty(@$project->organization_type))
                                     <tr>
                                         <th>Organization Type: </th>

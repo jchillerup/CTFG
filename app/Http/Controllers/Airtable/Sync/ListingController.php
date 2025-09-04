@@ -145,6 +145,19 @@ class ListingController extends Controller {
                 // Use Organization type as parent_organization since "Parent organization(s)" field doesn't exist
                 $list->parent_organization = @$l["fields"]["Organization type"][0];
                 
+                // Sync Organization field - link to organizations table
+                $organizationField = @$l["fields"]["Organization"];
+                $organizationId = null;
+                if (is_array($organizationField) && !empty($organizationField)) {
+                    $organizationAirtableId = $organizationField[0];
+                    $organization = \App\Models\Organization::where('airtable_id', $organizationAirtableId)->first();
+                    $organizationId = $organization ? $organization->id : null;
+                } elseif ($organizationField) {
+                    $organization = \App\Models\Organization::where('airtable_id', $organizationField)->first();
+                    $organizationId = $organization ? $organization->id : null;
+                }
+                $list->organization_id = $organizationId;
+                
                 // Log organization and language data from Airtable
                 $hostOrgField = @$l["fields"]["Host organization"];
                 $hostOrgUrlField = @$l["fields"]["Host organization URL"];

@@ -7,7 +7,7 @@
 </div>
 @foreach($projects as $project)
     <div class="listing-item-container list-layout" style="background: transparent; border: none; box-shadow: none; margin-bottom: 40px; padding: 20px; border-radius: 8px; background-color: #f8f9fa;">
-        <div class="listing-item" style="background: transparent; border: none; box-shadow: none; height: auto; min-height: auto;">
+        <div class="listing-item" style="background: transparent; border: none; box-shadow: none; height: auto; min-height: auto; display: flex; flex-wrap: wrap;">
             <div class="listing-item-image" style="flex: 0 0 200px; min-height: 150px; margin-right: 20px;">
                 <a href="/listing/{{ $project->slug }}" class="listing-img-container" style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; background: white; border-radius: 8px; padding: 10px;">
                     @if(@$project->media->first())
@@ -16,7 +16,7 @@
                 </a>
             </div>
             
-            <div class="listing-item-content" style="flex: 1; padding: 0;">
+            <div class="listing-item-content" style="flex: 1; padding: 0; min-width: 0;">
                 <div class="listing-title" style="margin-bottom: 15px;">
                     <h4 style="margin: 0 0 10px 0; font-size: 22px; line-height: 1.3;">
                         <a href="/listing/{{ $project->slug }}" style="color: #333; text-decoration: none;">
@@ -54,6 +54,24 @@
                             @foreach(@$project->categoriesOrdered->take(3) as $cat)
                                 <a href="/listing-category/{{ @$cat->slug }}" style="display: inline-block; background: #28a745; color: white; padding: 4px 8px; margin: 2px 4px 2px 0; border-radius: 4px; text-decoration: none; font-size: 12px;">{{ @$cat->name }}</a>
                             @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                @if(!empty(@$project->organization_id) && !empty(@$project->organization))
+                    <div style="margin-bottom: 15px;">
+                        <strong style="color: #333; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Organization:</strong>
+                        <div style="margin-top: 5px;">
+                            <span style="display: inline-block; background: #007bff; color: white; padding: 4px 8px; margin: 2px 4px 2px 0; border-radius: 4px; font-size: 12px;">{{ @$project->organization->name }}</span>
+                        </div>
+                    </div>
+                @endif
+
+                @if(!empty(@$project->organization_type))
+                    <div style="margin-bottom: 15px;">
+                        <strong style="color: #333; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Organization Type:</strong>
+                        <div style="margin-top: 5px;">
+                            <span style="display: inline-block; background: #6c757d; color: white; padding: 4px 8px; margin: 2px 4px 2px 0; border-radius: 4px; font-size: 12px;">{{ @$project->organization_type }}</span>
                         </div>
                     </div>
                 @endif
