@@ -61,6 +61,10 @@ Route::get('/test-media-controller', [\App\Http\Controllers\Airtable\Sync\MediaC
 
 Route::get('/email-templates/contact-form', [\App\Http\Controllers\TestController::class, 'contactFormTemplate']);
 
+// Secret sync endpoint for non-tech users
+Route::get('/sync-now/{token}', [\App\Http\Controllers\SecretSyncController::class, 'instantSync'])
+    ->where('token', '[a-zA-Z0-9]{32}');
+
 // For kamal
 Route::get('/up', function () {
     return response()->noContent(200);

@@ -1,5 +1,5 @@
 service: ctfg
-image: jchillerup/ctfg
+image: ryanmunene79/ctfg
 servers:
   web:
     - 51.68.47.136
@@ -12,7 +12,7 @@ proxy:
 registry:
   # Specify the registry server, if you're not using Docker Hub
   server: ghcr.io
-  username: jchillerup
+  username: ryanmunene79
   password: 
    - KAMAL_REGISTRY_PASSWORD
 builder:
@@ -32,6 +32,7 @@ env:
     - APP_KEY
     - AIRTABLE_BASE
     - AIRTABLE_KEY
+    - SYNC_SECRET_TOKEN
 
 # Use a persistent storage volume for media files and logs
 volumes:
@@ -55,7 +56,7 @@ accessories:
       - data:/var/lib/mysql
 
   scheduler:
-    image: ghcr.io/jchillerup/ctfg
+    image: ghcr.io/ryanmunene79/ctfg
     host: 51.68.47.136
     cmd: php artisan schedule:work
     volumes:
@@ -75,3 +76,4 @@ accessories:
         - APP_KEY
         - AIRTABLE_BASE
         - AIRTABLE_KEY
+        - SYNC_SECRET_TOKEN

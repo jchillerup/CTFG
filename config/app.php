@@ -125,6 +125,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Secret Sync Token
+    |--------------------------------------------------------------------------
+    |
+    | This token is used for the secret sync endpoint that allows non-technical
+    | users to trigger instant sync without accessing the server.
+    |
+    */
+
+    'sync_secret_token' => env('SYNC_SECRET_TOKEN', 'Ulc6Q2EI7kqcJYCS4cw8iYTTx9QW9Kle'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |
