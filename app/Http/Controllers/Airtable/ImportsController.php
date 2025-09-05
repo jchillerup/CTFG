@@ -39,7 +39,7 @@ class ImportsController extends Controller {
 
             // app(\App\Http\Controllers\Airtable\Sync\LocationController::class)->syncLocation();
 
-            // app(\App\Http\Controllers\Airtable\Sync\MediaController::class)->syncMedia();
+            app(\App\Http\Controllers\Airtable\Sync\MediaController::class)->syncMedia();
 
             // app(\App\Http\Controllers\Airtable\Sync\PeopleController::class)->syncPeople();
 

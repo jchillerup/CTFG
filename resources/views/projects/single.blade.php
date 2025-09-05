@@ -444,7 +444,7 @@
                     <h3 class="listing-desc-headline margin-top-70">Additional Images</h3>
                     <div class="listing-slider-small mfp-gallery-container margin-bottom-0">
                         @foreach ($project->media as $fi)
-                            <a href="{{ $fi->link }}" data-background-image="{{ $fi->link }}"
+                            <a href="{{ $fi->display_url }}" data-background-image="{{ $fi->display_url }}"
                                 class="item mfp-gallery" title="Featured image"></a>
                         @endforeach
                     </div>

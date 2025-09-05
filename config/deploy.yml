@@ -33,10 +33,9 @@ env:
     - AIRTABLE_BASE
     - AIRTABLE_KEY
 
-# Use a persistent storage volume.
-#
-# volumes:
-#   - "app_storage:/app/storage"
+# Use a persistent storage volume for media files and logs
+volumes:
+  - "app_storage:/ctfg/storage"
 
 # Use accessory services (secrets come from .kamal/secrets).
 accessories:
@@ -59,6 +58,8 @@ accessories:
     image: ghcr.io/jchillerup/ctfg
     host: 51.68.47.136
     cmd: php artisan schedule:work
+    volumes:
+      - "app_storage:/ctfg/storage"
     env:
       clear:
         DB_HOST: ctfg-db

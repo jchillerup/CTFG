@@ -18,6 +18,11 @@ RUN /ctfg/install-composer.sh
 COPY . /ctfg
 RUN [ "php", "composer.phar", "install" ]
 
+# Create storage directories and set permissions
+RUN mkdir -p /ctfg/storage/app/public/media && \
+    chmod -R 755 /ctfg/storage && \
+    php artisan storage:link
+
 
 EXPOSE 80
 CMD ["php", "artisan",  "serve", "--host",  "0.0.0.0", "--port", "80"]

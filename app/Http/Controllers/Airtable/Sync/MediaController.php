@@ -35,6 +35,9 @@ class MediaController extends Controller {
         }
 
         // Recreate media
+        $downloaded = 0;
+        $failed = 0;
+        
         foreach ($media as $f) {
             $md = new Media;
             $md->airtable_id = @$f["id"];
@@ -52,12 +55,21 @@ class MediaController extends Controller {
             $md->link = $imageUrl;
             $md->type = @$f["fields"]["Type"];
             $md->save();
+            
+            // Automatically download Airtable images to prevent expiration
+            if ($imageUrl && strpos($imageUrl, 'airtableusercontent.com') !== false) {
+                if ($md->downloadAndStoreLocally()) {
+                    $downloaded++;
+                } else {
+                    $failed++;
+                }
+            }
         }
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $count = Media::count();
-        \Log::info("Media table sync finished at ".date('Y-m-d H:i:s')." ... ".$count." records synced.");
+        \Log::info("Media table sync finished at ".date('Y-m-d H:i:s')." ... ".$count." records synced. Downloaded: {$downloaded} images, Failed: {$failed}");
     }
 
     /**
