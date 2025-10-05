@@ -1,5 +1,15 @@
 @extends('layouts.template')
 
+@section('styles')
+@if(isset($projects) && $projects->count() > 0)
+    @foreach($projects->take(3) as $project)
+        @if(@$project->media->first())
+            <link rel="preload" as="image" href="{{ @$project->media->first()->thumbnail_url }}">
+        @endif
+    @endforeach
+@endif
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-md-12" style="margin-bottom: 20px;">

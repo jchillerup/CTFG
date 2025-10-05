@@ -9990,11 +9990,11 @@ body .notification strong {
     border-radius: 0 8px 8px 0;
 }
 .listing-item-container.list-layout .listing-item-image {
-    min-height: 200px;
-    flex: 2;
-    height: 100%;
+    min-height: 180px;
+    flex: 0 0 250px;
+    height: 180px;
     overflow: hidden;
-    border-radius: 8px 0 0 8px;
+    border-radius: 8px;
     position: relative;
     margin: 10px;
     background-color: transparent;
@@ -10009,27 +10009,37 @@ body .notification strong {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 5px;
+    margin: 0;
     background-color: #ffffff;
     border-radius: 8px;
-    min-width: 180px;
-    min-height: 180px;
+    min-width: 220px;
+    min-height: 160px;
+    max-width: 250px;
+    padding: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .listing-item-container.list-layout .listing-img-container img {
-    width: 90%;
-    height: 90%;
+    max-width: 100%;
+    max-height: 100%;
     object-fit: contain;
-    border-radius: 8px;
+    border-radius: 4px;
     transition: transform 0.3s ease;
     background-color: transparent;
-    padding: 15px;
-    max-width: 180px;
-    max-height: 180px;
+    padding: 0;
     filter: none !important;
     -webkit-filter: none !important;
     -moz-filter: none !important;
     -ms-filter: none !important;
+    /* Better handling for wide logos */
+    width: auto;
+    height: auto;
+    /* Ensure images don't get squeezed */
+    min-width: auto;
+    min-height: auto;
+    /* Center images in containers */
+    display: block;
+    margin: 0 auto;
 }
 
 .listing-item-container.list-layout .listing-img-container {
@@ -10041,6 +10051,69 @@ body .notification strong {
 
 .listing-item-container.list-layout .listing-img-container:hover img {
     transform: scale(1.05);
+}
+
+/* Image loading states */
+.listing-item-container.list-layout .listing-img-container img {
+    transition: transform 0.3s ease;
+    opacity: 1;
+}
+
+.listing-item-container.list-layout .listing-img-container img.loaded {
+    opacity: 1;
+}
+
+/* Simplified loading - no spinner needed for small thumbnails */
+
+/* Mobile responsive adjustments - MUCH BIGGER images on mobile */
+@media (max-width: 768px) {
+    .listing-item-container.list-layout .listing-item-image {
+        flex: 0 0 300px !important;
+        min-height: 220px !important;
+        margin-right: 0 !important;
+    }
+    
+    .listing-item-container.list-layout .listing-img-container {
+        min-width: 280px !important;
+        min-height: 200px !important;
+        max-width: 300px !important;
+        padding: 8px !important;
+    }
+    
+    .listing-item-container.list-layout {
+        padding: 20px !important;
+        margin-bottom: 25px !important;
+    }
+    
+    .listing-item-container.list-layout .listing-item {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .listing-item-container.list-layout .listing-item-image {
+        flex: 0 0 auto !important;
+        width: 100% !important;
+        max-width: 300px !important;
+        margin: 0 auto 20px auto !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .listing-item-container.list-layout .listing-item-image {
+        max-width: 280px !important;
+        min-height: 200px !important;
+    }
+    
+    .listing-item-container.list-layout .listing-img-container {
+        min-width: 260px !important;
+        min-height: 180px !important;
+        max-width: 280px !important;
+        padding: 6px !important;
+    }
+    
+    .listing-item-container.list-layout {
+        padding: 15px !important;
+    }
 }
 
 /* Override any existing grey scale filters */

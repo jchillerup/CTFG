@@ -105,6 +105,20 @@ return [
             'level'  => 'info',
             'path'   => storage_path('logs/healthcheck.log'),
         ],
+
+        'security' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/security.log'),
+            'level' => 'info',
+            'days' => 30,
+        ],
+
+        'image_optimization' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/image-optimization.log'),
+            'level' => 'info',
+            'days' => 7,
+        ],
     ],
 
 ];

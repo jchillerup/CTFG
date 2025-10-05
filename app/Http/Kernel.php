@@ -21,6 +21,8 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\SecurityHeadersMiddleware::class,
+        \App\Http\Middleware\SecurityLoggingMiddleware::class,
     ];
 
     /**
@@ -66,5 +68,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'cacheable' => \Spatie\Varnish\Middleware\CacheWithVarnish::class,
         'doNotCacheResponse' => \Spatie\ResponseCache\Middlewares\DoNotCacheResponse::class,
+        'rate.limit' => \App\Http\Middleware\RateLimitMiddleware::class,
     ];
 }

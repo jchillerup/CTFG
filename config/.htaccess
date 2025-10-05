@@ -1,0 +1,8 @@
+# Deny access to config directory
+<RequireAll>
+    Require all denied
+</RequireAll>
+
+# Alternative for older Apache versions
+Order Deny,Allow
+Deny from all

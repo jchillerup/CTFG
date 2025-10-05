@@ -8,10 +8,21 @@
 @foreach($projects as $project)
     <div class="listing-item-container list-layout" style="background: transparent; border: none; box-shadow: none; margin-bottom: 40px; padding: 20px; border-radius: 8px; background-color: #f8f9fa;">
         <div class="listing-item" style="background: transparent; border: none; box-shadow: none; height: auto; min-height: auto; display: flex; flex-wrap: wrap;">
-            <div class="listing-item-image" style="flex: 0 0 200px; min-height: 150px; margin-right: 20px;">
-                <a href="/listing/{{ $project->slug }}" class="listing-img-container" style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; background: white; border-radius: 8px; padding: 10px;">
+            <div class="listing-item-image" style="flex: 0 0 250px; min-height: 180px; margin-right: 20px;">
+                <a href="/listing/{{ $project->slug }}" class="listing-img-container" style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; background: white; border-radius: 8px; padding: 6px;">
                     @if(@$project->media->first())
-                        <img src="{{ @$project->media->first()->display_url }}" loading="lazy" alt="{{ $project->name }}" style="filter: none; max-width: 100%; max-height: 100%; object-fit: contain;">
+                        <img src="{{ @$project->media->first()->thumbnail_url }}" 
+                             data-mobile-src="{{ @$project->media->first()->mobile_thumbnail_url }}"
+                             loading="{{ $loop->index < 3 ? 'eager' : 'lazy' }}" 
+                             alt="{{ $project->name }}" 
+                             class="responsive-thumbnail"
+                             style="filter: none; max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 4px;"
+                             onerror="this.src='{{ @$project->media->first()->display_url }}'"
+                             onload="this.classList.add('loaded')">
+                    @else
+                        <div style="width: 100%; height: 100%; background: #f8f9fa; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                            <i class="fa fa-image" style="color: #ccc; font-size: 24px;"></i>
+                        </div>
                     @endif
                 </a>
             </div>

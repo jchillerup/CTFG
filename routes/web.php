@@ -16,6 +16,54 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\Guest\GuestController::class, 'index']);
 Route::get('/all-categories', [\App\Http\Controllers\Guest\GuestController::class, 'index']);
+
+// Optimized image serving with caching
+Route::get('/optimized-image/{mediaId}', function ($mediaId) {
+    $media = \App\Models\Media::find($mediaId);
+    
+    if (!$media || !$media->is_local || !$media->local_path) {
+        abort(404);
+    }
+    
+    $path = storage_path('app/public/' . $media->local_path);
+    
+    if (!file_exists($path)) {
+        abort(404);
+    }
+    
+    return response()->file($path, [
+        'Cache-Control' => 'public, max-age=31536000', // 1 year
+        'Expires' => gmdate('D, d M Y H:i:s', time() + 31536000) . ' GMT',
+        'Last-Modified' => gmdate('D, d M Y H:i:s', filemtime($path)) . ' GMT',
+    ]);
+})->middleware('rate.limit:100,1')->name('optimized.image');
+
+// Optimized thumbnail serving with caching
+Route::get('/optimized-thumbnail/{mediaId}', function ($mediaId) {
+    $media = \App\Models\Media::find($mediaId);
+    
+    if (!$media || !$media->is_local || !$media->local_path) {
+        abort(404);
+    }
+    
+    $thumbnailPath = $media->getThumbnailPath();
+    $path = storage_path('app/public/' . $thumbnailPath);
+    
+    if (!file_exists($path)) {
+        // Generate thumbnail if it doesn't exist
+        if ($media->generateThumbnail()) {
+            $path = storage_path('app/public/' . $thumbnailPath);
+        } else {
+            abort(404);
+        }
+    }
+    
+    return response()->file($path, [
+        'Cache-Control' => 'public, max-age=31536000', // 1 year
+        'Expires' => gmdate('D, d M Y H:i:s', time() + 31536000) . ' GMT',
+        'Last-Modified' => gmdate('D, d M Y H:i:s', filemtime($path)) . ' GMT',
+    ]);
+})->middleware('rate.limit:100,1')->name('optimized.thumbnail');
 Route::get('/projects/add', [\App\Http\Controllers\Projects\ProjectController::class, 'add']);
 Route::get('/listing/{slug}', [\App\Http\Controllers\Projects\ProjectController::class, 'singleProject']);
 Route::get('/projects/autocomplete', [\App\Http\Controllers\Projects\ProjectController::class, 'searchAutoComplete'])->name('autocomplete');
