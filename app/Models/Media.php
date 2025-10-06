@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 
 class Media extends Model {
     protected $table = "media";
@@ -69,11 +70,48 @@ class Media extends Model {
     }
 
     /**
+     * Get the appropriate image driver (GD or Imagick)
+     */
+    private function getImageDriver()
+    {
+        // Try GD first
+        if (extension_loaded('gd')) {
+            return new Driver();
+        }
+        
+        // Fallback to Imagick
+        if (extension_loaded('imagick')) {
+            return new ImagickDriver();
+        }
+        
+        // If neither is available, return null
+        return null;
+    }
+
+    /**
+     * Check if image processing is available
+     */
+    public function isImageProcessingAvailable()
+    {
+        return extension_loaded('gd') || extension_loaded('imagick');
+    }
+
+    /**
      * Generate a thumbnail for the image
      */
     public function generateThumbnail($width = 200, $height = 150, $quality = 85)
     {
         if (!$this->is_local || !$this->local_path) {
+            return false;
+        }
+
+        // Check if image processing is available
+        if (!$this->isImageProcessingAvailable()) {
+            Log::channel('security')->warning('Image processing not available - no GD or Imagick extension', [
+                'media_id' => $this->id,
+                'local_path' => $this->local_path,
+                'timestamp' => now()->toISOString(),
+            ]);
             return false;
         }
 
@@ -83,7 +121,17 @@ class Media extends Model {
                 return false;
             }
 
-            $manager = new ImageManager(new Driver());
+            $driver = $this->getImageDriver();
+            if (!$driver) {
+                Log::channel('security')->error('No image driver available', [
+                    'media_id' => $this->id,
+                    'local_path' => $this->local_path,
+                    'timestamp' => now()->toISOString(),
+                ]);
+                return false;
+            }
+
+            $manager = new ImageManager($driver);
             $image = $manager->read($fullPath);
             
             // Get original dimensions
@@ -157,13 +205,33 @@ class Media extends Model {
             return false;
         }
 
+        // Check if image processing is available
+        if (!$this->isImageProcessingAvailable()) {
+            Log::channel('security')->warning('Image processing not available - no GD or Imagick extension', [
+                'media_id' => $this->id,
+                'local_path' => $this->local_path,
+                'timestamp' => now()->toISOString(),
+            ]);
+            return false;
+        }
+
         try {
             $fullPath = Storage::disk('public')->path($this->local_path);
             if (!file_exists($fullPath)) {
                 return false;
             }
 
-            $manager = new ImageManager(new Driver());
+            $driver = $this->getImageDriver();
+            if (!$driver) {
+                Log::channel('security')->error('No image driver available', [
+                    'media_id' => $this->id,
+                    'local_path' => $this->local_path,
+                    'timestamp' => now()->toISOString(),
+                ]);
+                return false;
+            }
+
+            $manager = new ImageManager($driver);
             $image = $manager->read($fullPath);
             
             // Get original dimensions

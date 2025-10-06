@@ -1,10 +1,14 @@
 FROM php:8.4-cli
 
 RUN apt-get update &&  DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --assume-yes \
-    git unzip
+    git unzip libfreetype6-dev libjpeg62-turbo-dev libpng-dev libwebp-dev
 
 # Install MySQL PDO extension  
 RUN docker-php-ext-install pdo pdo_mysql
+
+# Install GD extension with support for JPEG, PNG, and WebP
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install gd
 
 # Increase PHP memory limit for Airtable sync operations
 RUN echo "memory_limit = 1G" > /usr/local/etc/php/conf.d/memory-limit.ini
