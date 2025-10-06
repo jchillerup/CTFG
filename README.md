@@ -31,7 +31,7 @@ The Civic Tech Field Guide is a comprehensive directory of civic technology tool
 - **Responsive Design**: Mobile-first approach with optimized layouts
 - **Multi-language Support**: Content in multiple languages
 
-## 🆕 Recent Updates (October 2024)
+## 🆕 Recent Updates (October 2025)
 
 ### Major Improvements
 - ✅ **Laravel 10 Upgrade**: Complete framework upgrade with PHP 8.4 support

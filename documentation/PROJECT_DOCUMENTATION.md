@@ -26,13 +26,13 @@ The Civic Tech Field Guide is a comprehensive directory of civic technology tool
 
 ## 🚀 Recent Improvements & Changes
 
-### Laravel Framework Upgrade (October 2024)
+### Laravel Framework Upgrade (October 2025)
 - **Upgraded from Laravel 9 to Laravel 10**
 - **Updated PHP compatibility** to support PHP 8.4
 - **Resolved deprecation warnings** and compatibility issues
 - **Updated dependencies**: PHPUnit, Livewire, CORS, and other packages
 
-### Image Optimization System (October 2024)
+### Image Optimization System (October 2025)
 - **Implemented comprehensive image optimization**
 - **Added thumbnail generation** for faster loading
 - **Mobile-responsive image sizing**
@@ -507,7 +507,7 @@ php artisan test --coverage
 
 ## 📝 Changelog
 
-### Version 2.0.0 (October 2024)
+### Version 2.0.0 (October 2025)
 - ✅ Upgraded Laravel 9 → 10
 - ✅ Implemented comprehensive image optimization
 - ✅ Added mobile-responsive image sizing
@@ -525,4 +525,4 @@ php artisan test --coverage
 
 ---
 
-*Last updated: October 5, 2024*
+*Last updated: October 5, 2025*
