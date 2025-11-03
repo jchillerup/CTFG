@@ -7,8 +7,6 @@ proxy:
   ssl: true
   hosts:
     - directory.connectingcurrent.tech
-    - directory.connectingcurrenttech.com
-    - directory.connectingcurrenttech.org
 registry:
   # Specify the registry server, if you're not using Docker Hub
   server: ghcr.io
