@@ -37,7 +37,7 @@
         <header id="header-container">
             <!-- Header -->
             <div id="header">
-                <div class="container" style="width: 100% !important;">
+                <div class="container" style="width: 100% !important; max-width: 1400px; padding: 0 20px;">
                     <div class="left-side">
                         <div id="logo">
                             <a href="/"
@@ -80,13 +80,14 @@
         </header>
         <div class="clearfix"></div>
 
-        @if (@$template != 'map')
+        {{-- Titlebar removed as it's not being used and takes up too much space --}}
+        {{-- @if (@$template != 'map')
             <div id="titlebar" class="gradient" style="margin-bottom: 1px;"></div>
         @else
             <div>&nbsp;</div>
-        @endif
+        @endif --}}
 
-        <div class="container" style="width: 100%; max-width: 1400px; padding: 0 20px;">
+        <div class="container" style="width: 100%; max-width: 1400px; padding: 0 20px; margin-top: 24px; margin-bottom: 40px;">
             @yield('content')
         </div>
 

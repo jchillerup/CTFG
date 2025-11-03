@@ -12,13 +12,14 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-12" style="margin-bottom: 20px;">
+        <div class="col-md-12" style="margin-bottom: 32px;">
             @include('partials.search')
         </div>
     </div>
 
     <div class="row">
-        <div class="col-lg-3 col-md-4">
+        {{-- Left sidebar (Categories and Tags) hidden to save space and improve mobile experience --}}
+        {{-- <div class="col-lg-3 col-md-4">
             <div class="sidebar">
                 <!-- Categories Widget -->
                 <div class="widget margin-bottom-40">
@@ -32,10 +33,10 @@
                     @include('cache.tags_cache')
                 </div>
             </div>
-        </div>
+        </div> --}}
 
 
-        <div class="col-lg-9 col-md-8 padding-right-30">
+        <div class="col-lg-12 col-md-12 padding-right-30">
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="row">

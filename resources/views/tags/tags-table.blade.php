@@ -31,7 +31,7 @@
                             @foreach($tags as $tag)
                                 <td>
                                     @foreach($tag->items as $item)
-                                        <a style="color: #707070 !important;" href="/listing-tag/{{ $item->name }}">
+                                        <a style="color: #333 !important;" href="/listing-tag/{{ $item->name }}">
                                             <li>{{ $item->name }}</li>
                                         </a>
                                     @endforeach

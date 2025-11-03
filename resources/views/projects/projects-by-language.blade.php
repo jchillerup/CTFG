@@ -3,18 +3,20 @@
 @section('content')
     <div class="row">
         <div class="col-md-12 margin-bottom-40">
-            {{-- Search result counts commented out --}}
-            {{-- @if(isset($query))
-                <h2>Search Results -  <span style="color: #333; font-size: 22px;">       {{ @$query }} ({{ @$projects->total() }})</span>
-                </h2>
-            @else
-                <h2>Search <span style="color: #333; font-size: 22px;"> {{ @$allProjects }}</span> projects
-                </h2>
-            @endif --}}
+            <h2>
+                Language: &nbsp;
+                <span style="color: #333; font-size: 22px;">
+                    {{ $languageName }}
+                </span>
+                {{-- Search result count commented out --}}
+                {{-- <span style="color: #333; font-size: 22px;">
+                    - ({{ @$projects->total() }})
+                </span> --}}
+            </h2>
         </div>
 
         <div class="col-md-12" style="margin-bottom: 20px;">
-            @include('partials.search')
+            @include('partials.extended-search')
         </div>
     </div>
 
@@ -41,22 +43,14 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
                             <div class="listings-container list-layout">
-                                @if($projects->count() > 0)
-                                    @include('partials.paginated-projects')
-                                @else
-                                    <p>Search query yielded no results</p>
-                                @endif
+                                @include('partials.paginated-projects')
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-12 col-md-12">
-                    @if(method_exists($projects, 'withQueryString'))
-                        {{ $projects->withQueryString()->links() }}
-                    @else
-                        {{ $projects->links() }}
-                    @endif
+                    {{ $projects->withQueryString()->links() }}
                 </div>
 
             </div>
@@ -64,3 +58,4 @@
         </div>
     </div>
 @endsection
+

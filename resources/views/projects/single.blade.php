@@ -15,38 +15,52 @@
 
         .listing-section {
             background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid #e9ecef;
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .listing-section:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
         }
 
         .additional-info-section {
             background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid #e9ecef;
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .additional-info-section:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
         }
 
         .additional-info-section h3 {
-            margin-bottom: 15px;
-            color: #333;
-            font-size: 1.4em;
+            margin-bottom: 18px;
+            color: #212529;
+            font-size: 1.5em;
+            font-weight: 600;
         }
 
         .founders-section,
         .contact-section,
         .resources-section {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .founders-section h3,
         .contact-section h3,
         .resources-section h3 {
-            margin-bottom: 10px;
-            color: #333;
-            font-size: 1.3em;
+            margin-bottom: 12px;
+            color: #212529;
+            font-size: 1.35em;
+            font-weight: 600;
         }
 
         /* Content spacing inside cards */
@@ -225,17 +239,17 @@
                         @endif
                     </div>
                     <div class="col-lg-8 col-md-8">
-                        <h1 style="margin-top: 0; margin-bottom: 15px; color: #333;">{!! $project->name !!}</h1>
+                        <h1 style="margin-top: 0; margin-bottom: 18px; color: #212529; font-size: 2em; font-weight: 700; line-height: 1.3;">{!! $project->name !!}</h1>
                         @if (!empty($project->website_url))
                             <p style="margin-bottom: 10px;">
-                                <a href="{{ @$project->website_url }}" target="_blank" style="color: #28a745; text-decoration: none;">
+                                <a href="{{ @$project->website_url }}" target="_blank" rel="noopener noreferrer" style="color: #28a745; text-decoration: none;">
                                     <i class="fa fa-globe"></i>
                                     {{ @$project->website_url }}
                                 </a>
                             </p>
                         @endif
                         @if ($project->location->count() > 0)
-                            <p style="margin-bottom: 10px; color: #666;">
+                            <p style="margin-bottom: 10px; color: #333;">
                                 <i class="fa fa-map-marker"></i>
                                 {{ @$project->location->first()->name }}
                             </p>
@@ -246,13 +260,40 @@
 
             <div id="listing-overview" class="listing-section">
                 @if ($project->tags->count() > 0)
-                    <ul class="apartment-details">
-                        @foreach ($project->tags as $tag)
-                            <li>
-                                <a href="/listing-tag/{{ @$tag->name }}">{{ @$tag->name }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
+                    <div style="margin-bottom: 24px;">
+                        <strong style="color: #495057; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; display: block; margin-bottom: 10px;">Tags:</strong>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            @foreach ($project->tags as $tag)
+                                <a href="/listing-tag/{{ @$tag->name }}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: #d1e7dd; color: #0a3622; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease; border: 1px solid #badbcc;" onmouseover="this.style.background='#badbcc'; this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#d1e7dd'; this.style.transform='translateY(0)'">{{ @$tag->name }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                @php
+                    // Get all languages - prioritize all_languages JSON field, fallback to language/secondary_language
+                    $languages = [];
+                    if (!empty($project->all_languages) && is_array($project->all_languages)) {
+                        $languages = array_filter($project->all_languages);
+                    } else {
+                        if (!empty($project->language)) {
+                            $languages[] = $project->language;
+                        }
+                        if (!empty($project->secondary_language)) {
+                            $languages[] = $project->secondary_language;
+                        }
+                    }
+                    $languages = array_unique($languages);
+                @endphp
+                @if (!empty($languages))
+                    <div style="margin-bottom: 24px;">
+                        <strong style="color: #495057; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; display: block; margin-bottom: 10px;">Languages:</strong>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            @foreach ($languages as $lang)
+                                <a href="/listing-language/{{ urlencode($lang) }}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: #cfe2ff; color: #084298; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease; border: 1px solid #9ec5fe;" onmouseover="this.style.background='#9ec5fe'; this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#cfe2ff'; this.style.transform='translateY(0)'">{{ $lang }}</a>
+                            @endforeach
+                        </div>
+                    </div>
                 @endif
 
                 <div class="margin-top-35">
@@ -270,10 +311,24 @@
                     <div class="table-responsive">
                         <table class="table">
                             <tbody>
-                                @if (!empty(@$project->organization_id) && !empty(@$project->organization))
+                                @php
+                                    // Get all organizations - prioritize many-to-many relationship, fallback to single organization
+                                    $organizations = [];
+                                    if ($project->organizations->count() > 0) {
+                                        $organizations = $project->organizations;
+                                    } elseif (!empty($project->organization_id) && !empty($project->organization)) {
+                                        $organizations = collect([$project->organization]);
+                                    }
+                                @endphp
+                                @if (!empty($organizations) && count($organizations) > 0)
                                     <tr>
-                                        <th>Organization: </th>
-                                        <td>{{ $project->organization->name }}</td>
+                                        <th>{{ count($organizations) > 1 ? 'Organizations:' : 'Organization:' }} </th>
+                                        <td>
+                                            @foreach($organizations as $org)
+                                                @if(!$loop->first), @endif
+                                                <a href="/listing-organization/{{ $org->id }}" target="_blank" rel="noopener noreferrer" style="color: #0A78C2;">{{ $org->name }}</a>
+                                            @endforeach
+                                        </td>
                                     </tr>
                                 @endif
                                 @if (!empty(@$project->organization_type))
@@ -282,12 +337,13 @@
                                         <td>{{ $project->organization_type }}</td>
                                     </tr>
                                 @endif
-                                @if (!empty(@$project->status))
+                                {{-- Status hidden from listing view --}}
+                                {{-- @if (!empty(@$project->status))
                                     <tr>
                                         <th>Status: </th>
                                         <td>{{ $project->status }}</td>
                                     </tr>
-                                @endif
+                                @endif --}}
                                 @if ($project->links->count() > 0)
                                     <tr>
                                         <th>Related Links: </th>
@@ -295,7 +351,7 @@
                                             <ul>
                                                 @foreach (@$project->links as $link)
                                                     <li>
-                                                        <a style="color: #0A78C2;" target="_blank"
+                                                        <a style="color: #0A78C2;" target="_blank" rel="noopener noreferrer"
                                                             href="{{ $link->link }}">
                                                             {{ $link->notes }}
                                                         </a>
@@ -336,7 +392,7 @@
                                 @if (!empty(@$project->parent_id))
                                     <tr>
                                         <th>Parent Organization: </th>
-                                        <td><a style="color: #0A78C2;"
+                                        <td><a style="color: #0A78C2;" target="_blank" rel="noopener noreferrer"
                                                 href="/listing/{{ $project->parent->slug }}">{{ $project->parent->name }}</a>
                                         </td>
                                     </tr>
@@ -346,23 +402,13 @@
                                         <th>Project(s): </th>
                                         <td>
                                             @foreach ($project->children as $child)
-                                                <a style="color: #0A78C2;" href="/listing/{{ $child->slug }}">
+                                                <a style="color: #0A78C2;" target="_blank" rel="noopener noreferrer" href="/listing/{{ $child->slug }}">
                                                     {{ $child->name }}
                                                 </a>
                                                 @if ($project->children->last()->id != $child->id)
                                                     ,&nbsp;
                                                 @endif
                                             @endforeach
-                                        </td>
-                                    </tr>
-                                @endif
-                                @if (!empty(@$project->language))
-                                    <tr>
-                                        <th>Language(s): </th>
-                                        <td>{{ $project->language }}
-                                            @if (!empty(@$project->secondary_language))
-                                                , {{ $project->secondary_language }}
-                                            @endif
                                         </td>
                                     </tr>
                                 @endif
@@ -408,12 +454,13 @@
                                         <td>{{ $project->no_of_employees }}</td>
                                     </tr>
                                 @endif
-                                @if (!empty(@$project->last_modified))
+                                {{-- Last Modified date hidden from listing view --}}
+                                {{-- @if (!empty(@$project->last_modified))
                                     <tr>
                                         <th>Last Modified: </th>
                                         <td>{{ Carbon\Carbon::parse(@$project->last_modified)->format('n/j/Y') }}</td>
                                     </tr>
-                                @endif
+                                @endif --}}
                                 @if (!empty(@$project->created))
                                     <tr>
                                         <th>Added on: </th>
@@ -429,7 +476,7 @@
                     <h3 class="listing-desc-headline">Project Categories</h3>
                     <ul class="listing-features" style="list-style: inherit; padding-left: 30px;">
                         @foreach ($project->categories as $category)
-                            <li><a style="color: #0A78C2;"
+                            <li><a style="color: #0A78C2;" target="_blank" rel="noopener noreferrer"
                                     href="/listing-category/{{ $category->slug }}">{{ $category->name }}</a></li>
                         @endforeach
                     </ul>
@@ -492,22 +539,30 @@
                 </div>
             @endif
 
-            @if (@$project->impact->count() > 0 && !empty(@$project->impact->first()->statement))
+            @if (@$project->impact->count() > 0)
                 <div id="add-review" class="add-review-box" style="margin-top: 10px; background-color: #fcfcfc;">
-                    <h3 class="listing-desc-headline margin-bottom-10">Evidence of this project's impact:"</h3>
-                    <p>
-                        {{ @$project->impact->first()->statement }}
-                        @if (!empty(@$project->impact->first()->url))
-                            (<a href="{{ @$project->impact->first()->url }}" style="color: #0A78C2;">Source</a>,
+                    <h3 class="listing-desc-headline margin-bottom-10">Evidence of this project's impact:</h3>
+                    @foreach ($project->impact as $impactItem)
+                        @if (!empty($impactItem->statement))
+                            <div style="margin-bottom: 15px;">
+                                <p>
+                                    {{ $impactItem->statement }}
+                                    @if (!empty($impactItem->url))
+                                        (<a href="{{ $impactItem->url }}" target="_blank" rel="noopener noreferrer" style="color: #0A78C2;">Source</a>,
+                                    @endif
+                                    @if (!empty($impactItem->impact_date))
+                                        <a href="{{ $impactItem->impact_date }}" target="_blank" rel="noopener noreferrer">
+                                            {{ $impactItem->impact_date }}
+                                        </a>)
+                                    @else
+                                        @if (!empty($impactItem->url))
+                                            )
+                                        @endif
+                                    @endif
+                                </p>
+                            </div>
                         @endif
-                        @if (!empty(@$project->impact->first()->impact_date))
-                            <a href="{{ @$project->impact->first()->impact_date }}">
-                                {{ @$project->impact->first()->impact_date }}
-                            </a>)
-                        @else
-                            )
-                        @endif
-                    </p>
+                    @endforeach
                 </div>
             @endif
 
@@ -526,20 +581,37 @@
 
 
         <!-- Additional Information Section -->
+        @php
+            $hasFounders = @$project->founders->count() > 0;
+            $hasSocialLinks = !empty($project->facebook_url) || !empty($project->twitter_url) || !empty($project->instagram_url);
+            $hasContactForm = !empty(@$project->contact_form_email);
+            $hasResources = !empty(@$project->linkedin_url) ||
+                !empty(@$project->youtube_channel) ||
+                !empty(@$project->contact_page_url) ||
+                !empty(@$project->github_url) ||
+                !empty(@$project->events_page_url) ||
+                !empty(@$project->jobs_page_url) ||
+                !empty(@$project->blog_url) ||
+                !empty(@$project->host_organization_url) ||
+                !empty(@$project->parent_id);
+            $hasAdditionalInfo = $hasFounders || $hasSocialLinks || $hasContactForm || $hasResources;
+        @endphp
+        @if ($hasAdditionalInfo)
         <div class="col-lg-12 col-md-12 col-sm-12 margin-top-50">
             
             <div class="additional-info-section">
-                @if (@$project->founders->count() > 0)
+                @if ($hasFounders)
                     <div class="founders-section">
                         <h3>Founder(s)</h3>
                         <ul style="padding-left: 30px;">
                             @foreach ($project->founders as $founder)
-                                <li><span style="color: #444;">{{ @$founder->name }}</span></li>
+                                <li><span style="color: #000;">{{ @$founder->name }}</span></li>
                             @endforeach
                         </ul>
                     </div>
                 @endif
 
+                @if ($hasSocialLinks)
                 <ul class="share-buttons margin-top-40 margin-bottom-0">
                     @if (!empty($project->facebook_url))
                         <li>
@@ -560,10 +632,11 @@
                         </li>
                     @endif
                 </ul>
+                @endif
 
 
 
-                @if (!empty(@$project->contact_form_email))
+                @if ($hasContactForm)
                     <div class="contact-section margin-top-35">
                         <h3>Contact {{ $project->name }}</h3>
                         <form action="/listing-contact-form" method="POST">
@@ -630,49 +703,40 @@
                     </div>
                 @endif
 
-                @if (
-                    !empty(@$project->linkedin_url) ||
-                        !empty(@$project->youtube_channel) ||
-                        !empty(@$project->contact_page_url) ||
-                        !empty(@$project->github_url) ||
-                        !empty(@$project->events_page_url) ||
-                        !empty(@$project->jobs_page_url) ||
-                        !empty(@$project->blog_url) ||
-                        !empty(@$project->host_organization_url) ||
-                        !empty(@$project->host_organization_url))
+                @if ($hasResources)
                     <div class="resources-section margin-top-35">
                         <h3>Resources</h3>
                         <ul>
                             @if (!empty(@$project->linkedin_url))
                                 <li>LinkedIn: <span><a href="{{ @$project->linkedin_url }}"
-                                            target="_blank">{{ @$project->linkedin_url }}</a></span></li>
+                                            target="_blank" rel="noopener noreferrer">{{ @$project->linkedin_url }}</a></span></li>
                             @endif
                             @if (!empty(@$project->youtube_channel))
                                 <li>Youtube: <span><a href="{{ @$project->youtube_channel }}"
-                                            target="_blank">{{ @$project->youtube_channel }}</a></span></li>
+                                            target="_blank" rel="noopener noreferrer">{{ @$project->youtube_channel }}</a></span></li>
                             @endif
                             @if (!empty(@$project->contact_page_url))
                                 <li>Contact page: <span><a href="{{ @$project->contact_page_url }}"
-                                            target="_blank">{{ @$project->contact_page_url }}</a></span></li>
+                                            target="_blank" rel="noopener noreferrer">{{ @$project->contact_page_url }}</a></span></li>
                             @endif
                             @if (!empty(@$project->github_url))
                                 <li>Github: <span><a href="{{ @$project->github_url }}"
-                                            target="_blank">{{ @$project->github_url }}</a></span></li>
+                                            target="_blank" rel="noopener noreferrer">{{ @$project->github_url }}</a></span></li>
                             @endif
                             @if (!empty(@$project->events_page_url))
                                 <li>Events page: <span><a href="{{ @$project->events_page_url }}"
-                                            target="_blank">{{ @$project->events_page_url }}</a><span></li>
+                                            target="_blank" rel="noopener noreferrer">{{ @$project->events_page_url }}</a><span></li>
                             @endif
                             @if (!empty(@$project->jobs_page_url))
                                 <li>Jobs page: <span><a href="{{ @$project->jobs_page_url }}"
-                                            target="_blank">{{ @$project->jobs_page_url }}</a></span></li>
+                                            target="_blank" rel="noopener noreferrer">{{ @$project->jobs_page_url }}</a></span></li>
                             @endif
                             @if (!empty(@$project->blog_url))
                                 <li>Blog: <span><a href="{{ @$project->blog_url }}"
-                                            target="_blank">{{ @$project->blog_url }}</a></span></li>
+                                            target="_blank" rel="noopener noreferrer">{{ @$project->blog_url }}</a></span></li>
                             @endif
                             @if (!empty(@$project->parent_id))
-                                <li>Parent Org: <span><a style="color: #0A72B8;"
+                                <li>Parent Org: <span>                                                <a style="color: #0A72B8;" target="_blank" rel="noopener noreferrer"
                                             href="/listing/{{ $project->parent->slug }}">{{ @$project->parent->name }}</a></span>
                                 </li>
                             @endif
@@ -702,6 +766,7 @@
                 <div class="clearfix"></div>
             </div>
         </div>
+        @endif
     </div>
 @endsection
 

@@ -43,7 +43,7 @@
             line-height: 1.5;
         }
         .timestamp {
-            color: #666;
+            color: #333;
             font-size: 14px;
         }
         .back-link {

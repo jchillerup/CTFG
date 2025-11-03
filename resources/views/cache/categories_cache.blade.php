@@ -116,11 +116,11 @@
         background-color: green;
     }
     .sidebar li.nav-item a.nav-link:hover{
-        color: #747674 !important;
+        color: #333 !important;
         text-decoration: underline;
     }
     .sidebar .menu-open span {
-        color: #747674 !important;
+        color: #333 !important;
     }
 
     /*! CSS Used fontfaces */

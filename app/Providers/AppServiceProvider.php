@@ -29,13 +29,21 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot() {
-        if($this->app->environment('production')) {
+        // Check if request is from localhost
+        $request = $this->app['request'];
+        $host = $request->getHost();
+        $isLocalhost = in_array($host, ['localhost', '127.0.0.1', '127.0.0.1:8000', 'localhost:8000']) || 
+                      strpos($host, '127.0.0.1') !== false || 
+                      strpos($host, 'localhost') !== false;
+        
+        // Force HTTP for localhost (even if APP_ENV is production)
+        if ($isLocalhost || $this->app->environment('local')) {
+            \URL::forceScheme('http');
+            $request->server->set('HTTPS', 'off');
+            $request->server->set('SERVER_PORT', '80');
+        } elseif($this->app->environment('production')) {
             \URL::forceScheme('https');
             $this->app['request']->server->set('HTTPS','on');
-        }
-
-        if ($this->app->environment('local')) {
-            \URL::forceScheme('http');
         }
         /*DB::listen(function($query) {
             File::append(

@@ -13,46 +13,47 @@
         <div class="col-md-12 margin-bottom-40">
             <h2>
                 @if(!empty($activeAncestor))
-                    <a href="/listing-category/{{ $activeAncestor->slug }}">
+                    <a href="/listing-category/{{ $activeAncestor->slug }}" target="_blank" rel="noopener noreferrer">
                         {{ $activeAncestor->name }}
                     </a> >
                 @endif
                 @if(!empty($activeGreatGreatGrandParent))
-                    <span style="color: #747674; font-size: 22px;">
-                        <a href="/listing-category/{{ $activeGreatGreatGrandParent->slug }}">
+                    <span style="color: #333; font-size: 22px;">
+                        <a href="/listing-category/{{ $activeGreatGreatGrandParent->slug }}" target="_blank" rel="noopener noreferrer">
                             {{ $activeGreatGreatGrandParent->name }}
                         </a> >
                     </span>
                 @endif
                 @if(!empty($activeGreatGrandParent))
-                    <span style="color: #747674; font-size: 22px;">
-                        <a href="/listing-category/{{ $activeGreatGrandParent->slug }}">
+                    <span style="color: #333; font-size: 22px;">
+                        <a href="/listing-category/{{ $activeGreatGrandParent->slug }}" target="_blank" rel="noopener noreferrer">
                             {{ $activeGreatGrandParent->name }}
                         </a> >
                     </span>
                 @endif
                 @if(!empty($activeGrandParent))
-                    <span style="color: #747674; font-size: 22px;">
-                        <a href="/listing-category/{{ $activeGrandParent->slug }}">
+                    <span style="color: #333; font-size: 22px;">
+                        <a href="/listing-category/{{ $activeGrandParent->slug }}" target="_blank" rel="noopener noreferrer">
                             {{ $activeGrandParent->name }}
                         </a> >
                     </span>
                 @endif
                 @if(!empty($activeParent))
-                    <span style="color: #747674; font-size: 22px;">
-                        <a href="/listing-category/{{ $activeParent->slug }}">
+                    <span style="color: #333; font-size: 22px;">
+                        <a href="/listing-category/{{ $activeParent->slug }}" target="_blank" rel="noopener noreferrer">
                             {{ $activeParent->name }}
                         </a> >
                     </span>
                 @endif
                 @if(!empty($category))
-                    <span style="color: #747674; font-size: 22px;">
+                    <span style="color: #333; font-size: 22px;">
                         {{ $category->name }}
                     </span>
                 @endif
-                <span style="color: #747674; font-size: 22px;">
+                {{-- Search result count commented out --}}
+                {{-- <span style="color: #333; font-size: 22px;">
                     - ({{ @$projects->total() }})
-                </span>
+                </span> --}}
             </h2>
 
             @if(!empty($categoryDesc))
@@ -81,7 +82,8 @@
     </div>
 
     <div class="row" style="margin: 0 -15px;">
-        <div class="col-lg-3 col-md-4">
+        {{-- Left sidebar (Categories and Tags) hidden to save space and improve mobile experience --}}
+        {{-- <div class="col-lg-3 col-md-4">
             <div class="sidebar">
                 <div class="widget margin-bottom-40">
                     <h3 class="margin-top-0 margin-bottom-30">Categories</h3>
@@ -93,9 +95,9 @@
                     @include('cache.tags_cache')
                 </div>
             </div>
-        </div>
+        </div> --}}
 
-        <div class="col-lg-9 col-md-8" style="padding: 0 15px;">
+        <div class="col-lg-12 col-md-12" style="padding: 0 15px;">
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="row">

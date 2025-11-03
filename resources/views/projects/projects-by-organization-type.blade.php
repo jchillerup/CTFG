@@ -6,13 +6,14 @@
             <h2>
                 Organization Type: &nbsp;
                 @if(!empty($organizationType))
-                    <span style="color: #747674; font-size: 22px;">
+                    <span style="color: #333; font-size: 22px;">
                         {{ $organizationType }}
                     </span>
                 @endif
-                <span style="color: #747674; font-size: 22px;">
+                {{-- Search result count commented out --}}
+                {{-- <span style="color: #333; font-size: 22px;">
                     - ({{ @$projects->total() }})
-                </span>
+                </span> --}}
             </h2>
         </div>
 
@@ -22,7 +23,8 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-3 col-md-4">
+        {{-- Left sidebar (Categories and Tags) hidden to save space and improve mobile experience --}}
+        {{-- <div class="col-lg-3 col-md-4">
             <div class="sidebar">
                 <div class="widget margin-bottom-40">
                     <h3 class="margin-top-0 margin-bottom-30">Categories</h3>
@@ -34,10 +36,10 @@
                     @include('cache.tags_cache')
                 </div>
             </div>
-        </div>
+        </div> --}}
 
 
-        <div class="col-lg-9 col-md-8 padding-right-30">
+        <div class="col-lg-12 col-md-12 padding-right-30">
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="row">

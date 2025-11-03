@@ -6,3 +6,4 @@
 # Alternative for older Apache versions
 Order Deny,Allow
 Deny from all
+

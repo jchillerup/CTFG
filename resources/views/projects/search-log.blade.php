@@ -18,7 +18,7 @@
                     <div class="margin-top-0">
                         <?php $count = 1; ?>
                         @if($logs->count() > 0)
-                            <table id="search-log-table" class="display" style="color: #444;">
+                            <table id="search-log-table" class="display" style="color: #000;">
                                 <thead>
                                     <tr>
                                         <th>#</th>

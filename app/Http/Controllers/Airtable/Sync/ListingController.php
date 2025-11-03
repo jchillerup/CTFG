@@ -146,6 +146,7 @@ class ListingController extends Controller {
                 $list->parent_organization = @$l["fields"]["Organization type"][0];
                 
                 // Sync Organization field - link to organizations table
+                // Keep organization_id for backward compatibility (first organization)
                 $organizationField = @$l["fields"]["Organization"];
                 $organizationId = null;
                 if (is_array($organizationField) && !empty($organizationField)) {
@@ -157,6 +158,7 @@ class ListingController extends Controller {
                     $organizationId = $organization ? $organization->id : null;
                 }
                 $list->organization_id = $organizationId;
+                // Multiple organizations will be synced in syncRelations() method
                 
                 // Log organization and language data from Airtable
                 $hostOrgField = @$l["fields"]["Host organization"];
@@ -170,8 +172,20 @@ class ListingController extends Controller {
                 
                 // Use the first non-null field
                 $languagesField = $languagesField1 ?: $languagesField2 ?: $languagesField3 ?: $languagesField4;
-                $primaryLanguage = is_array($languagesField) ? @$languagesField[0] : null;
-                $secondaryLanguage = is_array($languagesField) ? @$languagesField[1] : null;
+                
+                // Store all languages in array (not just first two)
+                $allLanguagesArray = [];
+                if (is_array($languagesField) && !empty($languagesField)) {
+                    // Filter empty values and reindex array to ensure sequential keys
+                    $allLanguagesArray = array_values(array_filter($languagesField, function($lang) {
+                        return !empty(trim($lang));
+                    }));
+                } elseif ($languagesField && !empty(trim($languagesField))) {
+                    $allLanguagesArray = [trim($languagesField)];
+                }
+                
+                $primaryLanguage = !empty($allLanguagesArray) ? $allLanguagesArray[0] : null;
+                $secondaryLanguage = isset($allLanguagesArray[1]) ? $allLanguagesArray[1] : null;
                 
                 // Debug language and location fields
                 $locationField = @$l["fields"]["Location"];
@@ -184,13 +198,13 @@ class ListingController extends Controller {
                     $location = \App\Models\Location::where('airtable_id', $locationField)->first();
                     $countryValue = $location ? $location->country : null;
                 }
-                error_log("AIRTABLE_LANGUAGE_DEBUG - Record: " . @$l["fields"]["Project name"] . " | Languages(s): " . json_encode($languagesField1) . " | Languages: " . json_encode($languagesField2) . " | Language(s): " . json_encode($languagesField3) . " | Language: " . json_encode($languagesField4) . " | Final: " . json_encode($languagesField) . " | Primary: " . ($primaryLanguage ?: 'NULL') . " | Secondary: " . ($secondaryLanguage ?: 'NULL') . " | Location field: " . json_encode($locationField) . " | Country value: " . ($countryValue ?: 'NULL'));
+                error_log("AIRTABLE_LANGUAGE_DEBUG - Record: " . @$l["fields"]["Project name"] . " | Languages(s): " . json_encode($languagesField1) . " | Languages: " . json_encode($languagesField2) . " | Language(s): " . json_encode($languagesField3) . " | Language: " . json_encode($languagesField4) . " | Final: " . json_encode($languagesField) . " | All Languages: " . json_encode($allLanguagesArray) . " | Primary: " . ($primaryLanguage ?: 'NULL') . " | Secondary: " . ($secondaryLanguage ?: 'NULL') . " | Location field: " . json_encode($locationField) . " | Country value: " . ($countryValue ?: 'NULL'));
                 
-                \Log::info("Airtable sync - Listing: " . @$l["fields"]["Name"] . " | Host Org: " . $hostOrgField . " | Host Org URL: " . $hostOrgUrlField . " | Languages field: " . json_encode($languagesField) . " | Primary: " . $primaryLanguage . " | Secondary: " . $secondaryLanguage);
-                // error_log("AIRTABLE_SYNC_DEBUG - Listing: " . @$l["fields"]["Name"] . " | Host Org: " . $hostOrgField . " | Languages: " . json_encode($languagesField));
+                \Log::info("Airtable sync - Listing: " . @$l["fields"]["Name"] . " | Host Org: " . $hostOrgField . " | Host Org URL: " . $hostOrgUrlField . " | Languages field: " . json_encode($languagesField) . " | All Languages: " . json_encode($allLanguagesArray) . " | Primary: " . $primaryLanguage . " | Secondary: " . $secondaryLanguage);
                 
                 $list->language = $primaryLanguage;
                 $list->secondary_language = $secondaryLanguage;
+                $list->all_languages = !empty($allLanguagesArray) ? $allLanguagesArray : null;
                 
                 // Resolve location from Locations table
                 $locationField = @$l["fields"]["Location"];
@@ -309,6 +323,30 @@ class ListingController extends Controller {
                     if ($dbList && $dbTag) {
                         $dbList->tags()->attach($dbTag->id);
                     }
+                }
+            }
+
+            // listing_organizations - handle multiple organizations
+            if (!empty(@$artList["fields"]["Organization"]) && sizeof(@$artList["fields"]["Organization"]) > 0) {
+                // First, detach all existing organizations for this listing
+                if ($dbList) {
+                    $dbList->organizations()->detach();
+                }
+                // Then attach all organizations from Airtable
+                for ($i=0; $i < sizeof(@$artList["fields"]["Organization"]); $i++) { 
+                    $dbOrg = \App\Models\Organization::where('airtable_id', @$artList["fields"]["Organization"][$i])->first();
+                    if ($dbList && $dbOrg) {
+                        $dbList->organizations()->attach($dbOrg->id);
+                    }
+                }
+            } elseif (!empty(@$artList["fields"]["Organization"])) {
+                // Handle single organization (not an array)
+                if ($dbList) {
+                    $dbList->organizations()->detach();
+                }
+                $dbOrg = \App\Models\Organization::where('airtable_id', @$artList["fields"]["Organization"])->first();
+                if ($dbList && $dbOrg) {
+                    $dbList->organizations()->attach($dbOrg->id);
                 }
             }
 

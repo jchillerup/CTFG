@@ -253,6 +253,98 @@ class ProjectController extends Controller {
         ]);
     }
 
+    // Get projects by language
+    public function getProjectsByLanguage(Request $request) {
+        // Handle URL-encoded language names with special characters
+        $language = urldecode($request->route('name'));
+        
+        // Replace + with space (in case urlencode used + instead of %20)
+        $language = str_replace('+', ' ', $language);
+        
+        if (empty($language)) {
+            return abort(404);
+        }
+
+        if(request('status')){
+            $filterStatus = request('status');
+        } else {
+            $filterStatus = 'Show active projects only';
+        }
+
+        request()->merge([
+            'status' => $filterStatus
+        ]);
+
+        $projects = Listing::query()
+            ->where(function($query) use ($language) {
+                // Check in language field
+                $query->where('language', $language)
+                      // Check in secondary_language field
+                      ->orWhere('secondary_language', $language)
+                      // Check in all_languages JSON array
+                      ->orWhereJsonContains('all_languages', $language);
+            })
+            ->when(request('tags'), function($builder) {
+                $tags = request('tags');
+                $builder->whereHas('tags', function($builder) use ($tags) {
+                    $builder->whereIn('name', $tags);
+                });
+            })
+            ->when(request('categories'), function($builder) {
+                $categories = request('categories');
+                $builder->whereHas('categories', function($builder) use ($categories) {
+                    $builder->whereIn('name', $categories);
+                });
+            })
+            ->when(request('opensource'), function($builder) {
+                $builder->where('open_source', request('opensource'));
+            })
+            ->when(request('types'), function($builder) {
+                $types = request('types');
+                if (in_array("Other", $types)) {
+                    $key = array_search("Other", $types);
+                    $types[$key] = NULL;
+                    $builder->whereIn('type', $types)->orWhereNull('type');
+                } else {
+                    $builder->whereIn('type', $types);   
+                }
+            })
+            ->when(request('status'), function($builder) {
+                $status = request('status');
+                if ($status == "Show active projects only") {
+                    $builder->where(function($query) {
+                        return $query->whereIn('status', ['Active', 'N/A'])
+                                     ->orWhereNull('status');
+                    });
+                }
+            })
+            ->with('organization')
+            ->orderBy('created', 'DESC')
+            ->paginate(50);
+
+        if (count(request()->all()) == 0) {
+            $filterStatus = "Active";
+        } else if(request('status')){
+            $filterStatus = request('status');
+        } else {
+            $filterStatus = '';
+        }
+
+        return view ('projects.projects-by-language', [
+            'projects' => $projects,
+            'title' => 'Projects - '.$language,
+            'languageName' => $language,
+            'query' => request('q'),
+            'filterCategories' => request('categories'),
+            'filterTags' => request('tags'),
+            'filterCountries' => request('countries'),
+            'filterStatus' => $filterStatus,
+            'filterOrgTypes' => request('organizationtypes'),
+            'filterOpenSource' => request('opensource'),
+            'filterTypes' => request('types'),
+        ]);
+    }
+
     // Get projects by organization
     public function getProjectsByOrganization(Request $request) {
         $id = $request->segment(2);

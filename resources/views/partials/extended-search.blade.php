@@ -54,7 +54,8 @@
                     </div>
 
                 </div>
-                <div class="row with-forms margin-bottom-30">
+                {{-- Date filter calendar hidden to save space, especially on mobile --}}
+                {{-- <div class="row with-forms margin-bottom-30">
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                         <label for="filter-date-from-input" class="visually-hidden">Publication Date From</label>
                         <input id="filter-date-from-input" name="date_from" type="date" placeholder="Publication Date From" value="{{ @$filterDateFrom }}" />
@@ -66,6 +67,11 @@
                     </div>
 
                     <div class="col-lg-6 col-md-4 col-sm-12 col-12" style="text-align: right;">
+                        <button class="button" id="search" style="padding: 8px 30px;">Search</button>
+                    </div>
+                </div> --}}
+                <div class="row with-forms margin-bottom-30">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align: right;">
                         <button class="button" id="search" style="padding: 8px 30px;">Search</button>
                     </div>
                 </div>
