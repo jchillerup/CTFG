@@ -7,8 +7,9 @@ proxy:
   ssl: true
   hosts:
     - connectingcurrent.tech
-    - connectingcurrenttech.com
-    - connectingcurrenttech.org
+    - connectingcurrent.com
+    - connectingcurrent.org
+    - www.connectingcurrent.tech
     - directory.connectingcurrent.tech
 registry:
   # Specify the registry server, if you're not using Docker Hub
