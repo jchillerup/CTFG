@@ -79,3 +79,8 @@ accessories:
         - AIRTABLE_BASE
         - AIRTABLE_KEY
         - SYNC_SECRET_TOKEN
+healthcheck:
+  path: /
+  timeout: 60
+  interval: 5
+  retries: 12
