@@ -1,5 +1,4 @@
-FROM php:8.4-cli
-
+FROM php:8.3-cli
 RUN apt-get update &&  DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --assume-yes \
     git unzip libfreetype6-dev libjpeg62-turbo-dev libpng-dev libwebp-dev
 
