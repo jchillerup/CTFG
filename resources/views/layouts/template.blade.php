@@ -114,6 +114,104 @@
     <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js">
     </script>
 
+    <script>
+    // Generic client-side pagination for any listings container
+    (function() {
+        function initClientPagination(root) {
+            var container = root.querySelector('.listings-container');
+            if (!container) return false;
+            var items = Array.prototype.slice.call(container.querySelectorAll('.listing-item-container'));
+            if (!items.length) return false;
+
+            // Avoid double-initialization
+            if (container.__clientPagerInitialized) return true;
+            container.__clientPagerInitialized = true;
+
+            // Build controls
+            var controls = document.createElement('div');
+            controls.style.display = 'flex';
+            controls.style.alignItems = 'center';
+            controls.style.justifyContent = 'space-between';
+            controls.style.gap = '12px';
+            controls.style.flexWrap = 'wrap';
+            controls.style.borderTop = '1px solid #e9ecef';
+            controls.style.paddingTop = '12px';
+            controls.className = 'client-pagination-controls';
+            controls.innerHTML = ''+
+                '<div style="display:flex; align-items:center; gap: 8px;">\
+                    <label style="margin:0; font-size:14px; color:#495057;">Per page</label>\
+                    <select class="client-per-page" style="padding:6px 8px; border:1px solid #ced4da; border-radius:6px; background:white;">\
+                        <option value="5">5</option>\
+                        <option value="10" selected>10</option>\
+                        <option value="20">20</option>\
+                        <option value="50">50</option>\
+                    </select>\
+                </div>\
+                <div style="display:flex; align-items:center; gap: 8px;">\
+                    <button type="button" class="client-prev" style="padding:6px 10px; border:1px solid #ced4da; background:white; border-radius:6px; cursor:pointer;">Prev</button>\
+                    <span class="client-pageinfo" style="min-width:120px; text-align:center; font-size:14px; color:#495057;">Page 1 / 1</span>\
+                    <button type="button" class="client-next" style="padding:6px 10px; border:1px solid #ced4da; background:white; border-radius:6px; cursor:pointer;">Next</button>\
+                </div>';
+
+            // Insert controls after container
+            if (container.parentNode) {
+                container.parentNode.insertBefore(controls, container.nextSibling);
+            }
+
+            // Hide any server paginator nearby (only after init)
+            var serverPaginators = root.querySelectorAll('.pagination, #server-pagination');
+            serverPaginators.forEach(function(el){ el.style.display = 'none'; });
+
+            var perPageSelect = controls.querySelector('.client-per-page');
+            var prevBtn = controls.querySelector('.client-prev');
+            var nextBtn = controls.querySelector('.client-next');
+            var pageInfo = controls.querySelector('.client-pageinfo');
+
+            var perPage = parseInt(perPageSelect ? perPageSelect.value : '10', 10);
+            var currentPage = 1;
+
+            function totalPages() { return Math.max(1, Math.ceil(items.length / perPage)); }
+
+            function render() {
+                var start = (currentPage - 1) * perPage;
+                var end = start + perPage;
+                for (var i = 0; i < items.length; i++) {
+                    items[i].style.display = (i >= start && i < end) ? '' : 'none';
+                }
+                var tp = totalPages();
+                if (pageInfo) pageInfo.textContent = 'Page ' + currentPage + ' / ' + tp;
+                if (prevBtn) prevBtn.disabled = currentPage <= 1;
+                if (nextBtn) nextBtn.disabled = currentPage >= tp;
+            }
+
+            if (perPageSelect) perPageSelect.addEventListener('change', function(){
+                perPage = parseInt(this.value, 10);
+                currentPage = 1;
+                render();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            if (prevBtn) prevBtn.addEventListener('click', function(){
+                if (currentPage > 1) { currentPage--; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+            });
+            if (nextBtn) nextBtn.addEventListener('click', function(){
+                if (currentPage < totalPages()) { currentPage++; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+            });
+
+            render();
+            return true;
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+            // Try to initialize using the closest major content area
+            var roots = document.querySelectorAll('.container, .row, body');
+            var initialized = false;
+            for (var i = 0; i < roots.length; i++) {
+                if (initClientPagination(roots[i])) { initialized = true; break; }
+            }
+        });
+    })();
+    </script>
+
     <script type="text/javascript">
         var path = "{{ route('autocomplete') }}";
 
