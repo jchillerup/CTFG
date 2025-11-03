@@ -6,10 +6,6 @@ servers:
 proxy:
   ssl: true
   hosts:
-    - connectingcurrent.tech
-    - connectingcurrent.com
-    - connectingcurrent.org
-    - www.connectingcurrent.tech
     - directory.connectingcurrent.tech
 registry:
   # Specify the registry server, if you're not using Docker Hub
@@ -79,8 +75,3 @@ accessories:
         - AIRTABLE_BASE
         - AIRTABLE_KEY
         - SYNC_SECRET_TOKEN
-healthcheck:
-  path: /
-  timeout: 60
-  interval: 5
-  retries: 12
