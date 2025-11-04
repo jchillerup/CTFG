@@ -327,74 +327,13 @@ class Media extends Model {
 
     /**
      * Optimize the original image for better performance
-     * Only compresses file size, maintains original dimensions
+     * DISABLED: Images are now saved as-is without any processing to preserve exact original quality
      */
     public function optimizeImage($quality = 85)
     {
-        if (!$this->is_local || !$this->local_path) {
-            return false;
-        }
-
-        // Check if image processing is available
-        if (!$this->isImageProcessingAvailable()) {
-            Log::channel('security')->warning('Image processing not available - no GD or Imagick extension', [
-                'media_id' => $this->id,
-                'local_path' => $this->local_path,
-                'timestamp' => now()->toISOString(),
-            ]);
-            return false;
-        }
-
-        try {
-            $fullPath = Storage::disk('public')->path($this->local_path);
-            if (!file_exists($fullPath)) {
-                return false;
-            }
-
-            $driver = $this->getImageDriver();
-            if (!$driver) {
-                Log::channel('security')->error('No image driver available', [
-                    'media_id' => $this->id,
-                    'local_path' => $this->local_path,
-                    'timestamp' => now()->toISOString(),
-                ]);
-                return false;
-            }
-
-            $manager = new ImageManager($driver);
-            $image = $manager->read($fullPath);
-            
-            // Get original dimensions - we keep these, no resizing
-            $width = $image->width();
-            $height = $image->height();
-            
-            // Determine original format to preserve it
-            $pathInfo = pathinfo($fullPath);
-            $extension = strtolower($pathInfo['extension'] ?? 'jpg');
-            
-            // Only compress/re-encode with quality optimization, no resizing
-            // This reduces file size while maintaining original dimensions and format
-            if ($extension === 'png') {
-                $image->toPng()->save($fullPath);
-            } elseif ($extension === 'webp') {
-                $image->toWebp($quality)->save($fullPath);
-            } elseif ($extension === 'gif') {
-                $image->toGif()->save($fullPath);
-            } else {
-                // Default to JPEG for jpg/jpeg files
-                $image->toJpeg($quality)->save($fullPath);
-            }
-            
-            return true;
-        } catch (\Exception $e) {
-            Log::error("Failed to optimize image: " . $e->getMessage(), [
-                'media_id' => $this->id,
-                'local_path' => $this->local_path,
-                'error' => $e->getMessage(),
-                'timestamp' => now()->toISOString(),
-            ]);
-            return false;
-        }
+        // Optimization disabled - images are saved exactly as downloaded from Airtable
+        // No resizing, no re-encoding, no compression - preserves original file exactly
+        return false;
     }
 
     /**
