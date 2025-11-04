@@ -33,14 +33,36 @@ run = [
 description = "Optimize images and generate thumbnails (all images)"
 run = [
     "echo 'Optimizing images and generating thumbnails...'",
-    "php artisan images:optimize --generate-thumbnails"
+    "kamal app exec --interactive 'env php artisan images:optimize --generate-thumbnails'"
 ]
 
 [tasks."optimize-images:limit"]
 description = "Optimize images and generate thumbnails (limited batch)"
 run = [
     "echo 'Optimizing images and generating thumbnails (limit: 100)...'",
-    "php artisan images:optimize --generate-thumbnails --limit=100"
+    "kamal app exec --interactive 'env php artisan images:optimize --generate-thumbnails --limit=100'"
 ]
 
+[tasks."cache:clear"]
+description = "Clear all application caches (cache, config, view, route, response)"
+run = [
+    "echo 'Clearing all application caches...'",
+    "kamal app exec --interactive 'env php artisan cache:clear'",
+    "kamal app exec --interactive 'env php artisan config:clear'",
+    "kamal app exec --interactive 'env php artisan view:clear'",
+    "kamal app exec --interactive 'env php artisan route:clear'",
+    "kamal app exec --interactive 'env php artisan responsecache:clear'",
+    "echo 'All caches cleared successfully!'"
+]
 
+[tasks."cache:clear:local"]
+description = "Clear all application caches locally"
+run = [
+    "echo 'Clearing all application caches locally...'",
+    "php artisan cache:clear",
+    "php artisan config:clear",
+    "php artisan view:clear",
+    "php artisan route:clear",
+    "php artisan responsecache:clear",
+    "echo 'All caches cleared successfully!'"
+]

@@ -21,7 +21,10 @@
                         <label for="filter-categories-input" class="visually-hidden">Categories</label>
                         <select id="filter-categories-input" name="categories[]" data-placeholder="All Categories" class="chosen-select-no-single" multiple style="display: none;">
                             @foreach($categories as $cat)
-                                <option value="{{ $cat->name }}">{{ $cat->name }}</option>
+                                <option value="{{ $cat->name }}"
+                                    {{ (is_array(request('categories')) && in_array($cat->name, request('categories'))) ? 'selected' : '' }}>
+                                    {{ $cat->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -30,7 +33,10 @@
                         <label for="filter-tags-input" class="visually-hidden">Tags</label>
                         <select id="filter-tags-input" name="tags[]" data-placeholder="All Tags" class="chosen-select-no-single" multiple style="display: none;">
                             @foreach($allTags as $tag)
-                                <option value="{{ $tag->name }}">{{ $tag->name }}</option>
+                                <option value="{{ $tag->name }}"
+                                    {{ (is_array(request('tags')) && in_array($tag->name, request('tags'))) ? 'selected' : '' }}>
+                                    {{ $tag->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -39,7 +45,10 @@
                         <label for="filter-project-type-input" class="visually-hidden">Type</label>
                         <select id="filter-project-type-input" name="types[]" data-placeholder="Type" class="chosen-select-no-single" multiple style="display: none;">
                             @foreach($listingTypes as $type)
-                                <option value="{{ $type }}">{{ $type }}</option>
+                                <option value="{{ $type }}"
+                                    {{ (is_array(request('types')) && in_array($type, request('types'))) ? 'selected' : '' }}>
+                                    {{ $type }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -48,7 +57,10 @@
                         <label for="filter-organizations-input" class="visually-hidden">Organizations</label>
                         <select id="filter-organizations-input" name="organizations[]" data-placeholder="All Organizations" class="chosen-select-no-single" multiple style="display: none;">
                             @foreach($allOrganizations as $org)
-                                <option value="{{ $org }}">{{ $org }}</option>
+                                <option value="{{ $org }}"
+                                    {{ (is_array(request('organizations')) && in_array($org, request('organizations'))) ? 'selected' : '' }}>
+                                    {{ $org }}
+                                </option>
                             @endforeach
                         </select>
                     </div>

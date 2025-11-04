@@ -13,24 +13,22 @@
         <div class="listing-item"
             style="background: transparent; border: none; box-shadow: none; height: auto; min-height: auto; display: flex; flex-wrap: wrap;">
             <div class="listing-item-image"
-                style="margin: 0 0 0 0 !important; flex: 0 0 250px;
-             min-height: 180px;">
+                style="margin: 0 0 0 0 !important; flex: 0 0 350px;
+             min-height: 250px; max-width: 400px;">
                 <a href="/listing/{{ $project->slug }}" target="_blank" rel="noopener noreferrer"
                     class="listing-img-container"
                     style="height: 100%; width: 100%; display: flex; align-items: center;
-                     justify-content: center; background: white; border-radius: 10px; padding: 0;
+                     justify-content: center; background: white; border-radius: 0; padding: 0;
                        transition: all 0.3s ease; overflow: hidden;">
                     @if (@$project->media->first())
-                        <img src="{{ @$project->media->first()->thumbnail_url }}"
-                            data-full-src="{{ @$project->media->first()->display_url }}"
+                        <img src="{{ @$project->media->first()->display_url }}"
                             loading="{{ $loop->index < 3 ? 'eager' : 'lazy' }}" alt="{{ $project->name }}"
                             class="responsive-thumbnail"
-                            style="filter: none; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; object-position: center; border-radius: 10px; transition: transform 0.3s ease; display: block;"
-                            onload="this.classList.add('loaded')"
-                            onerror="if(this.src !== this.dataset.fullSrc) { this.src = this.dataset.fullSrc; }">
+                            style="filter: none; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; object-position: center; border-radius: 0; transition: transform 0.3s ease; display: block;"
+                            onload="this.classList.add('loaded')">
                     @else
                         <div
-                            style="width: 100%; height: 100%; background: #f8f9fa; display: flex; align-items: center; justify-content: center; border-radius: 10px;">
+                            style="width: 100%; height: 100%; background: #f8f9fa; display: flex; align-items: center; justify-content: center; border-radius: 0;">
                             <i class="fa fa-image" style="color: #dee2e6; font-size: 32px;"></i>
                         </div>
                     @endif

@@ -1,7 +1,7 @@
 <form method="GET" action="/listings/search">
     <div class="row">
         <div class="col-md-12">
-            <div class="main-search-input gray-style margin-top-0 margin-bottom-20" style="z-index: 10000; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #e9ecef; padding: 12px;">
+            <div class="main-search-input gray-style margin-top-0 margin-bottom-20" style="z-index: 10000; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #e9ecef; padding: 12px; background: transparent;">
                 <label for="project-search-input" class="visually-hidden">Search Connecting Current projects</label>
                 <div class="main-search-input-item">
                     <input id="project-search-input" name="q" type="text" class="typeahead tt-query"
@@ -21,7 +21,7 @@
 
     <div class="row search-filters-container">
         <div class="col-md-12">
-            <div class="main-search-box no-shadow margin-bottom-30" style="border-bottom: 2px solid #e9ecef; padding-bottom: 20px; background: #f8f9fa; padding: 20px; border-radius: 12px; border: 1px solid #e9ecef;">
+            <div class="main-search-box no-shadow margin-bottom-30" style="border-bottom: 2px solid #e9ecef; padding-bottom: 20px; background: transparent; padding: 20px; border-radius: 12px; border: 1px solid #e9ecef;">
                 <div class="row with-forms margin-bottom-20">
                     <!-- <input type="hidden" name="q" value="{{ @$query }}"> -->
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
@@ -29,7 +29,10 @@
                         <select id="filter-categories-input" name="categories[]" data-placeholder="All Categories"
                             class="chosen-select-no-single" multiple style="display: none;">
                             @foreach ($categories as $cat)
-                                <option value="{{ $cat->name }}">{{ $cat->name }}</option>
+                                <option value="{{ $cat->name }}"
+                                    {{ (is_array(request('categories')) && in_array($cat->name, request('categories'))) ? 'selected' : '' }}>
+                                    {{ $cat->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -39,7 +42,10 @@
                         <select id="filter-tags-input" name="tags[]" data-placeholder="All Tags"
                             class="chosen-select-no-single" multiple style="display: none;">
                             @foreach ($allTags as $tag)
-                                <option value="{{ $tag->name }}">{{ $tag->name }}</option>
+                                <option value="{{ $tag->name }}"
+                                    {{ (is_array(request('tags')) && in_array($tag->name, request('tags'))) ? 'selected' : '' }}>
+                                    {{ $tag->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -49,7 +55,10 @@
                         <select id="filter-project-type-input" name="types[]" data-placeholder="Type"
                             class="chosen-select-no-single" multiple style="display: none;">
                             @foreach ($listingTypes as $type)
-                                <option value="{{ $type }}">{{ $type }}</option>
+                                <option value="{{ $type }}"
+                                    {{ (is_array(request('types')) && in_array($type, request('types'))) ? 'selected' : '' }}>
+                                    {{ $type }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -59,7 +68,10 @@
                         <select id="filter-languages-input" name="languages[]" data-placeholder="All Languages"
                             class="chosen-select-no-single" multiple style="display: none;">
                             @foreach ($allLanguages as $lang)
-                                <option value="{{ $lang }}">{{ $lang }}</option>
+                                <option value="{{ $lang }}"
+                                    {{ (is_array(request('languages')) && in_array($lang, request('languages'))) ? 'selected' : '' }}>
+                                    {{ $lang }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -70,7 +82,10 @@
                             data-placeholder="All Organizations" class="chosen-select-no-single" multiple
                             style="display: none;">
                             @foreach ($allOrganizations as $org)
-                                <option value="{{ $org }}">{{ $org }}</option>
+                                <option value="{{ $org }}"
+                                    {{ (is_array(request('organizations')) && in_array($org, request('organizations'))) ? 'selected' : '' }}>
+                                    {{ $org }}
+                                </option>
                             @endforeach
                         </select>
                     </div>

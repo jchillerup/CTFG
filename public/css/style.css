@@ -3449,12 +3449,12 @@ button.fs-map-btn.button {
 .listing-item-container.list-layout .listing-item-image {
     flex: none;
     height: 200px;
-    border-radius: 8px 8px 0 0;
+    border-radius: 0;
     margin: 0;
 }
 
 .listing-item-container.list-layout .listing-img-container img {
-    border-radius: 8px 8px 0 0;
+    border-radius: 0;
     max-width: 100%;
     max-height: 100%;
     width: auto;
@@ -10002,11 +10002,12 @@ body .notification strong {
     border-radius: 0 8px 8px 0;
 }
 .listing-item-container.list-layout .listing-item-image {
-    min-height: 180px;
-    flex: 0 0 250px;
-    height: 180px;
+    min-height: 250px;
+    flex: 0 0 350px;
+    min-width: 300px;
+    max-width: 400px;
     overflow: hidden;
-    border-radius: 8px;
+    border-radius: 0;
     position: relative;
     margin: 0;
     background-color: transparent;
@@ -10023,11 +10024,11 @@ body .notification strong {
     justify-content: center;
     margin: 0;
     background-color: #ffffff;
-    border-radius: 8px;
-    min-width: 220px;
-    min-height: 160px;
-    max-width: 250px;
-    padding: 6px;
+    border-radius: 0;
+    min-width: 300px;
+    min-height: 200px;
+    max-width: 100%;
+    padding: 0;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
@@ -10035,7 +10036,7 @@ body .notification strong {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    border-radius: 4px;
+    border-radius: 0;
     transition: transform 0.3s ease;
     background-color: transparent;
     padding: 0;
@@ -10077,8 +10078,39 @@ body .notification strong {
 
 /* Simplified loading - no spinner needed for small thumbnails */
 
+/* Desktop: Add spacing between image and text */
+@media (min-width: 769px) {
+    .listing-item-container.list-layout .listing-item-content {
+        margin-left: 20px;
+    }
+}
+
 /* Mobile responsive adjustments - MUCH BIGGER images on mobile */
 @media (max-width: 768px) {
+    /* Ensure search form and listings align on mobile */
+    .main-search-input,
+    .main-search-box {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    
+    .main-search-input .row,
+    .search-filters-container .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    
+    .main-search-input .col-md-12,
+    .search-filters-container .col-md-12 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    /* Remove padding-right-30 on mobile */
+    .padding-right-30 {
+        padding-right: 0 !important;
+    }
+    
     .listing-item-container.list-layout .listing-item-image {
         flex: 0 0 300px !important;
         min-height: 220px !important;
@@ -10095,11 +10127,17 @@ body .notification strong {
     .listing-item-container.list-layout {
         padding: 20px !important;
         margin-bottom: 25px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
     }
     
     .listing-item-container.list-layout .listing-item {
         flex-direction: column;
         align-items: center;
+    }
+    
+    .listing-item-container.list-layout .listing-item-content {
+        margin-left: 0 !important;
     }
     
     .listing-item-container.list-layout .listing-item-image {
@@ -16626,6 +16664,12 @@ a.dashboard-responsive-nav-trigger.active {
 }
 .container .row div.padding-right-30 {
     padding-right: 15px!important;
+}
+
+@media (max-width: 768px) {
+    .container .row div.padding-right-30 {
+        padding-right: 0 !important;
+    }
 }
 .container .row div.padding-left-30 {
     padding-left: 15px!important;

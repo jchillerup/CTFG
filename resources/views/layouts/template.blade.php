@@ -289,6 +289,19 @@
         $(".overlay").click(function() {
             $.LoadingOverlay("show");
         });
+
+        // Ensure Chosen.js properly displays selected filter values after page load
+        // This ensures filters persist when returning to search results
+        $(document).ready(function() {
+            // Trigger Chosen to update after a short delay to ensure initialization is complete
+            setTimeout(function() {
+                $('.chosen-select-no-single').each(function() {
+                    if ($(this).data('chosen')) {
+                        $(this).trigger('chosen:updated');
+                    }
+                });
+            }, 100);
+        });
     </script>
 
     @yield('scripts')
