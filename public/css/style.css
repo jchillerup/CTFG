@@ -562,21 +562,30 @@ h2.site-title {
     top: 0;
     width: 100%;
     z-index: 999;
-}
-#header.cloned {
     background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    left: 0;
+    right: 0;
+    padding: 18px 0 7px;
 }
+
+#header.cloned .container {
+    width: 100% !important;
+    max-width: 1400px;
+    padding: 0 20px;
+    margin: 0 auto;
+}
+
 #header.cloned #logo img {
     transform: translate3d(0, 0, 0);
-    max-width: 120px;
+    /* max-width: 120px; */
     margin-top: 1px;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-}
-#header.cloned {
-    padding: 18px 0 7px;
+    image-rendering: auto;
+    -webkit-backface-visibility: visible;
+    backface-visibility: visible;
+    height: 50px;
+    width: auto;
+    object-fit: contain;
 }
 .sticky-logo {
     display: none;
