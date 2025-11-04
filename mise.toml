@@ -29,3 +29,18 @@ run = [
     "kamal app exec --interactive 'env LOG_CHANNEL=stderr LOG_LEVEL=info php artisan sync:tables'"
 ]
 
+[tasks.optimize-images]
+description = "Optimize images and generate thumbnails (all images)"
+run = [
+    "echo 'Optimizing images and generating thumbnails...'",
+    "php artisan images:optimize --generate-thumbnails"
+]
+
+[tasks."optimize-images:limit"]
+description = "Optimize images and generate thumbnails (limited batch)"
+run = [
+    "echo 'Optimizing images and generating thumbnails (limit: 100)...'",
+    "php artisan images:optimize --generate-thumbnails --limit=100"
+]
+
+
