@@ -22,7 +22,7 @@
             border: 1px solid #e9ecef;
             transition: box-shadow 0.3s ease;
         }
-        
+
         .listing-section:hover {
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
         }
@@ -36,7 +36,7 @@
             border: 1px solid #e9ecef;
             transition: box-shadow 0.3s ease;
         }
-        
+
         .additional-info-section:hover {
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
         }
@@ -64,13 +64,13 @@
         }
 
         /* Content spacing inside cards */
-        .listing-section > *,
-        .additional-info-section > * {
+        .listing-section>*,
+        .additional-info-section>* {
             margin-bottom: 10px;
         }
 
-        .listing-section > *:last-child,
-        .additional-info-section > *:last-child {
+        .listing-section>*:last-child,
+        .additional-info-section>*:last-child {
             margin-bottom: 0;
         }
 
@@ -99,13 +99,13 @@
         }
 
         /* Content spacing inside cards */
-        .listing-section > *,
-        .additional-info-section > * {
+        .listing-section>*,
+        .additional-info-section>* {
             margin-bottom: 10px;
         }
 
-        .listing-section > *:last-child,
-        .additional-info-section > *:last-child {
+        .listing-section>*:last-child,
+        .additional-info-section>*:last-child {
             margin-bottom: 0;
         }
 
@@ -148,8 +148,7 @@
             .listing-item-image {
                 flex: none !important;
                 width: 100% !important;
-                margin-right: 0 !important;
-                margin-bottom: 15px !important;
+                margin: 0 !important;
                 min-height: 120px !important;
             }
 
@@ -229,20 +228,29 @@
             <!-- Project Title Section -->
             <div class="listing-section">
                 <div class="row">
-                    <div class="col-lg-4 col-md-4">
+                    <div class="col-lg-4 col-md-4" style="margin-bottom: 24px;">
                         @if (@$project->media->first())
-                            <img src="{{ @$project->media->first()->display_url }}" loading="lazy"
-                                alt="Graphic representing {!! $project->name !!}" style="max-width: 100%; height: auto; border-radius: 6px;">
+                            <div style="width: 100%; display: flex; align-items: center; justify-content: center; background: white;  padding: 0;  overflow: hidden;">
+                                <img src="{{ @$project->media->first()->display_url }}" loading="lazy"
+                                    alt="Graphic representing {!! $project->name !!}"
+                                    style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; object-position: center; display: block;">
+                            </div>
                         @else
-                            <img src="{{ asset('images/gray.png') }}" loading="lazy"
-                                alt="Graphic representing {!! $project->name !!}" style="max-width: 100%; height: auto; border-radius: 6px;">
+                            <div style="width: 100%; min-height: 200px; display: flex; align-items: center; justify-content: center; background: #f8f9fa;">
+                                <img src="{{ asset('images/gray.png') }}" loading="lazy"
+                                    alt="Graphic representing {!! $project->name !!}"
+                                    style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; object-position: center; display: block;">
+                            </div>
                         @endif
                     </div>
                     <div class="col-lg-8 col-md-8">
-                        <h1 style="margin-top: 0; margin-bottom: 18px; color: #212529; font-size: 2em; font-weight: 700; line-height: 1.3;">{!! $project->name !!}</h1>
+                        <h1
+                            style="margin-top: 0; margin-bottom: 18px; color: #212529; font-size: 2em; font-weight: 700; line-height: 1.3;">
+                            {!! $project->name !!}</h1>
                         @if (!empty($project->website_url))
                             <p style="margin-bottom: 10px;">
-                                <a href="{{ @$project->website_url }}" target="_blank" rel="noopener noreferrer" style="color: #28a745; text-decoration: none;">
+                                <a href="{{ @$project->website_url }}" target="_blank" rel="noopener noreferrer"
+                                    style="color: #28a745; text-decoration: none;">
                                     <i class="fa fa-globe"></i>
                                     {{ @$project->website_url }}
                                 </a>
@@ -261,10 +269,14 @@
             <div id="listing-overview" class="listing-section">
                 @if ($project->tags->count() > 0)
                     <div style="margin-bottom: 24px;">
-                        <strong style="color: #495057; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; display: block; margin-bottom: 10px;">Tags:</strong>
+                        <strong
+                            style="color: #495057; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; display: block; margin-bottom: 10px;">Tags:</strong>
                         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                             @foreach ($project->tags as $tag)
-                                <a href="/listing-tag/{{ @$tag->name }}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: #d1e7dd; color: #0a3622; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease; border: 1px solid #badbcc;" onmouseover="this.style.background='#badbcc'; this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#d1e7dd'; this.style.transform='translateY(0)'">{{ @$tag->name }}</a>
+                                <a href="/listing-tag/{{ @$tag->name }}" target="_blank" rel="noopener noreferrer"
+                                    style="display: inline-block; background: #d1e7dd; color: #0a3622; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease; border: 1px solid #badbcc;"
+                                    onmouseover="this.style.background='#badbcc'; this.style.transform='translateY(-1px)'"
+                                    onmouseout="this.style.background='#d1e7dd'; this.style.transform='translateY(0)'">{{ @$tag->name }}</a>
                             @endforeach
                         </div>
                     </div>
@@ -287,10 +299,14 @@
                 @endphp
                 @if (!empty($languages))
                     <div style="margin-bottom: 24px;">
-                        <strong style="color: #495057; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; display: block; margin-bottom: 10px;">Languages:</strong>
+                        <strong
+                            style="color: #495057; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; display: block; margin-bottom: 10px;">Languages:</strong>
                         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                             @foreach ($languages as $lang)
-                                <a href="/listing-language/{{ urlencode($lang) }}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: #cfe2ff; color: #084298; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease; border: 1px solid #9ec5fe;" onmouseover="this.style.background='#9ec5fe'; this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#cfe2ff'; this.style.transform='translateY(0)'">{{ $lang }}</a>
+                                <a href="/listing-language/{{ urlencode($lang) }}" target="_blank" rel="noopener noreferrer"
+                                    style="display: inline-block; background: #cfe2ff; color: #084298; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease; border: 1px solid #9ec5fe;"
+                                    onmouseover="this.style.background='#9ec5fe'; this.style.transform='translateY(-1px)'"
+                                    onmouseout="this.style.background='#cfe2ff'; this.style.transform='translateY(0)'">{{ $lang }}</a>
                             @endforeach
                         </div>
                     </div>
@@ -324,9 +340,13 @@
                                     <tr>
                                         <th>{{ count($organizations) > 1 ? 'Organizations:' : 'Organization:' }} </th>
                                         <td>
-                                            @foreach($organizations as $org)
-                                                @if(!$loop->first), @endif
-                                                <a href="/listing-organization/{{ $org->id }}" target="_blank" rel="noopener noreferrer" style="color: #0A78C2;">{{ $org->name }}</a>
+                                            @foreach ($organizations as $org)
+                                                @if (!$loop->first)
+                                                    ,
+                                                @endif
+                                                <a href="/listing-organization/{{ $org->id }}" target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    style="color: #0A78C2;">{{ $org->name }}</a>
                                             @endforeach
                                         </td>
                                     </tr>
@@ -402,7 +422,8 @@
                                         <th>Project(s): </th>
                                         <td>
                                             @foreach ($project->children as $child)
-                                                <a style="color: #0A78C2;" target="_blank" rel="noopener noreferrer" href="/listing/{{ $child->slug }}">
+                                                <a style="color: #0A78C2;" target="_blank" rel="noopener noreferrer"
+                                                    href="/listing/{{ $child->slug }}">
                                                     {{ $child->name }}
                                                 </a>
                                                 @if ($project->children->last()->id != $child->id)
@@ -548,10 +569,12 @@
                                 <p>
                                     {{ $impactItem->statement }}
                                     @if (!empty($impactItem->url))
-                                        (<a href="{{ $impactItem->url }}" target="_blank" rel="noopener noreferrer" style="color: #0A78C2;">Source</a>,
+                                        (<a href="{{ $impactItem->url }}" target="_blank" rel="noopener noreferrer"
+                                            style="color: #0A78C2;">Source</a>,
                                     @endif
                                     @if (!empty($impactItem->impact_date))
-                                        <a href="{{ $impactItem->impact_date }}" target="_blank" rel="noopener noreferrer">
+                                        <a href="{{ $impactItem->impact_date }}" target="_blank"
+                                            rel="noopener noreferrer">
                                             {{ $impactItem->impact_date }}
                                         </a>)
                                     @else
@@ -583,9 +606,11 @@
         <!-- Additional Information Section -->
         @php
             $hasFounders = @$project->founders->count() > 0;
-            $hasSocialLinks = !empty($project->facebook_url) || !empty($project->twitter_url) || !empty($project->instagram_url);
+            $hasSocialLinks =
+                !empty($project->facebook_url) || !empty($project->twitter_url) || !empty($project->instagram_url);
             $hasContactForm = !empty(@$project->contact_form_email);
-            $hasResources = !empty(@$project->linkedin_url) ||
+            $hasResources =
+                !empty(@$project->linkedin_url) ||
                 !empty(@$project->youtube_channel) ||
                 !empty(@$project->contact_page_url) ||
                 !empty(@$project->github_url) ||
@@ -597,157 +622,163 @@
             $hasAdditionalInfo = $hasFounders || $hasSocialLinks || $hasContactForm || $hasResources;
         @endphp
         @if ($hasAdditionalInfo)
-        <div class="col-lg-12 col-md-12 col-sm-12 margin-top-50">
-            
-            <div class="additional-info-section">
-                @if ($hasFounders)
-                    <div class="founders-section">
-                        <h3>Founder(s)</h3>
-                        <ul style="padding-left: 30px;">
-                            @foreach ($project->founders as $founder)
-                                <li><span style="color: #000;">{{ @$founder->name }}</span></li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+            <div class="col-lg-12 col-md-12 col-sm-12 margin-top-50">
 
-                @if ($hasSocialLinks)
-                <ul class="share-buttons margin-top-40 margin-bottom-0">
-                    @if (!empty($project->facebook_url))
-                        <li>
-                            <a class="fb-share" target="_blank" href="{{ $project->facebook_url }}"><i
-                                    class="fa fa-facebook"></i> Facebook</a>
-                        </li>
+                <div class="additional-info-section">
+                    @if ($hasFounders)
+                        <div class="founders-section">
+                            <h3>Founder(s)</h3>
+                            <ul style="padding-left: 30px;">
+                                @foreach ($project->founders as $founder)
+                                    <li><span style="color: #000;">{{ @$founder->name }}</span></li>
+                                @endforeach
+                            </ul>
+                        </div>
                     @endif
-                    @if (!empty($project->twitter_url))
-                        <li>
-                            <a class="twitter-share" target="_blank" href="{{ $project->twitter_url }}"><i
-                                    style="color: #1da1f2" class="fa fa-twitter"></i> Twitter</a>
-                        </li>
-                    @endif
-                    @if (!empty($project->instagram_url))
-                        <li>
-                            <a class="instagram-share" target="_blank" href="{{ $project->instagram_url }}"><i
-                                    class="fa fa-instagram"></i> Instagram</a>
-                        </li>
-                    @endif
-                </ul>
-                @endif
 
-
-
-                @if ($hasContactForm)
-                    <div class="contact-section margin-top-35">
-                        <h3>Contact {{ $project->name }}</h3>
-                        <form action="/listing-contact-form" method="POST">
-                            @csrf
-                            <div class="row">
-                                @if (Session::has('success'))
-                                    <div class="col-12">
-                                        <div class="alert alert-success" style="padding: 10px 25px; color: #006600;">
-                                            <p style="color: #006600 !important;">
-                                                {{ Session('success') }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                @endif
-                                @if ($errors->any())
-                                    <div class="col-12" style="color: green;">
-                                        <div class="alert alert-danger">
-                                            <ul>
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    </div>
-                                @endif
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <input class="form-control valid" name="email" id="email" type="email"
-                                            onfocus="this.placeholder = ''"
-                                            onblur="this.placeholder = 'Enter email address'" placeholder="Email" />
-                                    </div>
-                                </div>
-
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <textarea class="form-control" name="message" id="msg" rows="4" onfocus="this.placeholder = ''"
-                                            onblur="this.placeholder = 'Enter Message'" placeholder="Enter Message"></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="form-group mt-3 col-9">
-                                    @if (config('services.recaptcha.key'))
-                                        <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.key') }}">
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="form-group mt-3 col-3 text-right" style="margin-top: -60px;">
-                                    <input type="hidden" name="recipient" id="recipient"
-                                        value="{{ $project->contact_form_email }}">
-                                    <input type="hidden" name="slug" id="slug" value="{{ $project->slug }}">
-                                    <button type="submit" class="button button-contactForm boxed-btn">Send</button>
-                                </div>
-                                <div class="mt-3 col-12">
-                                    <p style="margin-top: 30px; font-size: 12px; line-height: 20px;">
-                                        By hitting "Send", you agree that the Connecting Current will share your email
-                                        address and message with {{ $project->name }}. {{ $project->name }} has agreed to
-                                        receive messages via this form but may not be able to reply to every message. This
-                                        service does not imply any affiliation between {{ $project->name }} and the
-                                        Connecting Current. You will not be signed up for anything.
-                                    </p>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                @endif
-
-                @if ($hasResources)
-                    <div class="resources-section margin-top-35">
-                        <h3>Resources</h3>
-                        <ul>
-                            @if (!empty(@$project->linkedin_url))
-                                <li>LinkedIn: <span><a href="{{ @$project->linkedin_url }}"
-                                            target="_blank" rel="noopener noreferrer">{{ @$project->linkedin_url }}</a></span></li>
-                            @endif
-                            @if (!empty(@$project->youtube_channel))
-                                <li>Youtube: <span><a href="{{ @$project->youtube_channel }}"
-                                            target="_blank" rel="noopener noreferrer">{{ @$project->youtube_channel }}</a></span></li>
-                            @endif
-                            @if (!empty(@$project->contact_page_url))
-                                <li>Contact page: <span><a href="{{ @$project->contact_page_url }}"
-                                            target="_blank" rel="noopener noreferrer">{{ @$project->contact_page_url }}</a></span></li>
-                            @endif
-                            @if (!empty(@$project->github_url))
-                                <li>Github: <span><a href="{{ @$project->github_url }}"
-                                            target="_blank" rel="noopener noreferrer">{{ @$project->github_url }}</a></span></li>
-                            @endif
-                            @if (!empty(@$project->events_page_url))
-                                <li>Events page: <span><a href="{{ @$project->events_page_url }}"
-                                            target="_blank" rel="noopener noreferrer">{{ @$project->events_page_url }}</a><span></li>
-                            @endif
-                            @if (!empty(@$project->jobs_page_url))
-                                <li>Jobs page: <span><a href="{{ @$project->jobs_page_url }}"
-                                            target="_blank" rel="noopener noreferrer">{{ @$project->jobs_page_url }}</a></span></li>
-                            @endif
-                            @if (!empty(@$project->blog_url))
-                                <li>Blog: <span><a href="{{ @$project->blog_url }}"
-                                            target="_blank" rel="noopener noreferrer">{{ @$project->blog_url }}</a></span></li>
-                            @endif
-                            @if (!empty(@$project->parent_id))
-                                <li>Parent Org: <span>                                                <a style="color: #0A72B8;" target="_blank" rel="noopener noreferrer"
-                                            href="/listing/{{ $project->parent->slug }}">{{ @$project->parent->name }}</a></span>
+                    @if ($hasSocialLinks)
+                        <ul class="share-buttons margin-top-40 margin-bottom-0">
+                            @if (!empty($project->facebook_url))
+                                <li>
+                                    <a class="fb-share" target="_blank" href="{{ $project->facebook_url }}"><i
+                                            class="fa fa-facebook"></i> Facebook</a>
                                 </li>
                             @endif
-                            {{-- @if (!empty(@$project->host_organization_url))
+                            @if (!empty($project->twitter_url))
+                                <li>
+                                    <a class="twitter-share" target="_blank" href="{{ $project->twitter_url }}"><i
+                                            style="color: #1da1f2" class="fa fa-twitter"></i> Twitter</a>
+                                </li>
+                            @endif
+                            @if (!empty($project->instagram_url))
+                                <li>
+                                    <a class="instagram-share" target="_blank" href="{{ $project->instagram_url }}"><i
+                                            class="fa fa-instagram"></i> Instagram</a>
+                                </li>
+                            @endif
+                        </ul>
+                    @endif
+
+
+
+                    @if ($hasContactForm)
+                        <div class="contact-section margin-top-35">
+                            <h3>Contact {{ $project->name }}</h3>
+                            <form action="/listing-contact-form" method="POST">
+                                @csrf
+                                <div class="row">
+                                    @if (Session::has('success'))
+                                        <div class="col-12">
+                                            <div class="alert alert-success" style="padding: 10px 25px; color: #006600;">
+                                                <p style="color: #006600 !important;">
+                                                    {{ Session('success') }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if ($errors->any())
+                                        <div class="col-12" style="color: green;">
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <input class="form-control valid" name="email" id="email"
+                                                type="email" onfocus="this.placeholder = ''"
+                                                onblur="this.placeholder = 'Enter email address'" placeholder="Email" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <textarea class="form-control" name="message" id="msg" rows="4" onfocus="this.placeholder = ''"
+                                                onblur="this.placeholder = 'Enter Message'" placeholder="Enter Message"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mt-3 col-9">
+                                        @if (config('services.recaptcha.key'))
+                                            <div class="g-recaptcha"
+                                                data-sitekey="{{ config('services.recaptcha.key') }}">
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="form-group mt-3 col-3 text-right" style="margin-top: -60px;">
+                                        <input type="hidden" name="recipient" id="recipient"
+                                            value="{{ $project->contact_form_email }}">
+                                        <input type="hidden" name="slug" id="slug"
+                                            value="{{ $project->slug }}">
+                                        <button type="submit" class="button button-contactForm boxed-btn">Send</button>
+                                    </div>
+                                    <div class="mt-3 col-12">
+                                        <p style="margin-top: 30px; font-size: 12px; line-height: 20px;">
+                                            By hitting "Send", you agree that the Connecting Current will share your email
+                                            address and message with {{ $project->name }}. {{ $project->name }} has agreed
+                                            to
+                                            receive messages via this form but may not be able to reply to every message.
+                                            This
+                                            service does not imply any affiliation between {{ $project->name }} and the
+                                            Connecting Current. You will not be signed up for anything.
+                                        </p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    @endif
+
+                    @if ($hasResources)
+                        <div class="resources-section margin-top-35">
+                            <h3>Resources</h3>
+                            <ul>
+                                @if (!empty(@$project->linkedin_url))
+                                    <li>LinkedIn: <span><a href="{{ @$project->linkedin_url }}" target="_blank"
+                                                rel="noopener noreferrer">{{ @$project->linkedin_url }}</a></span></li>
+                                @endif
+                                @if (!empty(@$project->youtube_channel))
+                                    <li>Youtube: <span><a href="{{ @$project->youtube_channel }}" target="_blank"
+                                                rel="noopener noreferrer">{{ @$project->youtube_channel }}</a></span></li>
+                                @endif
+                                @if (!empty(@$project->contact_page_url))
+                                    <li>Contact page: <span><a href="{{ @$project->contact_page_url }}" target="_blank"
+                                                rel="noopener noreferrer">{{ @$project->contact_page_url }}</a></span>
+                                    </li>
+                                @endif
+                                @if (!empty(@$project->github_url))
+                                    <li>Github: <span><a href="{{ @$project->github_url }}" target="_blank"
+                                                rel="noopener noreferrer">{{ @$project->github_url }}</a></span></li>
+                                @endif
+                                @if (!empty(@$project->events_page_url))
+                                    <li>Events page: <span><a href="{{ @$project->events_page_url }}" target="_blank"
+                                                rel="noopener noreferrer">{{ @$project->events_page_url }}</a><span></li>
+                                @endif
+                                @if (!empty(@$project->jobs_page_url))
+                                    <li>Jobs page: <span><a href="{{ @$project->jobs_page_url }}" target="_blank"
+                                                rel="noopener noreferrer">{{ @$project->jobs_page_url }}</a></span></li>
+                                @endif
+                                @if (!empty(@$project->blog_url))
+                                    <li>Blog: <span><a href="{{ @$project->blog_url }}" target="_blank"
+                                                rel="noopener noreferrer">{{ @$project->blog_url }}</a></span></li>
+                                @endif
+                                @if (!empty(@$project->parent_id))
+                                    <li>Parent Org: <span> <a style="color: #0A72B8;" target="_blank"
+                                                rel="noopener noreferrer"
+                                                href="/listing/{{ $project->parent->slug }}">{{ @$project->parent->name }}</a></span>
+                                    </li>
+                                @endif
+                                {{-- @if (!empty(@$project->host_organization_url))
                             <li>Host Org Url: <span><a href="{{ @$project->host_organization_url }}" target="_blank">{{ @$project->host_organization_url }}</a></span></li>
                         @endif --}}
-                        </ul>
-                    </div>
-                @endif
+                            </ul>
+                        </div>
+                    @endif
 
-                {{-- @if ($project->links->count() > 0)
+                    {{-- @if ($project->links->count() > 0)
                 <div class="boxed-widget opening-hours margin-top-35" style="text-align: left;">
                     <h3>Links</h3>
                     <ol>
@@ -763,9 +794,9 @@
                 </div>
             @endif --}}
 
-                <div class="clearfix"></div>
+                    <div class="clearfix"></div>
+                </div>
             </div>
-        </div>
         @endif
     </div>
 @endsection

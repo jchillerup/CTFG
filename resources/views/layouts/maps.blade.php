@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>{{ @$title }}</title>
     <meta charset="utf-8">
@@ -8,17 +9,21 @@
     <link rel="stylesheet" href="{{ asset('css/listing.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main-color.css') }}" id="colors">
     @yield('styles')
-    
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-R1HZWFGK53"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
 
-      gtag('config', 'G-R1HZWFGK53');
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-R1HZWFGK53');
     </script>
 </head>
+
 <body>
     <!-- Wrapper -->
     <div id="wrapper">
@@ -28,16 +33,15 @@
                 <div class="container" style="width: 100%">
                     <div class="left-side">
                         <div id="logo">
-                            <a href="/"
-                                style="display: flex; align-items: center; text-decoration: none;">
-                                <img src="{{ asset('images/favicon.png') }}" alt="Connecting Current Logo"
+                            <a href="/" style="display: flex; align-items: center; text-decoration: none;">
+                                <img src="{{ asset('images/logo.png') }}" alt="Connecting Current"
                                     style="height: 50px; margin-right: 15px;">
-                                <div>
+                                {{-- <div>
                                     <h2 class="site-title" style="margin-top: 2px; margin-bottom: 0;">
                                         <span class="site-title">Connecting Current</span>
                                     </h2>
                                     <small style="font-size: .8em;">A Digital Democracy Knowledge Hub</small>
-                                </div>
+                                </div> --}}
                             </a>
                         </div>
                         <!-- Mobile Navigation -->
@@ -61,28 +65,39 @@
                                 <a href="https://connectingcurrent.tech/contribute" style="margin-right: 10px;">
                                     Contribute
                                 </a>
-                                <a href="http://eepurl.com/gkg4WH" target="_blank" class="@if(@$menu == 'about') active @endif" style="margin-right: 10px;">
+                                <a href="http://eepurl.com/gkg4WH" target="_blank"
+                                    class="@if (@$menu == 'about') active @endif" style="margin-right: 10px;">
                                     Subscribe
                                 </a>
                             </div>
                             <div style="padding-right: 25px; margin-top: 15px;">
-                                <a href="/tech" class="overlay @if(@$menu == 'tech') active @endif" style="margin-right: 10px;">The Tech</a>
-                                <a href="/people" class="overlay @if(@$menu == 'people') active @endif" style="margin-right: 10px;">The People</a>
-                                <a href="/adjacent" class="overlay @if(@$menu == 'adjacent') active @endif" style="margin-right: 10px;">Adjacent Fields</a>
-                                <a href="/listing-categories" class="overlay @if(@$menu == 'categories') active @endif" style="margin-right: 10px;">All Categories</a>
-                                <a href="/tags" class="overlay @if(@$menu == 'tags') active @endif" style="margin-right: 10px;">Tags</a>
-                                <a href="/world-map" class="@if(@$menu == 'map') active @endif" style="margin-right: 10px;">World Map</a>
-                                <a href="https://airtable.com/embed/shrM34qRWRywrgENk?backgroundColor=blueLight" target="_blank" style="padding: 20px 0 0 0 !important; margin-bottom: -5px !important; line-height: 26px !important; color: green;" class=" with-icon">Add Project <i class="sl sl-icon-plus"></i></a>
+                                <a href="/tech" class="overlay @if (@$menu == 'tech') active @endif"
+                                    style="margin-right: 10px;">The Tech</a>
+                                <a href="/people" class="overlay @if (@$menu == 'people') active @endif"
+                                    style="margin-right: 10px;">The People</a>
+                                <a href="/adjacent" class="overlay @if (@$menu == 'adjacent') active @endif"
+                                    style="margin-right: 10px;">Adjacent Fields</a>
+                                <a href="/listing-categories"
+                                    class="overlay @if (@$menu == 'categories') active @endif"
+                                    style="margin-right: 10px;">All Categories</a>
+                                <a href="/tags" class="overlay @if (@$menu == 'tags') active @endif"
+                                    style="margin-right: 10px;">Tags</a>
+                                <a href="/world-map" class="@if (@$menu == 'map') active @endif"
+                                    style="margin-right: 10px;">World Map</a>
+                                <a href="https://airtable.com/embed/shrM34qRWRywrgENk?backgroundColor=blueLight"
+                                    target="_blank"
+                                    style="padding: 20px 0 0 0 !important; margin-bottom: -5px !important; line-height: 26px !important; color: green;"
+                                    class=" with-icon">Add Project <i class="sl sl-icon-plus"></i></a>
                             </div>
                         </div>
                     </div>
-               
+
                 </div>
             </div>
         </header>
         <div class="clearfix"></div>
         <div>&nbsp;</div>
-        
+
         <div class="container" style="width: 100%;">
             @yield('content')
         </div>
@@ -91,7 +106,7 @@
 
         <div id="backtotop"><a href="#"><span class="visually-hidden">Back to Top</span></a></div>
     </div>
-    
+
     <script type="text/javascript" src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery-migrate-3.1.0.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/mmenu.min.js') }}"></script>
@@ -104,9 +119,10 @@
     <script type="text/javascript" src="{{ asset('js/jquery-ui.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/tooltips.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
-    
+
     @yield('scripts')
-    
-    
+
+
 </body>
+
 </html>

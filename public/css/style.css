@@ -87,8 +87,7 @@
         .listing-item-image {
             flex: none !important;
             width: 100% !important;
-            margin-right: 0 !important;
-            margin-bottom: 15px !important;
+            margin: 0 !important;
             min-height: 120px !important;
         }
 
@@ -3451,13 +3450,16 @@ button.fs-map-btn.button {
     flex: none;
     height: 200px;
     border-radius: 8px 8px 0 0;
-    margin: 10px 10px 0 10px;
+    margin: 0;
 }
 
 .listing-item-container.list-layout .listing-img-container img {
     border-radius: 8px 8px 0 0;
-    max-width: 150px;
-    max-height: 150px;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
     filter: none !important;
     -webkit-filter: none !important;
 }
@@ -10006,7 +10008,7 @@ body .notification strong {
     overflow: hidden;
     border-radius: 8px;
     position: relative;
-    margin: 10px;
+    margin: 0;
     background-color: transparent;
     display: flex;
     align-items: center;

@@ -99,7 +99,7 @@ class Media extends Model {
     /**
      * Generate a thumbnail for the image
      */
-    public function generateThumbnail($width = 200, $height = 150, $quality = 85)
+    public function generateThumbnail($width = 250, $height = 180, $quality = 85)
     {
         if (!$this->is_local || !$this->local_path) {
             return false;
@@ -199,7 +199,7 @@ class Media extends Model {
     /**
      * Generate a mobile-optimized thumbnail (larger for mobile screens)
      */
-    public function generateMobileThumbnail($width = 300, $height = 220, $quality = 85)
+    public function generateMobileThumbnail($width = 350, $height = 250, $quality = 85)
     {
         if (!$this->is_local || !$this->local_path) {
             return false;
