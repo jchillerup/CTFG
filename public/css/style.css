@@ -26,8 +26,8 @@
     }
 
     /* Logo styling */
-    #logo img {
-        max-height: 50px;
+    #logo img { 
+        /* max-height: 50px; */
         width: auto;
         display: block;
         image-rendering: -webkit-optimize-contrast;
@@ -1810,7 +1810,7 @@ em.mm-counter+a.mm-fullsubopen+a, em.mm-counter+a.mm-fullsubopen+span {
 }
 #logo {
     position: absolute;
-    width: 100%;
+    /* width: 100%; */
     margin: 0 auto;
     margin-top: 5px;
     width: 35%;

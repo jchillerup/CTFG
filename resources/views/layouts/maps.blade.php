@@ -35,7 +35,7 @@
                         <div id="logo">
                             <a href="/" style="display: flex; align-items: center; text-decoration: none;">
                                 <img src="{{ asset('images/logo.png') }}" alt="Connecting Current"
-                                    style="height: 50px; margin-right: 15px;">
+                                   >
                                 {{-- <div>
                                     <h2 class="site-title" style="margin-top: 2px; margin-bottom: 0;">
                                         <span class="site-title">Connecting Current</span>
