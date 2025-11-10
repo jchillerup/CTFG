@@ -31,17 +31,23 @@
             <!-- Header -->
             <div id="header">
                 <div class="container" style="width: 100%">
-                    <div class="left-side">
+                    <div class="left-side" style="display: flex; align-items: center;">
                         <div id="logo">
-                            <a href="/" style="display: flex; align-items: center; text-decoration: none;">
+                            <a href="https://connectingcurrent.tech/" style="display: flex; align-items: center; text-decoration: none;">
                                 <img src="{{ asset('images/logo.png') }}" alt="Connecting Current"
-                                   >
+                                    style="max-height: 50px; height: auto; display: block;">
                                 {{-- <div>
                                     <h2 class="site-title" style="margin-top: 2px; margin-bottom: 0;">
                                         <span class="site-title">Connecting Current</span>
                                     </h2>
                                     <small style="font-size: .8em;">A Digital Democracy Knowledge Hub</small>
                                 </div> --}}
+                            </a>
+                        </div>
+                        <div style="margin-left: 20px; font-size: 19px; white-space: nowrap;">
+                            <a href="https://directory.connectingcurrent.tech/" target="_blank"
+                                style="text-decoration: none;">
+                                Directory
                             </a>
                         </div>
                         <!-- Mobile Navigation -->
@@ -59,15 +65,8 @@
                     <div class="right-side">
                         <div class="header-widget">
                             <div style="padding-right: 25px; font-size: 19px;">
-                                <a href="/" class="active" style="margin-right: 10px;">
-                                    Directory
-                                </a>
                                 <a href="https://connectingcurrent.tech/contribute" style="margin-right: 10px;">
                                     Contribute
-                                </a>
-                                <a href="http://eepurl.com/gkg4WH" target="_blank"
-                                    class="@if (@$menu == 'about') active @endif" style="margin-right: 10px;">
-                                    Subscribe
                                 </a>
                             </div>
                             <div style="padding-right: 25px; margin-top: 15px;">

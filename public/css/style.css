@@ -264,20 +264,26 @@
         width: auto;
         /*z-index: 9999 !important; */
         box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 20%);
+        background-color: #FFFFFF !important;
     }
     .typeahead {
-        background-color: #FFFFFF;
+        background-color: #FFFFFF !important;
     }
     .typeahead:focus {
         border: 2px solid #28a745;
+        background-color: #FFFFFF !important;
     }
     .tt-query {
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+        background-color: #FFFFFF !important;
+    }
+    .tt-hint {
+        background-color: #FFFFFF !important;
     }
     .tt-hint {
         color: #000;
     }
-    .tt-menu {
+    .tt-menu, .tt-dropdown-menu {
         background-color: #FFFFFF;
         border: 1px solid rgba(0, 0, 0, 0.2);
         border-radius: 8px;
@@ -285,17 +291,45 @@
         margin-top: 12px;
         padding: 8px 0;
         width: 422px;
+        max-height: 300px !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        display: block;
+        position: relative;
     }
-    ul.typeahead li {
+    .tt-menu > *, .tt-dropdown-menu > * {
+        max-height: 284px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    ul.typeahead, .tt-menu ul, .tt-dropdown-menu ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+        max-height: 284px !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        padding: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    ul.typeahead li, .tt-menu li, .tt-dropdown-menu li, .tt-suggestion {
         font-size: 15px;  /* Set suggestion dropdown font size */
         padding: 3px 10px;
+        list-style: none;
+        width: 100%;
+        box-sizing: border-box;
+        display: block;
     }
-    ul.typeahead li:hover {
+    ul.typeahead li:last-child, .tt-menu li:last-child, .tt-dropdown-menu li:last-child {
+        margin-bottom: 0;
+    }
+    ul.typeahead li:hover, .tt-menu li:hover, .tt-dropdown-menu li:hover, .tt-suggestion:hover, .tt-selectable:hover {
         cursor: pointer;
         background-color: #28a745;
         color: #fff !important;
     }
-    ul.typeahead li p {
+    ul.typeahead li p, .tt-menu li p, .tt-dropdown-menu li p {
         margin: 0;
     }
 
@@ -2085,7 +2119,7 @@ body .typed-cursor.typed-cursor--blink.typed-fade-out {
 .main-search-input input, .main-search-input input:focus {
     font-size: 16px;
     border: none;
-    background: #fff;
+    background: #FFFFFF !important;
     margin: 0;
     padding: 0;
     height: 44px;
@@ -2107,8 +2141,13 @@ body .typed-cursor.typed-cursor--blink.typed-fade-out {
     top: -10px;
     position: relative;
 }
-.gray-style .main-search-input-item.location a, .gray-style.main-search-input input, .gray-style.main-search-input input:focus {
+.gray-style .main-search-input-item.location a {
     background: #f7f7f7;
+}
+.gray-style.main-search-input input, .gray-style.main-search-input input:focus,
+.gray-style.main-search-input .typeahead, .gray-style.main-search-input .tt-query,
+.gray-style.main-search-input .tt-hint, .gray-style.main-search-input #project-search-input {
+    background: #FFFFFF !important;
 }
 .gray-style .main-search-input-item {
     border-color: #e0e0e0;
@@ -16629,12 +16668,15 @@ a.dashboard-responsive-nav-trigger.active {
     height: 55px;
     line-height: 55px;
     border-radius: 4px;
-    background: #fff;
+    background: #FFFFFF !important;
     border: 1px solid #e0e0e0;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .08);
 }
-.gray-style.main-search-input input, .gray-style.main-search-input input:focus, .main-search-input input, .main-search-input input:focus {
+.gray-style.main-search-input input, .gray-style.main-search-input input:focus, .main-search-input input, .main-search-input input:focus,
+.gray-style.main-search-input .typeahead, .gray-style.main-search-input .tt-query,
+.gray-style.main-search-input .tt-hint, .gray-style.main-search-input #project-search-input {
     padding: 0 20px;
+    background: #FFFFFF !important;
 }
 .gray-style .main-search-input-item.location a {
     background: #fff;
