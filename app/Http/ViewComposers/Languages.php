@@ -29,15 +29,40 @@ class Languages
             ->orderBy('secondary_language', 'ASC')
             ->pluck('secondary_language');
 
-        // Combine and deduplicate
-        $allLanguages = $primaryLanguages->merge($secondaryLanguages)->unique()->sort()->values();
+        // Get all languages from the all_languages JSON field
+        $allLanguagesFromJson = Listing::whereNotNull('all_languages')
+            ->select('all_languages')
+            ->get()
+            ->pluck('all_languages')
+            ->flatten()
+            ->filter(function($lang) {
+                return !empty($lang) && is_string($lang);
+            })
+            ->unique()
+            ->sort()
+            ->values();
+
+        // Combine all sources and deduplicate
+        $allLanguages = $primaryLanguages
+            ->merge($secondaryLanguages)
+            ->merge($allLanguagesFromJson)
+            ->unique()
+            ->sort()
+            ->values();
         
         $languagesArray = array();
         foreach ($allLanguages as $lang) {
-            if (!empty($lang)) {
-                array_push($languagesArray, $lang);
+            if (!empty($lang) && is_string($lang)) {
+                $lang = trim($lang);
+                if (!empty($lang)) {
+                    array_push($languagesArray, $lang);
+                }
             }
         }
+        
+        // Sort and remove duplicates one more time
+        $languagesArray = array_unique($languagesArray);
+        sort($languagesArray);
         
         $this->languages = $languagesArray;
     }
