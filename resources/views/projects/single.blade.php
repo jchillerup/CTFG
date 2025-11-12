@@ -273,7 +273,7 @@
                             style="color: #495057; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; display: block; margin-bottom: 10px;">Tags:</strong>
                         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                             @foreach ($project->tags as $tag)
-                                <a href="/listing-tag/{{ @$tag->name }}" target="_blank" rel="noopener noreferrer"
+                                <a href="/listing-tag/{{ @$tag->name }}"
                                     style="display: inline-block; background: #d1e7dd; color: #0a3622; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease; border: 1px solid #badbcc;"
                                     onmouseover="this.style.background='#badbcc'; this.style.transform='translateY(-1px)'"
                                     onmouseout="this.style.background='#d1e7dd'; this.style.transform='translateY(0)'">{{ @$tag->name }}</a>
@@ -303,7 +303,7 @@
                             style="color: #495057; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; display: block; margin-bottom: 10px;">Languages:</strong>
                         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                             @foreach ($languages as $lang)
-                                <a href="/listing-language/{{ urlencode($lang) }}" target="_blank" rel="noopener noreferrer"
+                                <a href="/listing-language/{{ urlencode($lang) }}"
                                     style="display: inline-block; background: #cfe2ff; color: #084298; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease; border: 1px solid #9ec5fe;"
                                     onmouseover="this.style.background='#9ec5fe'; this.style.transform='translateY(-1px)'"
                                     onmouseout="this.style.background='#cfe2ff'; this.style.transform='translateY(0)'">{{ $lang }}</a>
@@ -344,8 +344,7 @@
                                                 @if (!$loop->first)
                                                     ,
                                                 @endif
-                                                <a href="/listing-organization/{{ $org->id }}" target="_blank"
-                                                    rel="noopener noreferrer"
+                                                <a href="/listing-organization/{{ $org->id }}"
                                                     style="color: #0A78C2;">{{ $org->name }}</a>
                                             @endforeach
                                         </td>
@@ -412,7 +411,7 @@
                                 @if (!empty(@$project->parent_id))
                                     <tr>
                                         <th>Parent Organization: </th>
-                                        <td><a style="color: #0A78C2;" target="_blank" rel="noopener noreferrer"
+                                        <td><a style="color: #0A78C2;"
                                                 href="/listing/{{ $project->parent->slug }}">{{ $project->parent->name }}</a>
                                         </td>
                                     </tr>
@@ -422,7 +421,7 @@
                                         <th>Project(s): </th>
                                         <td>
                                             @foreach ($project->children as $child)
-                                                <a style="color: #0A78C2;" target="_blank" rel="noopener noreferrer"
+                                                <a style="color: #0A78C2;"
                                                     href="/listing/{{ $child->slug }}">
                                                     {{ $child->name }}
                                                 </a>
@@ -497,7 +496,7 @@
                     <h3 class="listing-desc-headline">Project Categories</h3>
                     <ul class="listing-features" style="list-style: inherit; padding-left: 30px;">
                         @foreach ($project->categories as $category)
-                            <li><a style="color: #0A78C2;" target="_blank" rel="noopener noreferrer"
+                            <li><a style="color: #0A78C2;"
                                     href="/listing-category/{{ $category->slug }}">{{ $category->name }}</a></li>
                         @endforeach
                     </ul>
@@ -766,8 +765,7 @@
                                                 rel="noopener noreferrer">{{ @$project->blog_url }}</a></span></li>
                                 @endif
                                 @if (!empty(@$project->parent_id))
-                                    <li>Parent Org: <span> <a style="color: #0A72B8;" target="_blank"
-                                                rel="noopener noreferrer"
+                                    <li>Parent Org: <span> <a style="color: #0A72B8;"
                                                 href="/listing/{{ $project->parent->slug }}">{{ @$project->parent->name }}</a></span>
                                     </li>
                                 @endif

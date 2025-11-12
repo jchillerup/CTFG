@@ -7,7 +7,7 @@
                 Tag: &nbsp;
                 @if(!empty($activeParentTag->name))
                     <span style="color: #333; font-size: 22px;">
-                        <a href="/listing-tag/{{ $activeParentTag->slug }}" target="_blank" rel="noopener noreferrer">
+                        <a href="/listing-tag/{{ $activeParentTag->slug }}">
                             {{ $activeParentTag->name }}
                         </a> >
                     </span>

@@ -13,34 +13,34 @@
         <div class="col-md-12 margin-bottom-40">
             <h2>
                 @if(!empty($activeAncestor))
-                    <a href="/listing-category/{{ $activeAncestor->slug }}" target="_blank" rel="noopener noreferrer">
+                    <a href="/listing-category/{{ $activeAncestor->slug }}">
                         {{ $activeAncestor->name }}
                     </a> >
                 @endif
                 @if(!empty($activeGreatGreatGrandParent))
                     <span style="color: #333; font-size: 22px;">
-                        <a href="/listing-category/{{ $activeGreatGreatGrandParent->slug }}" target="_blank" rel="noopener noreferrer">
+                        <a href="/listing-category/{{ $activeGreatGreatGrandParent->slug }}">
                             {{ $activeGreatGreatGrandParent->name }}
                         </a> >
                     </span>
                 @endif
                 @if(!empty($activeGreatGrandParent))
                     <span style="color: #333; font-size: 22px;">
-                        <a href="/listing-category/{{ $activeGreatGrandParent->slug }}" target="_blank" rel="noopener noreferrer">
+                        <a href="/listing-category/{{ $activeGreatGrandParent->slug }}">
                             {{ $activeGreatGrandParent->name }}
                         </a> >
                     </span>
                 @endif
                 @if(!empty($activeGrandParent))
                     <span style="color: #333; font-size: 22px;">
-                        <a href="/listing-category/{{ $activeGrandParent->slug }}" target="_blank" rel="noopener noreferrer">
+                        <a href="/listing-category/{{ $activeGrandParent->slug }}">
                             {{ $activeGrandParent->name }}
                         </a> >
                     </span>
                 @endif
                 @if(!empty($activeParent))
                     <span style="color: #333; font-size: 22px;">
-                        <a href="/listing-category/{{ $activeParent->slug }}" target="_blank" rel="noopener noreferrer">
+                        <a href="/listing-category/{{ $activeParent->slug }}">
                             {{ $activeParent->name }}
                         </a> >
                     </span>

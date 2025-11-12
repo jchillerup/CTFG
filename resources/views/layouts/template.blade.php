@@ -53,7 +53,7 @@
                             </a>
                         </div>
                         <div style="margin-left: 20px; font-size: 19px; white-space: nowrap;">
-                            <a href="https://directory.connectingcurrent.tech/" target="_blank"
+                            <a href="https://directory.connectingcurrent.tech/"
                                 style="text-decoration: none;">
                                 Directory
                             </a>

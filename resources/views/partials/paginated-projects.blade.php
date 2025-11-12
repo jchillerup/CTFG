@@ -15,7 +15,7 @@
             <div class="listing-item-image"
                 style="margin: 0 0 0 0 !important; flex: 0 0 350px;
              min-height: 250px; max-width: 400px;">
-                <a href="/listing/{{ $project->slug }}" target="_blank" rel="noopener noreferrer"
+                <a href="/listing/{{ $project->slug }}"
                     class="listing-img-container"
                     style="height: 100%; width: 100%; display: flex; align-items: center;
                      justify-content: center; background: white; border-radius: 0; padding: 0;
@@ -38,7 +38,7 @@
             <div class="listing-item-content" style="flex: 1; padding: 0; min-width: 0;">
                 <div class="listing-title" style="margin-bottom: 16px;">
                     <h4 style="margin: 0 0 12px 0; font-size: 24px; line-height: 1.4; font-weight: 600;">
-                        <a href="/listing/{{ $project->slug }}" target="_blank" rel="noopener noreferrer"
+                        <a href="/listing/{{ $project->slug }}"
                             style="color: #212529; text-decoration: none; transition: color 0.2s ease;"
                             onmouseover="this.style.color='#0d6efd'" onmouseout="this.style.color='#212529'">
                             {!! $project->name !!}
@@ -65,7 +65,7 @@
                         </strong>
                         <div style="margin-top: 8px;">
                             @foreach (@$project->tags as $tag)
-                                <a href="/listing-tag/{{ @$tag->name }}" target="_blank" rel="noopener noreferrer"
+                                <a href="/listing-tag/{{ @$tag->name }}"
                                     style="display: inline-block; background: #d1e7dd; color: #0a3622; padding: 6px 12px; margin: 4px 6px 4px 0; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease; border: 1px solid #badbcc;"
                                     onmouseover="this.style.background='#badbcc'; this.style.transform='translateY(-1px)'"
                                     onmouseout="this.style.background='#d1e7dd'; this.style.transform='translateY(0)'">{{ @$tag->name }}</a>
@@ -96,8 +96,7 @@
                         </strong>
                         <div style="margin-top: 8px;">
                             @foreach ($languages as $lang)
-                                <a href="/listing-language/{{ urlencode($lang) }}" target="_blank"
-                                    rel="noopener noreferrer"
+                                <a href="/listing-language/{{ urlencode($lang) }}"
                                     style="display: inline-block; background: #cfe2ff; color: #084298; padding: 6px 12px; margin: 4px 6px 4px 0; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease; border: 1px solid #9ec5fe;"
                                     onmouseover="this.style.background='#9ec5fe'; this.style.transform='translateY(-1px)'"
                                     onmouseout="this.style.background='#cfe2ff'; this.style.transform='translateY(0)'">{{ $lang }}</a>
@@ -112,8 +111,7 @@
                             style="color: #495057; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Categories:</strong>
                         <div style="margin-top: 8px;">
                             @foreach (@$project->categoriesOrdered as $cat)
-                                <a href="/listing-category/{{ @$cat->slug }}" target="_blank"
-                                    rel="noopener noreferrer"
+                                <a href="/listing-category/{{ @$cat->slug }}"
                                     style="display: inline-block; background: #198754; color: white; padding: 6px 12px; margin: 4px 6px 4px 0; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease; border: 1px solid #157347;"
                                     onmouseover="this.style.background='#157347'; this.style.transform='translateY(-1px)'"
                                     onmouseout="this.style.background='#198754'; this.style.transform='translateY(0)'">{{ @$cat->name }}</a>
@@ -137,8 +135,7 @@
                             style="color: #495057; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Organizations:</strong>
                         <div style="margin-top: 8px;">
                             @foreach ($organizations as $org)
-                                <a href="/listing-organization/{{ $org->id }}" target="_blank"
-                                    rel="noopener noreferrer"
+                                <a href="/listing-organization/{{ $org->id }}"
                                     style="display: inline-block; background: #0d6efd; color: white; padding: 6px 12px; margin: 4px 6px 4px 0; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease; border: 1px solid #0a58ca;"
                                     onmouseover="this.style.background='#0a58ca'; this.style.transform='translateY(-1px)'"
                                     onmouseout="this.style.background='#0d6efd'; this.style.transform='translateY(0)'">{{ $org->name }}</a>
@@ -154,7 +151,6 @@
                             Type:</strong>
                         <div style="margin-top: 8px;">
                             <a href="/listing-organization-type/{{ urlencode(@$project->organization_type) }}"
-                                target="_blank" rel="noopener noreferrer"
                                 style="display: inline-block; background: #6c757d; color: white; padding: 6px 12px; margin: 4px 6px 4px 0; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease; border: 1px solid #5c636a;"
                                 onmouseover="this.style.background='#5c636a'; this.style.transform='translateY(-1px)'"
                                 onmouseout="this.style.background='#6c757d'; this.style.transform='translateY(0)'">{{ @$project->organization_type }}</a>
