@@ -27,6 +27,8 @@ use Illuminate\Support\Str;
 class ImportsController extends Controller {
     public function manualSync() {
         try {
+            \Log::info('Manual sync started at ' . date('Y-m-d H:i:s'));
+            
             // app(\App\Http\Controllers\Airtable\Sync\CategoryController::class)->syncCategories();
 
             // app(\App\Http\Controllers\Airtable\Sync\FundingController::class)->syncFunding();
@@ -49,8 +51,23 @@ class ImportsController extends Controller {
 
             app(\App\Http\Controllers\Airtable\Sync\ListingController::class)->syncListing();
 
+            \Log::info('Manual sync completed at ' . date('Y-m-d H:i:s'));
+            
+            return response()->view('sync-result', [
+                'status' => 'success',
+                'message' => 'Sync completed successfully!',
+                'timestamp' => now()->format('Y-m-d H:i:s')
+            ]);
+
         } catch (\Throwable $th) {
-            \Log::error('Error from Airtable auto sync cron job: ' . $th->getMessage());
+            \Log::error('Error from Airtable manual sync: ' . $th->getMessage());
+            \Log::error('Stack trace: ' . $th->getTraceAsString());
+            
+            return response()->view('sync-result', [
+                'status' => 'error',
+                'message' => 'Sync failed: ' . $th->getMessage(),
+                'timestamp' => now()->format('Y-m-d H:i:s')
+            ]);
         }
     }
     

@@ -13,10 +13,10 @@ class SecretSyncController extends Controller
      */
     public function instantSync($token)
     {
-        // Verify the secret token
+        // Verify the secret token (case-insensitive comparison)
         $validToken = config('app.sync_secret_token', 'default-secret-token');
         
-        if ($token !== $validToken) {
+        if (strtolower($token) !== strtolower($validToken)) {
             Log::warning('Invalid sync token attempted: ' . $token);
             return $this->errorResponse('Access denied');
         }

@@ -5,7 +5,7 @@
 ### **Step 1: Bookmark This Link**
 Save this link in your browser bookmarks:
 ```
-https://connectingcurrent.tech/sync-now/Ulc6Q2EI7kqcJYCS4cw8iYTTx9QW9Kle
+https://directory.connectingcurrent.tech/sync-now/Ulc6Q2EI7kqcJYCS4cw8iYTTx9QW9Kle
 ```
 
 ### **Step 2: When You Need to Update Content**
