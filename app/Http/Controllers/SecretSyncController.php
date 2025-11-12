@@ -24,19 +24,40 @@ class SecretSyncController extends Controller
         try {
             Log::info('Manual sync triggered via secret URL');
             
-            // Run the sync command
-            Artisan::call('sync:tables');
+            // Run the sync command in the background to avoid Cloudflare timeout
+            // This allows the request to return immediately while sync runs in background
+            $phpPath = PHP_BINARY;
+            $artisanPath = base_path('artisan');
+            $logPath = storage_path('logs/sync-background.log');
             
-            // Get the output
-            $output = Artisan::output();
+            // Run command in background (works on Linux/Unix)
+            if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+                // Linux/Unix: Run in background and redirect output
+                $command = sprintf(
+                    '%s %s sync:tables >> %s 2>&1 &',
+                    escapeshellarg($phpPath),
+                    escapeshellarg($artisanPath),
+                    escapeshellarg($logPath)
+                );
+                exec($command);
+            } else {
+                // Windows: Use start command
+                $command = sprintf(
+                    'start /B %s %s sync:tables >> %s 2>&1',
+                    escapeshellarg($phpPath),
+                    escapeshellarg($artisanPath),
+                    escapeshellarg($logPath)
+                );
+                pclose(popen($command, 'r'));
+            }
             
-            Log::info('Manual sync completed successfully');
+            Log::info('Sync command dispatched to run in background');
             
-            return $this->successResponse('Sync completed successfully!');
+            return $this->successResponse('Sync started! The sync is running in the background and may take a few minutes to complete. Check the logs for progress.');
             
         } catch (\Exception $e) {
             Log::error('Manual sync failed: ' . $e->getMessage());
-            return $this->errorResponse('Sync failed. Please try again later.');
+            return $this->errorResponse('Sync failed to start: ' . $e->getMessage());
         }
     }
 
