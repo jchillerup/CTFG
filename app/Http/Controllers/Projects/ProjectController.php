@@ -119,8 +119,13 @@ class ProjectController extends Controller {
             ->when(request('languages'), function($builder) {
                 $languages = request('languages');
                 $builder->where(function($query) use ($languages) {
-                    $query->whereIn('language', $languages)
-                          ->orWhereIn('secondary_language', $languages);
+                    foreach ($languages as $lang) {
+                        $query->where(function($q) use ($lang) {
+                            $q->where('language', $lang)
+                              ->orWhere('secondary_language', $lang)
+                              ->orWhereJsonContains('all_languages', $lang);
+                        });
+                    }
                 });
             })
             ->when(request('date_from'), function($builder) {
