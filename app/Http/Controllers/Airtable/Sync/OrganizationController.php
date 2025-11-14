@@ -193,9 +193,15 @@ class OrganizationController extends Controller
         error_log("ORGANIZATION_SYNC_DEBUG - Organizations to sync (all): " . count($organizationsToSync));
         error_log("ORGANIZATION_SYNC_DEBUG - Organizations used in listings: " . count($usedOrganizationIds));
         
-        // Don't truncate - preserve existing organizations and only add/update missing ones
-        // This preserves manually added organizations or organizations from other sources
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        // Truncate organizations table to ensure clean state - removes placeholder names and duplicates
+        // This ensures only organizations from Airtable/Listings are present
+        if (count($organizationsToSync) > 0) {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            Organization::truncate();
+            error_log("ORGANIZATION_SYNC_DEBUG - Truncated organizations table for clean sync");
+        } else {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        }
 
         $processedCount = 0;
         $skippedCount = 0;
@@ -228,14 +234,9 @@ class OrganizationController extends Controller
             }
             
             try {
-                // Check if organization already exists (by airtable_id) and update it, or create new
-                $organization = Organization::where('airtable_id', $org["id"])->first();
-                $isUpdate = (bool)$organization;
-                if (!$organization) {
-                    $organization = new Organization;
-                    $organization->airtable_id = @$org["id"];
-                }
-                $oldName = $organization->name ?? 'NEW';
+                // Create new organization (table is truncated, so no need to check for existing)
+                $organization = new Organization;
+                $organization->airtable_id = @$org["id"];
                 $organization->name = $orgName;
                 // Try different field names for description and URL (Knowledge table might use different names)
                 $organization->description = @$org["fields"]["Description"] ?? null;
@@ -243,9 +244,6 @@ class OrganizationController extends Controller
                 $organization->type = @$org["fields"]["Type"] ?? null;
                 $organization->status = @$org["fields"]["Status"] ?? null;
                 $organization->save();
-                if ($isUpdate && $oldName !== $orgName) {
-                    \Log::info("Updated organization {$org['id']} name from '{$oldName}' to '{$orgName}'");
-                }
             } catch (\Exception $e) {
                 $skippedCount++;
                 \Log::error("Failed to save organization {$org['id']}: " . $e->getMessage());
