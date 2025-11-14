@@ -149,14 +149,17 @@ class ListingController extends Controller {
                 // Keep organization_id for backward compatibility (first organization)
                 $organizationField = @$l["fields"]["Organization"];
                 $organizationId = null;
-                if (is_array($organizationField) && !empty($organizationField)) {
-                    $organizationAirtableId = $organizationField[0];
-                    $organization = \App\Models\Organization::where('airtable_id', $organizationAirtableId)->first();
-                    $organizationId = $organization ? $organization->id : null;
-                } elseif ($organizationField) {
-                    $organization = \App\Models\Organization::where('airtable_id', $organizationField)->first();
-                    $organizationId = $organization ? $organization->id : null;
+                if (!empty($organizationField)) {
+                    if (is_array($organizationField) && !empty($organizationField)) {
+                        $organizationAirtableId = $organizationField[0];
+                        $organization = \App\Models\Organization::where('airtable_id', $organizationAirtableId)->first();
+                        $organizationId = $organization ? $organization->id : null;
+                    } else {
+                        $organization = \App\Models\Organization::where('airtable_id', $organizationField)->first();
+                        $organizationId = $organization ? $organization->id : null;
+                    }
                 }
+                // Explicitly set to null if no organization found (ensures clean state)
                 $list->organization_id = $organizationId;
                 // Multiple organizations will be synced in syncRelations() method
                 
@@ -327,28 +330,32 @@ class ListingController extends Controller {
             }
 
             // listing_organizations - handle multiple organizations
-            if (!empty(@$artList["fields"]["Organization"]) && sizeof(@$artList["fields"]["Organization"]) > 0) {
-                // First, detach all existing organizations for this listing
-                if ($dbList) {
-                    $dbList->organizations()->detach();
-                }
-                // Then attach all organizations from Airtable
-                for ($i=0; $i < sizeof(@$artList["fields"]["Organization"]); $i++) { 
-                    $dbOrg = \App\Models\Organization::where('airtable_id', @$artList["fields"]["Organization"][$i])->first();
+            // Always detach all existing organizations first to ensure clean sync
+            if ($dbList) {
+                $dbList->organizations()->detach();
+            }
+            
+            // Then attach organizations from Airtable (if any)
+            if (!empty(@$artList["fields"]["Organization"])) {
+                $organizationField = @$artList["fields"]["Organization"];
+                
+                // Handle array of organizations
+                if (is_array($organizationField) && !empty($organizationField)) {
+                    foreach ($organizationField as $orgAirtableId) {
+                        $dbOrg = \App\Models\Organization::where('airtable_id', $orgAirtableId)->first();
+                        if ($dbList && $dbOrg) {
+                            $dbList->organizations()->attach($dbOrg->id);
+                        }
+                    }
+                } else {
+                    // Handle single organization (not an array)
+                    $dbOrg = \App\Models\Organization::where('airtable_id', $organizationField)->first();
                     if ($dbList && $dbOrg) {
                         $dbList->organizations()->attach($dbOrg->id);
                     }
                 }
-            } elseif (!empty(@$artList["fields"]["Organization"])) {
-                // Handle single organization (not an array)
-                if ($dbList) {
-                    $dbList->organizations()->detach();
-                }
-                $dbOrg = \App\Models\Organization::where('airtable_id', @$artList["fields"]["Organization"])->first();
-                if ($dbList && $dbOrg) {
-                    $dbList->organizations()->attach($dbOrg->id);
-                }
             }
+            // If Organization field is empty/null in Airtable, organizations remain detached (clean state)
 
             // listing_media
             if (!empty(@$artList["fields"]["Images"]) && sizeof(@$artList["fields"]["Images"]) > 0) {
