@@ -194,10 +194,12 @@ class OrganizationController extends Controller
             try {
                 // Check if organization already exists (by airtable_id) and update it, or create new
                 $organization = Organization::where('airtable_id', $org["id"])->first();
+                $isUpdate = (bool)$organization;
                 if (!$organization) {
                     $organization = new Organization;
                     $organization->airtable_id = @$org["id"];
                 }
+                $oldName = $organization->name ?? 'NEW';
                 $organization->name = $orgName;
                 // Try different field names for description and URL (Knowledge table might use different names)
                 $organization->description = @$org["fields"]["Description"] ?? null;
@@ -205,6 +207,9 @@ class OrganizationController extends Controller
                 $organization->type = @$org["fields"]["Type"] ?? null;
                 $organization->status = @$org["fields"]["Status"] ?? null;
                 $organization->save();
+                if ($isUpdate && $oldName !== $orgName) {
+                    \Log::info("Updated organization {$org['id']} name from '{$oldName}' to '{$orgName}'");
+                }
             } catch (\Exception $e) {
                 $skippedCount++;
                 \Log::error("Failed to save organization {$org['id']}: " . $e->getMessage());
