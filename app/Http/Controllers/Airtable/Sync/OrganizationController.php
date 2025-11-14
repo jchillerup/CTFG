@@ -153,6 +153,42 @@ class OrganizationController extends Controller
             // Sync ALL organizations from Airtable organizations table (not just those used in listings)
             // This ensures all organizations are available for filtering and display
             $organizationsToSync = is_array($allOrganizations) ? $allOrganizations : $allOrganizations->toArray();
+            
+            // IMPORTANT: Also fetch organizations from Listings table for any that are referenced in listings
+            // This ensures organizations with placeholder names get updated with real names
+            if (count($usedOrganizationIds) > 0) {
+                error_log("ORGANIZATION_SYNC_DEBUG - Also checking Listings table for organizations referenced in listings");
+                $listingsOrgs = [];
+                foreach ($usedOrganizationIds as $orgId) {
+                    // Check if this organization already exists in organizationsToSync
+                    $exists = false;
+                    foreach ($organizationsToSync as $existingOrg) {
+                        if (isset($existingOrg['id']) && $existingOrg['id'] === $orgId) {
+                            $exists = true;
+                            break;
+                        }
+                    }
+                    
+                    // If not found, try to fetch from Listings table
+                    if (!$exists) {
+                        try {
+                            $org = Airtable::table('listings')->find($orgId);
+                            if ($org && !empty($org['fields']) && !empty($org['fields']['Project name'])) {
+                                // Convert listing to organization format
+                                $orgRecord = $org;
+                                $orgRecord['fields']['Name'] = $org['fields']['Project name'];
+                                $listingsOrgs[] = $orgRecord;
+                                error_log("ORGANIZATION_SYNC_DEBUG - Found organization {$orgId} in Listings table (name: " . $org['fields']['Project name'] . ") - will update existing placeholder");
+                            }
+                        } catch (\Exception $e) {
+                            // Not found in Listings table, skip
+                        }
+                    }
+                }
+                // Merge organizations from Listings table into the sync list
+                $organizationsToSync = array_merge($organizationsToSync, $listingsOrgs);
+                error_log("ORGANIZATION_SYNC_DEBUG - Added " . count($listingsOrgs) . " organizations from Listings table to sync list");
+            }
         }
         error_log("ORGANIZATION_SYNC_DEBUG - Organizations to sync (all): " . count($organizationsToSync));
         error_log("ORGANIZATION_SYNC_DEBUG - Organizations used in listings: " . count($usedOrganizationIds));
