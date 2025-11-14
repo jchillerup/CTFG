@@ -110,7 +110,7 @@ class ProjectController extends Controller {
             ->when(request('q'), function($builder) {
                 $builder->searchQuery(request('q'));
             })
-            ->with('organization')
+            ->with(['organization', 'organizations'])
             ->orderBy('created', 'DESC')
             ->paginate(50);
 
@@ -221,7 +221,7 @@ class ProjectController extends Controller {
             ->when(request('q'), function($builder) {
                 $builder->searchQuery(request('q'));
             })
-            ->with('organization')
+            ->with(['organization', 'organizations'])
             ->orderBy('created', 'DESC')
             ->paginate(50);
 
@@ -318,7 +318,7 @@ class ProjectController extends Controller {
                     });
                 }
             })
-            ->with('organization')
+            ->with(['organization', 'organizations'])
             ->orderBy('created', 'DESC')
             ->paginate(50);
 
@@ -422,7 +422,7 @@ class ProjectController extends Controller {
             ->when(request('q'), function($builder) {
                 $builder->searchQuery(request('q'));
             })
-            ->with('organization')
+            ->with(['organization', 'organizations'])
             ->orderBy('created', 'DESC')
             ->paginate(50);
 
@@ -500,16 +500,20 @@ class ProjectController extends Controller {
             })
             ->when(request('organizations'), function($builder) {
                 $organizations = request('organizations');
-
-                $builder->whereHas('organization', function($builder) use ($organizations) {
-                    $builder->whereIn('name', $organizations);
+                // Filter projects by the selected organizations - check both single and many-to-many relationships
+                $builder->where(function($query) use ($organizations) {
+                    $query->whereHas('organization', function($q) use ($organizations) {
+                        $q->whereIn('name', $organizations);
+                    })->orWhereHas('organizations', function($q) use ($organizations) {
+                        $q->whereIn('name', $organizations);
+                    });
                 });
             })
             ->whereIn('status', ['Active', 'N/A'])
             ->when(request('q'), function($builder) {
                 $builder->searchQuery(request('q'));
             })
-            ->with('organization')
+            ->with(['organization', 'organizations'])
             ->orderBy('created', 'DESC')
             ->paginate(50);
 

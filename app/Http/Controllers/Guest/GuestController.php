@@ -74,6 +74,17 @@ class GuestController extends Controller {
                 // Filter projects by parent organization
                 $builder->whereIn('parent_organization', $parentOrganizations);
             })
+            ->when(request('organizations'), function($builder) {
+                $organizations = request('organizations');
+                // Filter projects by the selected organizations - check both single and many-to-many relationships
+                $builder->where(function($query) use ($organizations) {
+                    $query->whereHas('organization', function($q) use ($organizations) {
+                        $q->whereIn('name', $organizations);
+                    })->orWhereHas('organizations', function($q) use ($organizations) {
+                        $q->whereIn('name', $organizations);
+                    });
+                });
+            })
             ->when(request('languages'), function($builder) {
                 $languages = request('languages');
                 $builder->where(function($query) use ($languages) {
@@ -108,7 +119,7 @@ class GuestController extends Controller {
                 $builder->searchQuery(request('q'));
             })
             ->orderByRaw('-cover_image DESC')
-            ->with('organization')
+            ->with(['organization', 'organizations'])
             ->orderBy('created', 'DESC')
             ->paginate(50);
 
@@ -141,6 +152,7 @@ class GuestController extends Controller {
             'filterOpenSource' => request('opensource'),
             'filterTypes' => request('types'),
             'filterParentOrganizations' => request('parentorganizations'),
+            'filterOrganizations' => request('organizations'),
             'filterLanguages' => request('languages'),
             'filterDateFrom' => request('date_from'),
             'filterDateTo' => request('date_to'),

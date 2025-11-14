@@ -62,6 +62,7 @@ class ListingController extends Controller {
             DB::table('listing_media')->truncate();
             DB::table('listing_tags')->truncate();
             DB::table('listing_links')->truncate();
+            DB::table('listing_organizations')->truncate();
         }
         
         $start = Carbon::createFromFormat('Y-m-d H:s:i', date('Y-m-d H:i:s'));
@@ -345,6 +346,13 @@ class ListingController extends Controller {
                         $dbOrg = \App\Models\Organization::where('airtable_id', $orgAirtableId)->first();
                         if ($dbList && $dbOrg) {
                             $dbList->organizations()->attach($dbOrg->id);
+                            \Log::debug("Attached organization {$dbOrg->name} (ID: {$dbOrg->id}) to listing {$dbList->name} (ID: {$dbList->id})");
+                        } else {
+                            if (!$dbList) {
+                                \Log::warning("Listing with airtable_id {$artList['id']} not found in database when trying to attach organization {$orgAirtableId}");
+                            } elseif (!$dbOrg) {
+                                \Log::warning("Organization with airtable_id {$orgAirtableId} not found in database for listing {$dbList->name} (airtable_id: {$artList['id']})");
+                            }
                         }
                     }
                 } else {
@@ -352,6 +360,13 @@ class ListingController extends Controller {
                     $dbOrg = \App\Models\Organization::where('airtable_id', $organizationField)->first();
                     if ($dbList && $dbOrg) {
                         $dbList->organizations()->attach($dbOrg->id);
+                        \Log::debug("Attached organization {$dbOrg->name} (ID: {$dbOrg->id}) to listing {$dbList->name} (ID: {$dbList->id})");
+                    } else {
+                        if (!$dbList) {
+                            \Log::warning("Listing with airtable_id {$artList['id']} not found in database when trying to attach organization {$organizationField}");
+                        } elseif (!$dbOrg) {
+                            \Log::warning("Organization with airtable_id {$organizationField} not found in database for listing {$dbList->name} (airtable_id: {$artList['id']})");
+                        }
                     }
                 }
             }

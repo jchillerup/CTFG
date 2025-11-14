@@ -112,25 +112,24 @@ class Listing extends Model {
 
     public function scopeSearchQuery(Builder $builder, $q) {
         $escapedQuery = addslashes($q);
-        return $builder
-            ->select()
-            ->where("name", "LIKE", "%{$escapedQuery}%")
-            ->orWhere("introduction", "LIKE", "%{$escapedQuery}%")
-            ->orWhere("description", "LIKE", "%{$escapedQuery}%")
-            ->orWhere("country", "LIKE", "%{$escapedQuery}%")
-            ->orWhereHas("categories", function($builder) use ($escapedQuery) {
-                //$builder->where("name", "=", $escapedQuery);
-                $builder->where("name", "LIKE", "%{$escapedQuery}%");
-            })
-            ->orWhereHas("tags", function($builder) use ($escapedQuery) {
-                $builder->where("name", "LIKE", "%{$escapedQuery}%");
-            })
-            ->orderByRaw("CASE
-                WHEN name = '{$escapedQuery}' THEN 1
-                WHEN name LIKE '{$escapedQuery}%' THEN 2
-                WHEN name LIKE '%{$escapedQuery}%' THEN 3
-                ELSE 4
-                END"
-            );
+        return $builder->where(function($query) use ($escapedQuery) {
+            $query->where("name", "LIKE", "%{$escapedQuery}%")
+                  ->orWhere("introduction", "LIKE", "%{$escapedQuery}%")
+                  ->orWhere("description", "LIKE", "%{$escapedQuery}%")
+                  ->orWhere("country", "LIKE", "%{$escapedQuery}%")
+                  ->orWhereHas("categories", function($builder) use ($escapedQuery) {
+                      $builder->where("name", "LIKE", "%{$escapedQuery}%");
+                  })
+                  ->orWhereHas("tags", function($builder) use ($escapedQuery) {
+                      $builder->where("name", "LIKE", "%{$escapedQuery}%");
+                  });
+        })
+        ->orderByRaw("CASE
+            WHEN name = '{$escapedQuery}' THEN 1
+            WHEN name LIKE '{$escapedQuery}%' THEN 2
+            WHEN name LIKE '%{$escapedQuery}%' THEN 3
+            ELSE 4
+            END"
+        );
     }
 }
