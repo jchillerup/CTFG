@@ -28,9 +28,15 @@ class TagController extends Controller {
 
         // Recreate tags
         foreach ($tags as $f) {
+            // Skip tags without a name (required field)
+            if (empty(trim(@$f["fields"]["Name"]))) {
+                \Log::warning("Skipping tag with airtable_id {$f['id']} - missing Name field");
+                continue;
+            }
+            
             $tg = new Tag;
             $tg->airtable_id = @$f["id"];
-            $tg->name = @$f["fields"]["Name"];
+            $tg->name = trim(@$f["fields"]["Name"]);
             $tg->order_sort = @$f["fields"]["Order"];
             $tg->save();
         }

@@ -308,35 +308,45 @@ class ListingController extends Controller {
         $start = Carbon::createFromFormat('Y-m-d H:s:i', date('Y-m-d H:i:s'));
 
         foreach ($airtableListings as $artList) {   
-            // listing_categories
             $dbList = Listing::where('airtable_id', $artList["id"])->first();
+            
+            if (!$dbList) {
+                continue;
+            }
+            
+            // Always detach all existing relationships first to ensure clean sync
+            // This prevents duplicates when sync runs multiple times
+            $dbList->categories()->detach();
+            $dbList->tags()->detach();
+            $dbList->organizations()->detach();
+            $dbList->media()->detach();
+            $dbList->location()->detach();
+            $dbList->founders()->detach();
+            $dbList->impact()->detach();
+            $dbList->funding()->detach();
+            $dbList->links()->detach();
 
+            // listing_categories - attach categories from Airtable
             if (!empty(@$artList["fields"]["Categories"]) && sizeof(@$artList["fields"]["Categories"]) > 0) {
                 for ($i=0; $i < sizeof(@$artList["fields"]["Categories"]); $i++) { 
                     $dbCat = Category::where('airtable_id', @$artList["fields"]["Categories"][$i])->first();
-                    if ($dbList && $dbCat) {
+                    if ($dbCat) {
                         $dbList->categories()->attach($dbCat->id);
                     }
                 }
             }
 
-            // listing_tags
+            // listing_tags - attach tags from Airtable
             if (!empty(@$artList["fields"]["Tags"]) && sizeof(@$artList["fields"]["Tags"]) > 0) {
                 for ($i=0; $i < sizeof(@$artList["fields"]["Tags"]); $i++) { 
                     $dbTag = Tag::where('airtable_id', @$artList["fields"]["Tags"][$i])->first();
-                    if ($dbList && $dbTag) {
+                    if ($dbTag) {
                         $dbList->tags()->attach($dbTag->id);
                     }
                 }
             }
 
-            // listing_organizations - handle multiple organizations
-            // Always detach all existing organizations first to ensure clean sync
-            if ($dbList) {
-                $dbList->organizations()->detach();
-            }
-            
-            // Then attach organizations from Airtable (if any)
+            // listing_organizations - attach organizations from Airtable (if any)
             if (!empty(@$artList["fields"]["Organization"])) {
                 $organizationField = @$artList["fields"]["Organization"];
                 
