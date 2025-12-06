@@ -63,6 +63,7 @@ class ListingController extends Controller {
             DB::table('listing_tags')->truncate();
             DB::table('listing_links')->truncate();
             DB::table('listing_organizations')->truncate();
+            DB::table('listing_listings')->truncate();
         }
         
         $start = Carbon::createFromFormat('Y-m-d H:s:i', date('Y-m-d H:i:s'));
@@ -143,25 +144,25 @@ class ListingController extends Controller {
                 $list->postmortem = @$l["fields"]["Postmortem"];
                 $list->host_organization = @$l["fields"]["Host organization"];
                 $list->host_organization_url = @$l["fields"]["Host organization URL"];
-                // Use Organization type as parent_organization since "Parent organization(s)" field doesn't exist
-                $list->parent_organization = @$l["fields"]["Organization type"][0];
                 
-                // Sync Organization field - link to organizations table
-                // Keep organization_id for backward compatibility (first organization)
-                $organizationField = @$l["fields"]["Organization"];
+                // Sync Parent Organization field - link to organizations table
+                // "Organization" field has been renamed to "Parent Organization"
+                $parentOrganizationField = @$l["fields"]["Parent Organization"];
                 $organizationId = null;
-                if (!empty($organizationField)) {
-                    if (is_array($organizationField) && !empty($organizationField)) {
-                        $organizationAirtableId = $organizationField[0];
+                if (!empty($parentOrganizationField)) {
+                    if (is_array($parentOrganizationField) && !empty($parentOrganizationField)) {
+                        $organizationAirtableId = $parentOrganizationField[0];
                         $organization = \App\Models\Organization::where('airtable_id', $organizationAirtableId)->first();
                         $organizationId = $organization ? $organization->id : null;
                     } else {
-                        $organization = \App\Models\Organization::where('airtable_id', $organizationField)->first();
+                        $organization = \App\Models\Organization::where('airtable_id', $parentOrganizationField)->first();
                         $organizationId = $organization ? $organization->id : null;
                     }
                 }
                 // Explicitly set to null if no organization found (ensures clean state)
                 $list->organization_id = $organizationId;
+                // Store parent organization name for display
+                $list->parent_organization = $organization ? $organization->name : null;
                 // Multiple organizations will be synced in syncRelations() method
                 
                 // Log organization and language data from Airtable
@@ -271,30 +272,78 @@ class ListingController extends Controller {
     }
 
     /**
-     *  Update listing parent listing relationship and listing cover image
+     *  Update listing parent-child relationships using pivot table
+     *  "Child Listings" field can contain multiple listings (array)
+     *  This creates many-to-many relationships via listing_listings pivot table
      */ 
     public function updateParents($listings) {
+        \Log::info("updateParents() started - processing " . count($listings) . " listings");
+        $relationshipsSet = 0;
+        $relationshipsFailed = 0;
+        
         foreach ($listings as $listing) {
-            // Note: "Parent organization(s)" field doesn't exist in Airtable
-            // if (!empty(@$listing["fields"]["Parent organization(s)"]) && sizeof(@$listing["fields"]["Parent organization(s)"]) > 0) {
-            //     $dbList = Listing::where('airtable_id', $listing["id"])->first();
-            //     if ($dbList) {
-            //         $parentListing = Listing::where('airtable_id', $listing["fields"]["Parent organization(s)"][0])->first();
-
-            //         if ($parentListing) {
-            //         $dbList->update([
-            //             'parent_id' => $parentListing->id
-            //         ]);
-            //     }
-
-            //         // Update cover image - used in sort algo
-            //         $cover = $dbList->media->first()->display_url ?? null;
-            //         $dbList->update([
-            //             'cover_image' => $cover
-            //         ]);
-            //     }
-            // }
+            // Check for "Child Listings" field (can be array of listing references)
+            // The current listing is the PARENT, and Child Listings contains the CHILDREN
+            $childListingsField = @$listing["fields"]["Child Listings"];
+            
+            // Also check alternative field names for backward compatibility
+            if (empty($childListingsField)) {
+                $childListingsField = @$listing["fields"]["Organization 2"];
+            }
+            if (empty($childListingsField)) {
+                $childListingsField = @$listing["fields"]["Child listing"];
+            }
+            if (empty($childListingsField)) {
+                $childListingsField = @$listing["fields"]["Child Listing"];
+            }
+            
+            $parentListing = Listing::where('airtable_id', $listing["id"])->first();
+            
+            if ($parentListing) {
+                // Always detach all existing children first to ensure clean sync
+                $parentListing->children()->detach();
+                
+                if (!empty($childListingsField)) {
+                    // Handle both single value and array
+                    $childListingAirtableIds = is_array($childListingsField) ? $childListingsField : [$childListingsField];
+                    
+                    foreach ($childListingAirtableIds as $childListingAirtableId) {
+                        $childListing = Listing::where('airtable_id', $childListingAirtableId)->first();
+                        
+                        if ($childListing) {
+                            // Prevent self-referencing
+                            if ($parentListing->id !== $childListing->id) {
+                                $parentListing->children()->attach($childListing->id);
+                                $relationshipsSet++;
+                                \Log::info("Attached child listing '{$childListing->name}' (ID: {$childListing->id}) to parent '{$parentListing->name}' (ID: {$parentListing->id})");
+                                error_log("CHILD_ATTACHED - Parent: {$parentListing->name} (airtable_id: {$listing['id']}) -> Child: {$childListing->name} (airtable_id: {$childListingAirtableId})");
+                            } else {
+                                \Log::warning("Skipping self-reference for listing '{$parentListing->name}' (ID: {$parentListing->id})");
+                            }
+                        } else {
+                            $relationshipsFailed++;
+                            \Log::warning("Child listing with airtable_id '{$childListingAirtableId}' not found for parent '{$parentListing->name}' (airtable_id: {$listing['id']})");
+                            error_log("CHILD_NOT_FOUND - Parent: {$parentListing->name} (airtable_id: {$listing['id']}) -> Child Airtable ID: {$childListingAirtableId}");
+                        }
+                    }
+                }
+                
+                // Update cover image - used in sort algo
+                $cover = $parentListing->media->first()->display_url ?? null;
+                $parentListing->update([
+                    'cover_image' => $cover
+                ]);
+            }
         }
+        
+        \Log::info("updateParents() completed - Relationships set: {$relationshipsSet}, Failed: {$relationshipsFailed}");
+        error_log("PARENT_CHILD_SYNC_SUMMARY - Relationships set: {$relationshipsSet}, Failed: {$relationshipsFailed}");
+        
+        // Log final statistics
+        $totalWithChildren = Listing::whereHas('children')->count();
+        $totalChildren = DB::table('listing_listings')->count();
+        \Log::info("Parent/Child relationships - Listings with children: {$totalWithChildren}, Total relationships: {$totalChildren}");
+        error_log("PARENT_CHILD_STATS - Listings with children: {$totalWithChildren}, Total relationships: {$totalChildren}");
     }
 
     /**
@@ -347,8 +396,9 @@ class ListingController extends Controller {
             }
 
             // listing_organizations - attach organizations from Airtable (if any)
-            if (!empty(@$artList["fields"]["Organization"])) {
-                $organizationField = @$artList["fields"]["Organization"];
+            // "Organization" field has been renamed to "Parent Organization"
+            if (!empty(@$artList["fields"]["Parent Organization"])) {
+                $organizationField = @$artList["fields"]["Parent Organization"];
                 
                 // Handle array of organizations
                 if (is_array($organizationField) && !empty($organizationField)) {
@@ -356,7 +406,7 @@ class ListingController extends Controller {
                         $dbOrg = \App\Models\Organization::where('airtable_id', $orgAirtableId)->first();
                         if ($dbList && $dbOrg) {
                             $dbList->organizations()->attach($dbOrg->id);
-                            \Log::debug("Attached organization {$dbOrg->name} (ID: {$dbOrg->id}) to listing {$dbList->name} (ID: {$dbList->id})");
+                            \Log::debug("Attached parent organization {$dbOrg->name} (ID: {$dbOrg->id}) to listing {$dbList->name} (ID: {$dbList->id})");
                         } else {
                             if (!$dbList) {
                                 \Log::warning("Listing with airtable_id {$artList['id']} not found in database when trying to attach organization {$orgAirtableId}");
@@ -370,7 +420,7 @@ class ListingController extends Controller {
                     $dbOrg = \App\Models\Organization::where('airtable_id', $organizationField)->first();
                     if ($dbList && $dbOrg) {
                         $dbList->organizations()->attach($dbOrg->id);
-                        \Log::debug("Attached organization {$dbOrg->name} (ID: {$dbOrg->id}) to listing {$dbList->name} (ID: {$dbList->id})");
+                        \Log::debug("Attached parent organization {$dbOrg->name} (ID: {$dbOrg->id}) to listing {$dbList->name} (ID: {$dbList->id})");
                     } else {
                         if (!$dbList) {
                             \Log::warning("Listing with airtable_id {$artList['id']} not found in database when trying to attach organization {$organizationField}");
@@ -380,7 +430,7 @@ class ListingController extends Controller {
                     }
                 }
             }
-            // If Organization field is empty/null in Airtable, organizations remain detached (clean state)
+            // If Parent Organization field is empty/null in Airtable, organizations remain detached (clean state)
 
             // listing_media
             if (!empty(@$artList["fields"]["Images"]) && sizeof(@$artList["fields"]["Images"]) > 0) {

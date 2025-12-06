@@ -110,7 +110,7 @@ class ProjectController extends Controller {
             ->when(request('q'), function($builder) {
                 $builder->searchQuery(request('q'));
             })
-            ->with(['organization', 'organizations'])
+            ->with(['organization', 'organizations', 'children'])
             ->orderBy('created', 'DESC')
             ->paginate(50);
 
@@ -221,7 +221,7 @@ class ProjectController extends Controller {
             ->when(request('q'), function($builder) {
                 $builder->searchQuery(request('q'));
             })
-            ->with(['organization', 'organizations'])
+            ->with(['organization', 'organizations', 'children'])
             ->orderBy('created', 'DESC')
             ->paginate(50);
 
@@ -318,7 +318,7 @@ class ProjectController extends Controller {
                     });
                 }
             })
-            ->with(['organization', 'organizations'])
+            ->with(['organization', 'organizations', 'children'])
             ->orderBy('created', 'DESC')
             ->paginate(50);
 
@@ -347,16 +347,40 @@ class ProjectController extends Controller {
 
     // Get projects by organization
     public function getProjectsByOrganization(Request $request) {
-        $id = $request->segment(2);
+        $slug = urldecode($request->segment(2));
 
-        $organization = \App\Models\Organization::where('id', $id)->first();
+        // Try to find by slug first
+        $organization = \App\Models\Organization::where('slug', $slug)->first();
+        
+        // Fallback: try to find by name (in case slug wasn't generated properly)
+        if (!$organization) {
+            $organization = \App\Models\Organization::where('name', $slug)->first();
+            if ($organization) {
+                \Log::warning("Organization found by name but not slug: {$slug}. Organization: {$organization->name} (ID: {$organization->id}). Slug should be: {$organization->slug}");
+                // Generate slug if missing
+                if (empty($organization->slug)) {
+                    $organization->slug = Organization::generateSlug($organization->name, $organization->id);
+                    $organization->save();
+                }
+            }
+        }
 
         if (!$organization) {
+            \Log::warning("Organization not found for slug/name: {$slug}");
             return abort(404);
         }
 
+        \Log::debug("Finding listings for organization: {$organization->name} (ID: {$organization->id}, Slug: {$slug})");
+
         $projects = Listing::query()
-            ->where('organization_id', $id)
+            ->where(function($query) use ($organization) {
+                // Check both single organization_id and many-to-many organizations relationship
+                // Use same approach as search filter for consistency
+                $query->where('organization_id', $organization->id)
+                      ->orWhereHas('organizations', function($q) use ($organization) {
+                          $q->where('organizations.id', $organization->id);
+                      });
+            })
             ->when(request('categories'), function($builder) {
                 $categories = request('categories');
 
@@ -422,9 +446,27 @@ class ProjectController extends Controller {
             ->when(request('q'), function($builder) {
                 $builder->searchQuery(request('q'));
             })
-            ->with(['organization', 'organizations'])
+            ->with(['organization', 'organizations', 'children'])
             ->orderBy('created', 'DESC')
             ->paginate(50);
+
+        \Log::info("Found {$projects->total()} listings for organization: {$organization->name} (ID: {$organization->id}, Slug: {$slug})");
+        
+        // Debug: Check counts for both relationships
+        $countBySingle = Listing::where('organization_id', $organization->id)->count();
+        $countByMany = Listing::whereHas('organizations', function($q) use ($organization) {
+            $q->where('organizations.id', $organization->id);
+        })->count();
+        \Log::info("Organization '{$organization->name}' - Single org_id count: {$countBySingle}, Many-to-many count: {$countByMany}, Total paginated: {$projects->total()}");
+        
+        // Additional debug: Log the actual listings found
+        if ($projects->total() > 0) {
+            foreach ($projects->items() as $listing) {
+                \Log::info("Listing found: {$listing->name} (ID: {$listing->id}, Status: {$listing->status})");
+            }
+        } else {
+            \Log::warning("No listings found for organization '{$organization->name}' despite query showing results");
+        }
 
         if (count(request()->all()) == 0) {
             $filterStatus = "Active";
@@ -513,7 +555,7 @@ class ProjectController extends Controller {
             ->when(request('q'), function($builder) {
                 $builder->searchQuery(request('q'));
             })
-            ->with(['organization', 'organizations'])
+            ->with(['organization', 'organizations', 'children'])
             ->orderBy('created', 'DESC')
             ->paginate(50);
 

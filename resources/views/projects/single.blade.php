@@ -328,7 +328,8 @@
                         <table class="table">
                             <tbody>
                                 @php
-                                    // Get all organizations - prioritize many-to-many relationship, fallback to single organization
+                                    // Get Parent Organization - prioritize many-to-many relationship, fallback to single organization
+                                    // "Organization" field has been renamed to "Parent Organization" and references organization table
                                     $organizations = [];
                                     if ($project->organizations->count() > 0) {
                                         $organizations = $project->organizations;
@@ -338,13 +339,13 @@
                                 @endphp
                                 @if (!empty($organizations) && count($organizations) > 0)
                                     <tr>
-                                        <th>{{ count($organizations) > 1 ? 'Organizations:' : 'Organization:' }} </th>
+                                        <th>{{ count($organizations) > 1 ? 'Parent Organizations:' : 'Parent Organization:' }} </th>
                                         <td>
                                             @foreach ($organizations as $org)
                                                 @if (!$loop->first)
                                                     ,
                                                 @endif
-                                                <a href="/listing-organization/{{ $org->id }}"
+                                                <a href="/listing-organization/{{ $org->slug }}"
                                                     style="color: #0A78C2;">{{ $org->name }}</a>
                                             @endforeach
                                         </td>
@@ -408,24 +409,20 @@
                                         <td>{{ $project->postmortem }}</td>
                                     </tr>
                                 @endif
-                                @if (!empty(@$project->parent_id))
+                                @php
+                                    // Debug: Check if children relationship is loaded
+                                    $childrenCount = $project->children()->count();
+                                @endphp
+                                @if ($childrenCount > 0)
                                     <tr>
-                                        <th>Parent Organization: </th>
-                                        <td><a style="color: #0A78C2;"
-                                                href="/listing/{{ $project->parent->slug }}">{{ $project->parent->name }}</a>
-                                        </td>
-                                    </tr>
-                                @endif
-                                @if (@$project->children->count() > 0)
-                                    <tr>
-                                        <th>Project(s): </th>
+                                        <th>Resources: </th>
                                         <td>
                                             @foreach ($project->children as $child)
                                                 <a style="color: #0A78C2;"
                                                     href="/listing/{{ $child->slug }}">
                                                     {{ $child->name }}
                                                 </a>
-                                                @if ($project->children->last()->id != $child->id)
+                                                @if (!$loop->last)
                                                     ,&nbsp;
                                                 @endif
                                             @endforeach

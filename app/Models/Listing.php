@@ -87,11 +87,30 @@ class Listing extends Model {
           'listing_id', 'link_id');
     }
 
-    
+    /**
+     * Child listings (Resources) - many-to-many relationship via pivot table
+     * A listing can have multiple child listings
+     */
     public function children() {
-        return $this->hasMany(Listing::class, 'parent_id', 'id');
+        return $this->belongsToMany(Listing::class, 'listing_listings', 
+          'parent_listing_id', 'child_listing_id')
+          ->withTimestamps();
     }
 
+    /**
+     * Parent listings - inverse of children relationship
+     * A listing can have multiple parent listings
+     */
+    public function parents() {
+        return $this->belongsToMany(Listing::class, 'listing_listings', 
+          'child_listing_id', 'parent_listing_id')
+          ->withTimestamps();
+    }
+
+    /**
+     * Legacy parent relationship (for backward compatibility)
+     * @deprecated Use parents() relationship instead
+     */
     public function parent() {
         return $this->belongsTo(Listing::class, 'parent_id', 'id');
     }

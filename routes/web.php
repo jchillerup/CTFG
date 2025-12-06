@@ -80,7 +80,7 @@ Route::get('/listing-category/{slug}', [\App\Http\Controllers\Category\ProjectCo
 Route::get('/listing-tag/{name}', [\App\Http\Controllers\Category\ProjectController::class, 'getProjectsByTag']);
 Route::get('/listing-language/{name}', [\App\Http\Controllers\Category\ProjectController::class, 'getProjectsByLanguage'])->where('name', '.*');
 
-Route::get('/listing-organization/{id}', [\App\Http\Controllers\Category\ProjectController::class, 'getProjectsByOrganization']);
+Route::get('/listing-organization/{slug}', [\App\Http\Controllers\Category\ProjectController::class, 'getProjectsByOrganization']);
 Route::get('/listing-organization-type/{type}', [\App\Http\Controllers\Category\ProjectController::class, 'getProjectsByOrganizationType'])->where('type', '.*');
 
 Route::get('/tags', [\App\Http\Controllers\Category\ProjectController::class, 'tagsTable']);

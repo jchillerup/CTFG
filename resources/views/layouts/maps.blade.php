@@ -33,9 +33,9 @@
                 <div class="container" style="width: 100%">
                     <div class="left-side" style="display: flex; align-items: center;">
                         <div id="logo">
-                            <a href="https://connectingcurrent.tech/" style="display: flex; align-items: center; text-decoration: none;">
+                            <a href="/" style="display: flex; align-items: center; text-decoration: none;">
                                 <img src="{{ asset('images/logo.png') }}" alt="Connecting Current"
-                                    style="max-height: 50px; height: auto; display: block;">
+                                    style="max-height: 50px; height: auto; width: auto; display: block; object-fit: contain;">
                                 {{-- <div>
                                     <h2 class="site-title" style="margin-top: 2px; margin-bottom: 0;">
                                         <span class="site-title">Connecting Current</span>
@@ -45,9 +45,9 @@
                             </a>
                         </div>
                         <div style="margin-left: 20px; font-size: 19px; white-space: nowrap;">
-                            <a href="https://directory.connectingcurrent.tech/"
+                            <a href="https://connectingcurrent.tech/"
                                 style="text-decoration: none;">
-                                Directory
+                                Community
                             </a>
                         </div>
                         <!-- Mobile Navigation -->

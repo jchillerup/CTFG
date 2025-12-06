@@ -6,7 +6,7 @@
                 <div class="main-search-input-item">
                     <input id="project-search-input" name="q" type="text" class="typeahead tt-query"
                         placeholder="Search Connecting Current Listings ... " autocomplete="off"
-                        value="{{ @$query }}" style="font-size: 16px; padding: 12px 16px; border-radius: 8px; border: 1px solid #dee2e6;" />
+                        value="{{ @$query }}" style="font-size: 16px; padding: 12px 16px; border-radius: 8px; border: none;" />
                 </div>
 
                 <!-- <button class="button" id="search">Search</button> -->

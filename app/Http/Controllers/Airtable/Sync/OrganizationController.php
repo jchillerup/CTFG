@@ -237,7 +237,10 @@ class OrganizationController extends Controller
                 // Create new organization (table is truncated, so no need to check for existing)
                 $organization = new Organization;
                 $organization->airtable_id = @$org["id"];
-                $organization->name = $orgName;
+                // Trim whitespace from organization name
+                $organization->name = trim($orgName);
+                // Generate slug from name (trimmed)
+                $organization->slug = Organization::generateSlug($organization->name);
                 // Try different field names for description and URL (Knowledge table might use different names)
                 $organization->description = @$org["fields"]["Description"] ?? null;
                 $organization->website_url = @$org["fields"]["Website URL"] ?? @$org["fields"]["URL"] ?? null;
@@ -328,7 +331,10 @@ class OrganizationController extends Controller
                         
                         $placeholder = new Organization;
                         $placeholder->airtable_id = $orgId;
-                        $placeholder->name = $orgName;
+                        // Trim whitespace from organization name
+                        $placeholder->name = trim($orgName);
+                        // Generate slug from name (trimmed)
+                        $placeholder->slug = Organization::generateSlug($placeholder->name);
                         $placeholder->save();
                         \Log::debug("Created organization for airtable_id: {$orgId} with name: {$orgName}");
                     } catch (\Exception $e) {

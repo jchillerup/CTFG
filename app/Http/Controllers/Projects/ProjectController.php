@@ -28,7 +28,7 @@ class ProjectController extends Controller {
     public function singleProject(Request $request) {
         $slug = $request->segment(2);
 
-        $project = Listing::with(['organization', 'organizations'])->where('slug', $slug)->first();
+        $project = Listing::with(['organization', 'organizations', 'children'])->where('slug', $slug)->first();
 
         if (!$project) {
             return abort(404);
@@ -149,7 +149,7 @@ class ProjectController extends Controller {
                     });
                 }
             })
-            ->with(['organization', 'organizations'])
+            ->with(['organization', 'organizations', 'children'])
             ->orderBy('created', 'DESC')
             ->paginate(50);
 

@@ -121,7 +121,8 @@
                 @endif
 
                 @php
-                    // Get all organizations - prioritize many-to-many relationship, fallback to single organization
+                    // Get Parent Organization - prioritize many-to-many relationship, fallback to single organization
+                    // "Organization" field has been renamed to "Parent Organization" and references organization table
                     $organizations = [];
                     if ($project->organizations->count() > 0) {
                         $organizations = $project->organizations;
@@ -132,13 +133,32 @@
                 @if (!empty($organizations) && count($organizations) > 0)
                     <div style="margin-bottom: 14px;">
                         <strong
-                            style="color: #495057; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Organizations:</strong>
+                            style="color: #495057; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Parent Organization:</strong>
                         <div style="margin-top: 8px;">
                             @foreach ($organizations as $org)
-                                <a href="/listing-organization/{{ $org->id }}"
+                                <a href="/listing-organization/{{ $org->slug }}"
                                     style="display: inline-block; background: #0d6efd; color: white; padding: 6px 12px; margin: 4px 6px 4px 0; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease; border: 1px solid #0a58ca;"
                                     onmouseover="this.style.background='#0a58ca'; this.style.transform='translateY(-1px)'"
                                     onmouseout="this.style.background='#0d6efd'; this.style.transform='translateY(0)'">{{ $org->name }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+                
+                @php
+                    // Ensure children are loaded - query directly if not already loaded
+                    $childrenCount = $project->children()->count();
+                @endphp
+                @if ($childrenCount > 0)
+                    <div style="margin-bottom: 14px;">
+                        <strong
+                            style="color: #495057; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Resources:</strong>
+                        <div style="margin-top: 8px;">
+                            @foreach ($project->children as $child)
+                                <a href="/listing/{{ $child->slug }}"
+                                    style="display: inline-block; background: #6f42c1; color: white; padding: 6px 12px; margin: 4px 6px 4px 0; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease; border: 1px solid #5a32a3;"
+                                    onmouseover="this.style.background='#5a32a3'; this.style.transform='translateY(-1px)'"
+                                    onmouseout="this.style.background='#6f42c1'; this.style.transform='translateY(0)'">{{ $child->name }}</a>
                             @endforeach
                         </div>
                     </div>

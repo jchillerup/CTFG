@@ -119,7 +119,7 @@ class GuestController extends Controller {
                 $builder->searchQuery(request('q'));
             })
             ->orderByRaw('-cover_image DESC')
-            ->with(['organization', 'organizations'])
+            ->with(['organization', 'organizations', 'children'])
             ->orderBy('created', 'DESC')
             ->paginate(50);
 
