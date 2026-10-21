@@ -1,5 +1,15 @@
 # Technical Changelog - CTFG Project
 
+## 🚀 Production Deployment & Secret Rotation - 22 October 2026
+
+The vulnerability fixes below are now **live in production**, deployed with Kamal 2.12.0 (`kamal deploy`, image `ghcr.io/ryanmunene79/ctfg:0d59075…`) plus `kamal accessory reboot scheduler`, so web and scheduler both run the patched code.
+
+- **PHP 8.4.15 → 8.4.27** in both running containers (verified via `php -v`); `X-Powered-By` header gone (`expose_php = Off` now active), `laravel_session` cookie now `Secure`, CSP/HSTS unchanged.
+- **Secrets rotated**: new `SYNC_SECRET_TOKEN` (the previously public token now returns **403** — verified), new `AIRTABLE_WEBHOOK_SECRET` and `TP_API_TOKEN` generated and delivered as Kamal secrets. Secrets are referenced (not stored) in `.kamal/secrets`; values live in the deployer's environment.
+- **Post-deploy verification (all passing)**: `/` and listing pages 200, `/sync/manual` 404, `/_ignition/health-check` 404, URL-triggered sync with old token 403, webhook POST without secret 401, `/api/tp/docu` without token 401. Old web container kept by Kamal for rollback (`kamal rollback`).
+- **Deploy pipeline notes**: `config/deploy.yml` gained the two new web secrets and a `builder.remote` (no Docker daemon on the deploy machine — images build on the production host); kamal-proxy was upgraded v0.9.0 → v0.9.2 as required by Kamal 2.12. GHCR pushes authenticate with the deployer's GitHub token (`write:packages`); the local Docker client must be logged in (`docker login ghcr.io`) so buildx can forward credentials to the remote builder.
+- **Still outstanding**: (1) the stored Microsoft access/refresh tokens behind `/api/tp/docu` were exposed while that endpoint was unauthenticated and must be revoked/re-issued by their owner — the new `TP_API_TOKEN` only protects them going forward; (2) whoever sends Airtable webhooks must be given the new `X-Airtable-Webhook-Secret` value; (3) the Laravel 12/13 upgrade (see `documentation/LARAVEL_UPGRADE_PLAN.md`) to clear the final 4 framework advisories.
+
 ## 🛡️ Vulnerability Fixes - 21 October 2026 (evening)
 
 Full audit performed (dependencies, code, routes, live probes). Fixed in code/config:
