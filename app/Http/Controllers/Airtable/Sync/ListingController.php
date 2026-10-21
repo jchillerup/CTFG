@@ -52,7 +52,7 @@ class ListingController extends Controller {
         }
 
         if (sizeof($listings) > 0) {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
             Listing::truncate();
             DB::table('listing_categories')->truncate();
             DB::table('listing_founders')->truncate();
@@ -241,7 +241,7 @@ class ListingController extends Controller {
             
         }
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
 
         $dbListings = Listing::get();
 

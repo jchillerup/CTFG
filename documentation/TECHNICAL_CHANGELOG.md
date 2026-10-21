@@ -1,5 +1,30 @@
 # Technical Changelog - CTFG Project
 
+## 🔒 Security & Local Deployment Update - 21 October 2026
+
+### PHP 8.4.27 Security Patch
+- Updated the local PHP runtime from **8.4.23 → 8.4.27** (PHP security release of 2026-10-21; stayed on the 8.4 line pinned by `Dockerfile`/`mise.toml` rather than jumping to 8.5).
+- Includes fixes for CVE-2026-17544 (bccomp OOB write), libgd CVE-2026-9672, mysqlnd packet over-reads (CVE-2025-1218), OpenSSL TLS/CN flaws (CVE-2026-91767/91769), Phar TAR injection (CVE-2026-6103), SOAP overflow (CVE-2025-14181), HTTP-redirect credential leak (CVE-2026-91766), and 8.4.27 GHSA state-corruption-on-bailout fixes.
+- Production picks this up automatically on the next Kamal image rebuild (`Dockerfile` uses `php:8.4-cli`); a redeploy is still required to patch prod.
+- Local runtime is the official docker-library PHP 8.4.27 build (source SHA256 verified against php.net) with the extensions the app needs compiled in (`gd`, `bcmath`, `zip`, `pdo_mysql`, `mysqli`, `pdo_pgsql`, `pgsql`, `bz2`, `gmp`, `soap`, `exif`, `ftp`, `pcntl`, `sockets`, `calendar`, `shmop`). Previous 8.4.23 binary retained for rollback.
+
+### Composer Security Updates (`composer.lock`, `composer.json`)
+- `composer audit`: **47 advisories / 15 packages → 4 advisories / 1 package**, all within existing version constraints.
+- Notable: `laravel/framework` v10.49.1 → **v10.50.3**, `guzzlehttp/guzzle` 7.10.0 → 7.16.0, `guzzlehttp/psr7` 2.8.0 → 2.13.2, `league/commonmark` 2.7.1 → 2.10.4, `symfony/*` 6.4.26 → 6.4.48, `aws/aws-sdk-php` 3.356.32 → 3.401.4, `phpunit/phpunit` 10.5.58 → 10.5.66.
+- The 4 remaining advisories are in `laravel/framework` and are **only fixed in Laravel 12/13** — Laravel 10 is EOL and has no fix. They are explicitly ignored in `composer.json` (`config.policy.advisories.ignore-id`: PKSA-d5tc-s1qs-h781, PKSA-m5cs-t1y6-qpcs, PKSA-3r5d-mb8f-1qw9, PKSA-mdq4-51ck-6kdq) so Composer resolves the stable v10.50.3 instead of silently selecting a `10.x-dev` snapshot. **A Laravel 12/13 upgrade should be planned** to clear them.
+
+### Portable Foreign-Key Handling in Airtable Sync
+- Replaced the MySQL-only `DB::statement('SET FOREIGN_KEY_CHECKS=0/1;')` with `\Illuminate\Support\Facades\Schema::disableForeignKeyConstraints()` / `enableForeignKeyConstraints()` in all 12 controllers under `app/Http/Controllers/Airtable/Sync/` (25 call sites).
+- Behaviour on MySQL (production) is identical — Laravel emits the same statements — and the sync now also runs on SQLite for local development. Previously `php artisan sync:tables` failed locally with `near "SET": syntax error`.
+
+### Local Development Database (`config/database.php`)
+- The `mysql` and `mysql2` connections now read their driver from `DB_CONNECTION` / `DB_CONNECTION2` (default `mysql`), so local dev can use SQLite via `.env` (`DB_CONNECTION=sqlite`, `DB_CONNECTION2=sqlite`, `DB_DATABASE=<path to database.sqlite>`) while production remains MySQL. This was required because most migrations hard-code `Schema::connection('mysql2')`.
+
+### Local Deployment Verification (2026-10-21)
+- Full local deploy from scratch: PHP 8.4.27 + Composer install, all 75 migrations on SQLite, `storage:link`, `php artisan serve` on http://127.0.0.1:8000.
+- `php artisan sync:tables` completed against Airtable: 294 listings, 524 impact, 206 media (203 images downloaded locally, 0 failed), 76 organizations, 70 tags, 10 categories.
+- After the PHP/Composer updates: PHPUnit 2/2 passing, `composer check-platform-reqs` OK, homepage/listing/media routes HTTP 200, GD/Intervention image handling verified, no new errors or deprecations in `storage/logs/laravel.log`.
+
 ## 🚀 Version 2.0.0 - October 2025
 
 ### Major Framework Upgrade

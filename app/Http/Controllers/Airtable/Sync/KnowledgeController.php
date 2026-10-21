@@ -23,7 +23,7 @@ class KnowledgeController extends Controller {
         $knowledge = Airtable::table('knowledge')->all();
         
         if ((Knowledge::count() > 0) && (sizeof($knowledge) > 0)) {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
             Knowledge::truncate();
         }
 
@@ -46,7 +46,7 @@ class KnowledgeController extends Controller {
             error_log("KNOWLEDGE_SYNC_DEBUG - Organization: " . @$f["fields"]["Name"] . " | ID: " . @$f["id"]);
         }
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
 
         $count = Knowledge::count();
         \Log::info("Knowledge table sync finished at ".date('Y-m-d H:i:s')." ... ".$count." records synced.");

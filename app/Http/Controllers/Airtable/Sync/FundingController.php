@@ -23,7 +23,7 @@ class FundingController extends Controller {
         $funding = Airtable::table('funding')->all();
 
         if ((Funding::count() > 0) && (sizeof($funding) > 0)) {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
             Funding::truncate();
         }
 
@@ -43,7 +43,7 @@ class FundingController extends Controller {
             $fund->save();
         }
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
 
         $count = Funding::count();
         

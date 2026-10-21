@@ -30,7 +30,7 @@ class MediaController extends Controller {
             error_log("AIRTABLE_MEDIA_FIRST_RECORD_FIELDS: " . json_encode(array_keys($media[0]['fields'])));
         }
         if ((Media::count() > 0) && (sizeof($media) > 0)) {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
             Media::truncate();
         }
 
@@ -66,7 +66,7 @@ class MediaController extends Controller {
             }
         }
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
 
         $count = Media::count();
         \Log::info("Media table sync finished at ".date('Y-m-d H:i:s')." ... ".$count." records synced. Downloaded: {$downloaded} images, Failed: {$failed}");

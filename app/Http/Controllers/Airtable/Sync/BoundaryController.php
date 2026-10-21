@@ -21,7 +21,7 @@ class BoundaryController extends Controller {
 
         $boundaries = Airtable::table('boundaries')->all();
         if ((Boundary::count() > 0) && (sizeof($boundaries) > 0)) {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
             Boundary::truncate();
         }
 
@@ -37,7 +37,7 @@ class BoundaryController extends Controller {
             $boundary->save();
         }
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
 
         $count = Boundary::count();
         \Log::info("Boundary table sync finished at ".date('Y-m-d H:i:s')." ... ".$count." records synced.");

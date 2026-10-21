@@ -51,7 +51,7 @@ class LocationController extends Controller {
         error_log("LOCATION_SYNC_DEBUG - Locations to sync (filtered): " . count($locationsToSync));
         
         if ((Location::count() > 0) && (sizeof($locationsToSync) > 0)) {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
             Location::truncate();
         }
 
@@ -77,7 +77,7 @@ class LocationController extends Controller {
             $lc->save();
         }
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
 
         $count = Location::count();
         \Log::info("Location table sync finished at ".date('Y-m-d H:i:s')." ... ".$count." records synced (filtered from " . count($allLocations) . " total).");

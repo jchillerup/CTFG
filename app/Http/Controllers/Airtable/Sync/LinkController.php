@@ -24,7 +24,7 @@ class LinkController extends Controller {
             $links = Airtable::table('links')->all();
             
             if ((Link::count() > 0) && (sizeof($links) > 0)) {
-                DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+                \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
                 Link::truncate();
             }
 
@@ -39,7 +39,7 @@ class LinkController extends Controller {
                 $link->save();
             }
 
-            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
 
             $count = Link::count();
             \Log::info("Links table sync finished at ".date('Y-m-d H:i:s')." ... ".$count." records synced.");

@@ -22,7 +22,7 @@ class TagController extends Controller {
 
         $tags = Airtable::table('tags')->all();
         if ((Tag::count() > 0) && (sizeof($tags) > 0)) {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
             Tag::truncate();
         }
 
@@ -41,7 +41,7 @@ class TagController extends Controller {
             $tg->save();
         }
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
 
         // Update tag parent tag relationship
         foreach ($tags as $tag) {

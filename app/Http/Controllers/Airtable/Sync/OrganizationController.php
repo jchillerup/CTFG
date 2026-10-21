@@ -196,11 +196,11 @@ class OrganizationController extends Controller
         // Truncate organizations table to ensure clean state - removes placeholder names and duplicates
         // This ensures only organizations from Airtable/Listings are present
         if (count($organizationsToSync) > 0) {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
             Organization::truncate();
             error_log("ORGANIZATION_SYNC_DEBUG - Truncated organizations table for clean sync");
         } else {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
         }
 
         $processedCount = 0;
@@ -254,7 +254,7 @@ class OrganizationController extends Controller
             }
         }
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
 
         // Create placeholder organizations for any organization IDs referenced in listings
         // that don't exist in the organizations table

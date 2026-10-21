@@ -45,7 +45,8 @@ return [
         ],
 
         'mysql' => [
-            'driver' => 'mysql',
+            // Local dev may set DB_CONNECTION=sqlite; production remains mysql.
+            'driver' => env('DB_CONNECTION', 'mysql'),
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
@@ -65,7 +66,9 @@ return [
         ],
 
         'mysql2' => [
-            'driver' => 'mysql',
+            // Local dev may set DB_CONNECTION2=sqlite (DB_DATABASE = sqlite file path);
+            // unset in production, so this remains the MySQL connection there.
+            'driver' => env('DB_CONNECTION2', 'mysql'),
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),

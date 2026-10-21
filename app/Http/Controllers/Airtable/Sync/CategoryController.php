@@ -24,7 +24,7 @@ class CategoryController extends Controller {
 
         // Check if Airtable returned data then truncate table
         if ((Category::count() > 0) && (sizeof($airtableCategories) > 0)) {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
             Category::truncate();
         }
 
@@ -59,7 +59,7 @@ class CategoryController extends Controller {
         }
 
         $count = Category::count();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
 
         \Log::info("Categories sync finished at ".date('Y-m-d H:i:s')." ... ".$count." records synced.");
     }

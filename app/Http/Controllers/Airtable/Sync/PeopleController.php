@@ -22,7 +22,7 @@ class PeopleController extends Controller {
 
         $people = Airtable::table('people')->all();
         if ((People::count() > 0) && (sizeof($people) > 0)) {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
             People::truncate();
         }
 
@@ -35,7 +35,7 @@ class PeopleController extends Controller {
             $pp->save();
         }
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
 
         $count = People::count();
         \Log::info("People table sync finished at ".date('Y-m-d H:i:s')." ... ".$count." records synced.");

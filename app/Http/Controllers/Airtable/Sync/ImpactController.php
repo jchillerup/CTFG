@@ -22,7 +22,7 @@ class ImpactController extends Controller {
 
         $impact = Airtable::table('impact')->all();
         if ((Impact::count() > 0) && (sizeof($impact) > 0)) {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
             Impact::truncate();
         }
 
@@ -37,7 +37,7 @@ class ImpactController extends Controller {
             $imp->save();
         }
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
 
         $count = Impact::count();
         \Log::info("Impact table sync finished at ".date('Y-m-d H:i:s')." ... ".$count." records synced.");
