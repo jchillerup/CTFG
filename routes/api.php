@@ -18,9 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/webhooks/listing/updated', 'Api\Webhooks\Airtable\ListingController@handleUpdate');
+Route::post('/webhooks/listing/updated', [\App\Http\Controllers\Api\Webhooks\Airtable\ListingController::class, 'handleUpdate']);
 
-Route::get('/tp/docu', 'Api\TP\DocuController@getConf');
-Route::post('/tp/docu/{name}', 'Api\TP\DocuController@updateConf');
-Route::post('/mail-category', 'Api\TP\DocuController@updateCat');
+Route::get('/tp/docu', [\App\Http\Controllers\Api\TP\DocuController::class, 'getConf']);
+Route::post('/tp/docu/{name}', [\App\Http\Controllers\Api\TP\DocuController::class, 'updateConf']);
+Route::post('/mail-category', [\App\Http\Controllers\Api\TP\DocuController::class, 'updateCat']);
 
