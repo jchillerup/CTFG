@@ -19,6 +19,8 @@ registry:
    - KAMAL_REGISTRY_PASSWORD
 builder:
   arch: amd64
+  # No local Docker daemon on deploy machines: build on the production host.
+  remote: ssh://root@51.68.47.136
 env:
   clear:
     DB_HOST: ctfg-db
