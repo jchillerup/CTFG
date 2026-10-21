@@ -1,5 +1,16 @@
 # Technical Changelog - CTFG Project
 
+## ⬆️ Laravel 10 → 13 Upgrade - 22 October 2026
+
+Executed `documentation/LARAVEL_UPGRADE_PLAN.md` in three gated steps (10.50 → **11.57** → **12.70** → **13.38**), each verified with the new feature smoke suite (`tests/Feature/SmokeTest.php`: homepage, listing page, search + SQL-injection payload, webhook 401, TP API 401, sync-token 403), a fresh SQLite `migrate:fresh`, and — at the end — a full `sync:tables` against Airtable with record counts identical to the Laravel 10 baseline (294 listings, 524 impact, 206 media, 76 organizations, 70 tags).
+
+- **Removed dead weight** (step 1): unused `livewire/livewire` (0 components), abandoned `cviebrock/laravel-elasticsearch` (plus its only caller, the `listings:index` command), and `fruitcake/laravel-cors` (framework CORS via `Illuminate\Http\Middleware\HandleCors`; `config/cors.php` unchanged). The 3 string-syntax routes in `routes/api.php` are now FQCN references.
+- **Airtable package replaced** (step 2): `tapp/laravel-airtable` caps at Illuminate 11, so it was replaced with a first-party REST client (`app/Support/Airtable.php`, registered as the global `Airtable` alias) implementing exactly the used surface — `table($t)->all()/find()/create()/patch()` returning raw Airtable record arrays, with pagination. Two behaviours of the old package turned out to matter and were preserved/discovered:
+  - Logical table names are mapped to real ones via `config/airtable.php` (`listings` → `Listings`, `organizations` → `ORGANIZATION`).
+  - The **`Knowledge` table no longer exists in Airtable** (verified via the Meta API) — the old package silently returned `[]`, which is why knowledge always synced empty. The new client returns `[]` only for model-not-found (404 / 403 `MODEL_NOT_FOUND`) and still throws on genuine auth errors.
+- **Latent sync bug fixed**: `Sync/ListingController` read `$organization` outside the branch that assigns it — an "Undefined variable" crash (and stale parent-organization names leaking between records) that record ordering previously masked. Initialized to `null`.
+- **Result**: `composer audit` reports **0 advisories**; the 4 framework ignore-ids have been removed from `composer.json`. PHP constraint is now `^8.3` (running 8.4.27), PHPUnit 12, Tinker 3, ResponseCache 8, doctrine/dbal 4. Zero deprecation warnings in the log during smoke tests.
+
 ## 🚀 Production Deployment & Secret Rotation - 22 October 2026
 
 The vulnerability fixes below are now **live in production**, deployed with Kamal 2.12.0 (`kamal deploy`, image `ghcr.io/ryanmunene79/ctfg:0d59075…`) plus `kamal accessory reboot scheduler`, so web and scheduler both run the patched code.
