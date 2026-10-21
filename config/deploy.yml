@@ -36,6 +36,8 @@ env:
     - AIRTABLE_BASE
     - AIRTABLE_KEY
     - SYNC_SECRET_TOKEN
+    - AIRTABLE_WEBHOOK_SECRET
+    - TP_API_TOKEN
 
 # Use a persistent storage volume for media files and logs
 volumes:
