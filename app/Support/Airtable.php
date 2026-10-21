@@ -50,7 +50,19 @@ class AirtableTable
                 $query['offset'] = $offset;
             }
 
-            $data = $this->request('get', $this->url(), $query);
+            $response = $this->send('get', $this->url(), $query);
+
+            // Parity with the previous package: a table that no longer
+            // exists in the base (e.g. 'Knowledge' was removed from
+            // Airtable) reads as empty instead of aborting the whole
+            // sync. Genuine auth/permission errors still throw below.
+            if ($response->status() === 404
+                || ($response->status() === 403
+                    && str_contains((string) $response->json('error.type'), 'MODEL_NOT_FOUND'))) {
+                return [];
+            }
+
+            $data = $this->decode($response);
             $records = array_merge($records, $data['records'] ?? []);
             $offset = $data['offset'] ?? null;
         } while ($offset !== null);
@@ -116,8 +128,13 @@ class AirtableTable
 
     private function url(string $suffix = ''): string
     {
+        // Callers use logical names ('listings', 'knowledge', ...); the
+        // actual Airtable table names live in config/airtable.php, as
+        // they did for the previous package ('listings' => 'Listings').
+        $name = config("airtable.tables.{$this->table}.name", $this->table);
+
         return 'https://api.airtable.com/v0/'
             . config('airtable.base') . '/'
-            . rawurlencode($this->table) . $suffix;
+            . rawurlencode($name) . $suffix;
     }
 }

@@ -149,6 +149,7 @@ class ListingController extends Controller {
                 // "Organization" field has been renamed to "Parent Organization"
                 $parentOrganizationField = @$l["fields"]["Parent Organization"];
                 $organizationId = null;
+                $organization = null;
                 if (!empty($parentOrganizationField)) {
                     if (is_array($parentOrganizationField) && !empty($parentOrganizationField)) {
                         $organizationAirtableId = $parentOrganizationField[0];

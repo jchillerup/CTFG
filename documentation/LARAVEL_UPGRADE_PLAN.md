@@ -1,5 +1,14 @@
 # Laravel Upgrade Plan — 10 → 13 (CTFG)
 
+> **STATUS: EXECUTED 2026-10-22.** All three steps completed (11.57 → 12.70 → 13.38),
+> each gated on the smoke suite + fresh-migrate + full Airtable sync. Two deviations
+> from the plan as written: (1) `tapp/laravel-airtable` blocked step 2 and was replaced
+> with a first-party REST client (`app/Support/Airtable.php`) keeping the same
+> `table()->all()/find()/create()/patch()` API; (2) the gate sync exposed a latent
+> `ListingController` bug (`$organization` undefined/stale) and the fact that the
+> `Knowledge` table no longer exists in Airtable — both handled in code. Composer audit
+> is 0 advisories and the ignore list has been removed. See TECHNICAL_CHANGELOG.md.
+
 Created 2026-10-21 after the security audit. Goal: clear the 4 remaining
 `laravel/framework` advisories, which are fixed only in Laravel 12/13
 (Laravel 10 is EOL and receives no security fixes). Current state:
