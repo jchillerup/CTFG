@@ -30,6 +30,14 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'airtable_webhook' => [
+        'secret' => env('AIRTABLE_WEBHOOK_SECRET'),
+    ],
+
+    'tp' => [
+        'api_token' => env('TP_API_TOKEN'),
+    ],
+
     'google' => [
         'key' => env('GOOGLE_MAPS_KEY', ''),
     ],

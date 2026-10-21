@@ -28,7 +28,12 @@ return [
      *
      * More info: https://spatie.be/docs/laravel-markdown/v1/using-the-blade-component/passing-options-to-commonmark
      */
-    'commonmark_options' => [],
+    'commonmark_options' => [
+        // Airtable content is not trusted HTML: render raw HTML as text and
+        // drop javascript:/data: style links when rendering markdown.
+        'html_input' => 'escape',
+        'allow_unsafe_links' => false,
+    ],
 
     /*
      * Rendering markdown to HTML can be resource intensive. By default

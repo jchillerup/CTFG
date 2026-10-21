@@ -232,13 +232,13 @@
                         @if (@$project->media->first())
                             <div style="width: 100%; display: flex; align-items: center; justify-content: center; background: white;  padding: 0;  overflow: hidden;">
                                 <img src="{{ @$project->media->first()->display_url }}" loading="lazy"
-                                    alt="Graphic representing {!! $project->name !!}"
+                                    alt="Graphic representing {{ $project->name }}"
                                     style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; object-position: center; display: block;">
                             </div>
                         @else
                             <div style="width: 100%; min-height: 200px; display: flex; align-items: center; justify-content: center; background: #f8f9fa;">
                                 <img src="{{ asset('images/gray.png') }}" loading="lazy"
-                                    alt="Graphic representing {!! $project->name !!}"
+                                    alt="Graphic representing {{ $project->name }}"
                                     style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; object-position: center; display: block;">
                             </div>
                         @endif
@@ -246,7 +246,7 @@
                     <div class="col-lg-8 col-md-8">
                         <h1
                             style="margin-top: 0; margin-bottom: 18px; color: #212529; font-size: 2em; font-weight: 700; line-height: 1.3;">
-                            {!! $project->name !!}</h1>
+                            {{ $project->name }}</h1>
                         @if (!empty($project->website_url))
                             <p style="margin-bottom: 10px;">
                                 <a href="{{ @$project->website_url }}" target="_blank" rel="noopener noreferrer"
@@ -314,7 +314,7 @@
 
                 <div class="margin-top-35">
                     <p>
-                        {!! $project->introduction !!}
+                        {{ $project->introduction }}
                     </p>
                     @if (!empty($project->description))
                         <p class="listing-description">
@@ -587,12 +587,12 @@
 
             <div class="margin-top-50" style="max-height: 600px; overflow-y: scroll;">
                 @if (!empty($project->has_iframe_embed))
-                    {!! $project->has_iframe_embed !!}
+                    {!! \App\Support\SafeEmbed::iframe($project->has_iframe_embed) !!}
                 @endif
             </div>
             {{-- <div class="margin-top-50" style="max-height: 600px; overflow-y: scroll;">
             @if (!empty($project->has_twitter_feed))
-                {!! $project->has_twitter_feed !!}
+                {!! \App\Support\SafeEmbed::twitterTimeline($project->has_twitter_feed) !!}
             @endif
         </div> --}}
 

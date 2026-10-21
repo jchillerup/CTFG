@@ -10,6 +10,9 @@ RUN docker-php-ext-install pdo pdo_mysql
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install gd
 
+# Do not disclose the PHP version in response headers
+RUN echo "expose_php = Off" > /usr/local/etc/php/conf.d/security.ini
+
 # Increase PHP memory limit for Airtable sync operations
 RUN echo "memory_limit = 1G" > /usr/local/etc/php/conf.d/memory-limit.ini
 

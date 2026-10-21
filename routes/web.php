@@ -100,15 +100,12 @@ Route::get('/about', [\App\Http\Controllers\PagesController::class, 'about']);
 
 
 
-Route::get('/sync/manual', [\App\Http\Controllers\Airtable\ImportsController::class, 'manualSync']);
-Route::get('/sync/manual/links', [\App\Http\Controllers\Airtable\Sync\LinkController::class, 'syncLinks']);
-Route::get('/a/test', [\App\Http\Controllers\Airtable\ImportsController::class, 'test']);
-Route::get('/t', [\App\Http\Controllers\TestController::class, 'test']);
-Route::get('/fill', [\App\Http\Controllers\TestController::class, 'fillCoverImages']);
-Route::get('/download-expired-images', [\App\Http\Controllers\Airtable\Sync\MediaController::class, 'downloadExpiredImages']);
-Route::get('/test-media-controller', [\App\Http\Controllers\Airtable\Sync\MediaController::class, 'test']);
-
-Route::get('/email-templates/contact-form', [\App\Http\Controllers\TestController::class, 'contactFormTemplate']);
+// Removed 2026-10-21 (security audit): unauthenticated GET endpoints that
+// triggered full Airtable syncs (/sync/manual, /sync/manual/links), mass
+// updates (/fill), image downloads (/download-expired-images) and test mail
+// (/t, /a/test, /test-media-controller, /email-templates/contact-form).
+// Syncs now run only via the scheduler, `php artisan sync:tables`, or the
+// token-protected /sync-now/{token} endpoint below.
 
 // Secret sync endpoint for non-tech users
 Route::get('/sync-now/{token}', [\App\Http\Controllers\SecretSyncController::class, 'instantSync'])

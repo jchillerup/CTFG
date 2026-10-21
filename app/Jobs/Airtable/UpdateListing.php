@@ -37,26 +37,39 @@ class UpdateListing implements ShouldQueue
         $listing = Listing::where('airtable_id', $this->request['id'])->first();
 
         if ($listing) {
-            $listing->update([
-                'host_org_id' => $this->request['hostOrgId'],
-                'name' => $this->request['name'],
-                'slug' => Str::of($this->request['name'])->slug();
+            // Only touch fields the caller actually sent — previously a
+            // partial payload nulled out every omitted column.
+            $map = [
+                'hostOrgId' => 'host_org_id',
+                'name' => 'name',
+                'introduction' => 'introduction',
+                'type' => 'type',
+                'orgType' => 'organization_type',
+                'description' => 'description',
+                'markdownDesc' => 'markdown_description',
+                'rawDesc' => 'raw_description',
+                'status' => 'status',
+                'wikidataApiField' => 'wikidata_api_field',
+                'pricingInfo' => 'pricing_information',
+                'employees' => 'no_of_employees',
+                'usedBy' => 'used_by',
+                'features' => 'features',
+                'projectStage' => 'project_stage',
+            ];
 
-                'introduction' => $this->request['introduction'],
-                'type' => $this->request['type'],
-                'organization_type' => $this->request['orgType'],
-                'description' => $this->request['description'],
-                'markdown_description' => $this->request['markdownDesc'],
-                'raw_description' => $this->request['rawDesc'],
-                'status' => $this->request['status'],
-                'wikidata_api_field' => $this->request['wikidataApiField'],
-                'pricing_information' => $this->request['pricingInfo'],
-                'no_of_employees' => $this->request['employees'],
-                'used_by' => $this->request['usedBy'],
-                'features' => $this->request['features'],
-                'project_stage' => $this->request['projectStage'],
+            $data = [];
+            foreach ($map as $input => $column) {
+                if (array_key_exists($input, $this->request) && $this->request[$input] !== null) {
+                    $data[$column] = $this->request[$input];
+                }
+            }
+            if (isset($data['name'])) {
+                $data['slug'] = Str::of($data['name'])->slug();
+            }
 
-            ]);
+            if ($data) {
+                $listing->update($data);
+            }
         }
     }
 }

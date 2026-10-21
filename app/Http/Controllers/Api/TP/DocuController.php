@@ -9,8 +9,26 @@ use App\Models\DocuConfs;
 use GuzzleHttp\Client;
 
 class DocuController extends Controller {
+    /**
+     * These endpoints read and overwrite stored Microsoft access/refresh
+     * tokens, so every one of them requires the TP_API_TOKEN bearer token.
+     * Fails closed when the token is not configured.
+     */
+    private function authorizeTp(Request $request) {
+        $expected = (string) config('services.tp.api_token');
+        $provided = (string) ($request->bearerToken() ?? $request->header('X-Api-Token', ''));
+
+        if ($expected === '' || !hash_equals($expected, $provided)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return null;
+    }
+
     public function updateCat(Request $request){
-        \Log::info($request);
+        if ($response = $this->authorizeTp($request)) {
+            return $response;
+        }
         $client = new Client();
         
         $headers = [
@@ -52,6 +70,10 @@ class DocuController extends Controller {
     }
 
     public function getConf(Request $request) {
+        if ($response = $this->authorizeTp($request)) {
+            return $response;
+        }
+
         $name = $request->name;
 
         $confs = DocuConfs::where('name', $name)->first();
@@ -70,6 +92,10 @@ class DocuController extends Controller {
     }
 
     public function updateConf(Request $request) {
+        if ($response = $this->authorizeTp($request)) {
+            return $response;
+        }
+
         $name = $request->segment(4);
 
         $confs = DocuConfs::where('name', $name)->first();

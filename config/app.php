@@ -133,7 +133,7 @@ return [
     |
     */
 
-    'sync_secret_token' => env('SYNC_SECRET_TOKEN', 'Ulc6Q2EI7kqcJYCS4cw8iYTTx9QW9Kle'),
+    'sync_secret_token' => env('SYNC_SECRET_TOKEN'),
 
     /*
     |--------------------------------------------------------------------------

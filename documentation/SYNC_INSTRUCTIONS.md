@@ -3,9 +3,9 @@
 ## Quick Update Instructions
 
 ### **Step 1: Bookmark This Link**
-Save this link in your browser bookmarks:
+Save this link in your browser bookmarks (ask the technical contact for the current token — it is a secret, never commit or share the real link):
 ```
-https://directory.connectingcurrent.tech/sync-now/Ulc6Q2EI7kqcJYCS4cw8iYTTx9QW9Kle
+https://directory.connectingcurrent.tech/sync-now/<SYNC_SECRET_TOKEN>
 ```
 
 ### **Step 2: When You Need to Update Content**

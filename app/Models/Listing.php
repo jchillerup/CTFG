@@ -130,25 +130,25 @@ class Listing extends Model {
     }*/
 
     public function scopeSearchQuery(Builder $builder, $q) {
-        $escapedQuery = addslashes($q);
-        return $builder->where(function($query) use ($escapedQuery) {
-            $query->where("name", "LIKE", "%{$escapedQuery}%")
-                  ->orWhere("introduction", "LIKE", "%{$escapedQuery}%")
-                  ->orWhere("description", "LIKE", "%{$escapedQuery}%")
-                  ->orWhere("country", "LIKE", "%{$escapedQuery}%")
-                  ->orWhereHas("categories", function($builder) use ($escapedQuery) {
-                      $builder->where("name", "LIKE", "%{$escapedQuery}%");
+        // Values are always sent as query bindings, and LIKE wildcards in the
+        // user's input are escaped so they match literally. Previously the
+        // escaped query was interpolated into orderByRaw() (CWE-89).
+        $like = '%' . addcslashes((string) $q, '\\%_') . '%';
+        return $builder->where(function($query) use ($like) {
+            $query->where("name", "LIKE", $like)
+                  ->orWhere("introduction", "LIKE", $like)
+                  ->orWhere("description", "LIKE", $like)
+                  ->orWhere("country", "LIKE", $like)
+                  ->orWhereHas("categories", function($builder) use ($like) {
+                      $builder->where("name", "LIKE", $like);
                   })
-                  ->orWhereHas("tags", function($builder) use ($escapedQuery) {
-                      $builder->where("name", "LIKE", "%{$escapedQuery}%");
+                  ->orWhereHas("tags", function($builder) use ($like) {
+                      $builder->where("name", "LIKE", $like);
                   });
         })
-        ->orderByRaw("CASE
-            WHEN name = '{$escapedQuery}' THEN 1
-            WHEN name LIKE '{$escapedQuery}%' THEN 2
-            WHEN name LIKE '%{$escapedQuery}%' THEN 3
-            ELSE 4
-            END"
+        ->orderByRaw(
+            "CASE WHEN name = ? THEN 1 WHEN name LIKE ? THEN 2 WHEN name LIKE ? THEN 3 ELSE 4 END",
+            [(string) $q, addcslashes((string) $q, '\\%_') . '%', $like]
         );
     }
 }

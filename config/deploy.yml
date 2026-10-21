@@ -26,7 +26,8 @@ env:
     DB_DATABASE: ctfg
     DB_USERNAME: ctfg
     APP_ENV: production
-    APP_DEBUG: true
+    APP_DEBUG: false
+    SESSION_SECURE_COOKIE: true
     LOG_CHANNEL: single
   secret:
     - MYSQL_PASSWORD
@@ -70,7 +71,7 @@ accessories:
         DB_DATABASE: ctfg
         DB_USERNAME: ctfg
         APP_ENV: production
-        APP_DEBUG: true
+        APP_DEBUG: false
         LOG_CHANNEL: single
       secret:
         - MYSQL_PASSWORD

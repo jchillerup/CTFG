@@ -1,5 +1,22 @@
 # Technical Changelog - CTFG Project
 
+## 🛡️ Vulnerability Fixes - 21 October 2026 (evening)
+
+Full audit performed (dependencies, code, routes, live probes). Fixed in code/config:
+
+- **Sync token was public**: the `/sync-now/{token}` token was hard-coded as a fallback in `config/app.php`, printed in `documentation/SYNC_INSTRUCTIONS.md`, and present in git history (`664109e`) in a public repo. Removed the fallback (endpoint now fails closed when `SYNC_SECRET_TOKEN` is unset), scrubbed the docs, and switched to a constant-time `hash_equals` comparison returning HTTP 403 on failure. **The token must still be rotated in production** — treat the old value as compromised (see pending actions).
+- **Unauthenticated listing overwrite**: `POST /api/webhooks/listing/updated` now requires the `X-Airtable-Webhook-Secret` header (`AIRTABLE_WEBHOOK_SECRET`, fails closed) and a listing `id`; `UpdateListing` jobs only overwrite fields actually present in the payload instead of nulling omitted columns.
+- **Unauthenticated credential disclosure**: `/api/tp/docu`, `/api/tp/docu/{name}` and `/api/mail-category` (which read/overwrite stored Microsoft access/refresh tokens) now require the `TP_API_TOKEN` bearer token (fails closed). Removed request logging that could record bearer tokens. **The stored Microsoft tokens should be rotated.**
+- **Unauthenticated destructive/debug routes removed**: `GET /sync/manual`, `/sync/manual/links`, `/fill`, `/download-expired-images`, `/t`, `/a/test`, `/test-media-controller`, `/email-templates/contact-form` returned 404 after removal (verified). Syncs run via scheduler, artisan, or the token-protected endpoint only.
+- **SQL injection pattern in search**: `Listing::scopeSearchQuery()` interpolated `addslashes($q)` into `orderByRaw()` (demonstrated SQL error/injection on SQLite). Now fully parameterized with LIKE wildcards escaped; the injection payload executes cleanly with 0 rows.
+- **Stored-XSS surface**: Airtable-sourced `name`/`introduction` are now Blade-escaped in listing views; embeds are rebuilt by the new `App\Support\SafeEmbed` (HTTPS + provider allow-list + sandboxed iframe, everything else dropped — verified an `evil.example.com` iframe is blocked while YouTube embeds still render); CommonMark is set to `html_input: escape`, `allow_unsafe_links: false` (verified `<script>` escaped and `javascript:` links dropped).
+- **Production config**: `config/deploy.yml` now sets `APP_DEBUG: false` (was `true` for web and scheduler) and `SESSION_SECURE_COOKIE: true`; `Dockerfile` sets `expose_php = Off` so the PHP version is no longer disclosed.
+- `.env.example` documents `SYNC_SECRET_TOKEN`, `AIRTABLE_WEBHOOK_SECRET`, `TP_API_TOKEN` as empty placeholders.
+
+Verified locally after fixes: removed routes 404, webhook 401 without/with wrong secret and 200 with correct secret (listing record intact), TP API 401/404, `/sync-now/<wrong>` 403, all public pages/search 200, no `X-Powered-By` header, PHPUnit 2/2. Note: locally the app is now served with `php -S 127.0.0.1:8000 -t public server.php` instead of `artisan serve`, because `artisan serve` strips non-whitelisted env vars (including the PHP runtime ini) from its child process.
+
+**Pending production actions** (need the Kamal/GitHub credentials held by the deploy owner): rotate `SYNC_SECRET_TOKEN`, set `AIRTABLE_WEBHOOK_SECRET` + `TP_API_TOKEN`, rotate the stored Microsoft tokens, then `kamal deploy` (this also ships PHP 8.4.27 and `APP_DEBUG=false`; prod currently runs PHP 8.4.15). A Laravel 12/13 upgrade remains the only way to clear the last 4 framework advisories.
+
 ## 🔒 Security & Local Deployment Update - 21 October 2026
 
 ### PHP 8.4.27 Security Patch

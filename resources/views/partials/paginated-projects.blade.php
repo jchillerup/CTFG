@@ -41,7 +41,7 @@
                         <a href="/listing/{{ $project->slug }}"
                             style="color: #212529; text-decoration: none; transition: color 0.2s ease;"
                             onmouseover="this.style.color='#0d6efd'" onmouseout="this.style.color='#212529'">
-                            {!! $project->name !!}
+                            {{ $project->name }}
                         </a>
                     </h4>
 
@@ -55,7 +55,7 @@
                 </div>
 
                 <p style="font-size: 16px; line-height: 1.7; color: #212529; margin-bottom: 18px; font-weight: 400;">
-                    {!! $project->introduction !!}
+                    {{ $project->introduction }}
                 </p>
 
                 @if (@$project->tags->count() > 0)

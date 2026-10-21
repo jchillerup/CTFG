@@ -13,12 +13,13 @@ class SecretSyncController extends Controller
      */
     public function instantSync($token)
     {
-        // Verify the secret token (case-insensitive comparison)
-        $validToken = config('app.sync_secret_token', 'default-secret-token');
-        
-        if (strtolower($token) !== strtolower($validToken)) {
+        // Verify the secret token. Fail closed if none is configured, and
+        // compare in constant time (the token is a bearer credential).
+        $validToken = (string) config('app.sync_secret_token');
+
+        if ($validToken === '' || !hash_equals($validToken, (string) $token)) {
             Log::warning('Invalid sync token attempted: ' . $token);
-            return $this->errorResponse('Access denied');
+            return $this->errorResponse('Access denied', 403);
         }
 
         try {
@@ -76,12 +77,12 @@ class SecretSyncController extends Controller
     /**
      * Simple error response
      */
-    private function errorResponse($message)
+    private function errorResponse($message, $status = 200)
     {
         return response()->view('sync-result', [
             'status' => 'error',
             'message' => $message,
             'timestamp' => now()->format('Y-m-d H:i:s')
-        ]);
+        ], $status);
     }
 }
