@@ -10,6 +10,7 @@ Executed `documentation/LARAVEL_UPGRADE_PLAN.md` in three gated steps (10.50 →
   - The **`Knowledge` table no longer exists in Airtable** (verified via the Meta API) — the old package silently returned `[]`, which is why knowledge always synced empty. The new client returns `[]` only for model-not-found (404 / 403 `MODEL_NOT_FOUND`) and still throws on genuine auth errors.
 - **Latent sync bug fixed**: `Sync/ListingController` read `$organization` outside the branch that assigns it — an "Undefined variable" crash (and stale parent-organization names leaking between records) that record ordering previously masked. Initialized to `null`.
 - **Result**: `composer audit` reports **0 advisories**; the 4 framework ignore-ids have been removed from `composer.json`. PHP constraint is now `^8.3` (running 8.4.27), PHPUnit 12, Tinker 3, ResponseCache 8, doctrine/dbal 4. Zero deprecation warnings in the log during smoke tests.
+- **Deployed to production 2026-10-22** (Kamal, image `8c3125d…`; web + scheduler verified on Laravel 13.38.0, all post-deploy checks green, old public sync token 403). One deployment gotcha worth remembering: the tracked `.kamal/secrets` template reads the app key from `$LARAVEL_APP_KEY` — if that variable is absent from the deploy environment, `APP_KEY` expands empty and every request 500s with `MissingAppKeyException` (the first 13.x boot failed its health check for exactly this reason; Kamal kept the previous container serving, so there was no outage).
 
 ## 🚀 Production Deployment & Secret Rotation - 22 October 2026
 
