@@ -24,7 +24,7 @@ In the same engagement, the platform was modernized from Laravel 10 (end-of-life
 |---|---|---|
 | Sync token published publicly (Critical) | Anyone could force a full site re-sync at will — denial-of-service and data-integrity risk. Token was in a public GitHub repo and in our documentation. | Fixed & rotated — old token verified rejected |
 | Unauthenticated listing overwrite (Critical) | Anyone could silently change the name, description, or status of any listing via the webhook endpoint. | Fixed — secret required; verified live |
-| Stored Microsoft credentials exposed (Critical) | An open API endpoint returned stored Microsoft access/refresh tokens and allowed overwriting them. | Endpoint locked — tokens must still be revoked by their owner (below) |
+| Stored Microsoft credentials exposed (Critical) | An open API endpoint returned stored Microsoft access/refresh tokens and allowed overwriting them. | Endpoint locked. Follow-up check (22 Oct): the `docu_confs` table is **empty** in production — no credentials are currently stored, so there is nothing to revoke unless the long-dormant client tool resurfaces |
 | Open destructive/debug endpoints (High) | Unauthenticated URLs could trigger syncs, mass updates, and test emails. | Removed — all return 404 (verified) |
 | SQL injection pattern in search (High) | Search input reached raw SQL; error-based injection demonstrated locally. | Fixed — fully parameterized; automated test coverage |
 | Stored XSS surface (Medium) | Airtable-edited content rendered unescaped; a compromised Airtable account could inject scripts into visitors' browsers. | Fixed — escaped output; provider allow-list for embeds |
@@ -57,7 +57,7 @@ A crawl of 356 pages and 149 outbound links found no broken internal pages or im
 
 | Action | Owner | Priority |
 |---|---|---|
-| Revoke and re-issue the stored Microsoft access/refresh tokens exposed while the endpoint was open | Integration owner (Microsoft/DocuSign admin) | **High** — the only exposure not fully closed by this engagement |
+| Confirm whether the 2022-era "TP" mail tool is still in use anywhere; if not, delete the `/api/tp/*` endpoints and `docu_confs` table (the table is empty and the endpoints are now token-locked, so this is hygiene, not urgency) | Engineering / original feature owner | Low |
 | Share the new manual-sync link with its non-tech users (old link dead by design) | Operations | Medium |
 | Give the new webhook secret to whoever maintains the Airtable automations | Operations | Medium |
 | Correct the 8 dead outbound listings in Airtable | Content / data owner | Medium |
