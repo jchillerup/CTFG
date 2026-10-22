@@ -51,11 +51,12 @@ class SmokeTest extends TestCase
             ->assertUnauthorized();
     }
 
-    public function test_tp_docu_requires_token(): void
+    public function test_tp_token_vault_is_gone(): void
     {
-        config(['services.tp.api_token' => 'test-token']);
-
-        $this->get('/api/tp/docu?name=whatever')->assertUnauthorized();
+        // The 2022-era Microsoft token vault was removed (2026-10-22);
+        // its endpoints must stay gone, not just locked.
+        $this->get('/api/tp/docu?name=whatever')->assertNotFound();
+        $this->post('/api/mail-category')->assertNotFound();
     }
 
     public function test_sync_now_rejects_wrong_token(): void

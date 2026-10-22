@@ -34,10 +34,6 @@ return [
         'secret' => env('AIRTABLE_WEBHOOK_SECRET'),
     ],
 
-    'tp' => [
-        'api_token' => env('TP_API_TOKEN'),
-    ],
-
     'google' => [
         'key' => env('GOOGLE_MAPS_KEY', ''),
     ],

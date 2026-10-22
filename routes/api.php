@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/webhooks/listing/updated', [\App\Http\Controllers\Api\Webhooks\Airtable\ListingController::class, 'handleUpdate']);
 
-Route::get('/tp/docu', [\App\Http\Controllers\Api\TP\DocuController::class, 'getConf']);
-Route::post('/tp/docu/{name}', [\App\Http\Controllers\Api\TP\DocuController::class, 'updateConf']);
-Route::post('/mail-category', [\App\Http\Controllers\Api\TP\DocuController::class, 'updateCat']);
+// Removed 2026-10-22: the 2022-era "/api/tp/*" Microsoft token vault
+// (DocuController + docu_confs) was dormant (empty table, no callers)
+// and had previously exposed stored credentials unauthenticated.
 

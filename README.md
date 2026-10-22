@@ -43,7 +43,7 @@ The Civic Tech Field Guide is a comprehensive directory of civic technology tool
 ### Security Hardening (21 Oct 2026)
 - ✅ Removed a publicly exposed sync token; `/sync-now/{token}` now uses the `SYNC_SECRET_TOKEN` env secret and fails closed
 - ✅ Airtable webhook (`POST /api/webhooks/listing/updated`) requires the `AIRTABLE_WEBHOOK_SECRET` header
-- ✅ Token-protected `/api/tp/*` endpoints (`TP_API_TOKEN`); unauthenticated debug/sync routes removed
+- ✅ Unauthenticated debug/sync routes removed; the dormant 2022 Microsoft token-vault endpoints (`/api/tp/*`) were token-locked, verified unused (empty table), and deleted entirely
 - ✅ Search SQL fully parameterized; Airtable content escaped; embeds rebuilt through a provider allow-list
 - ✅ Production: `APP_DEBUG=false`, secure session cookies, PHP version no longer disclosed
 
