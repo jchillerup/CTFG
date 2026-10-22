@@ -1,5 +1,9 @@
 # Technical Changelog - CTFG Project
 
+## 🧹 Removed dormant Microsoft token vault - 22 October 2026
+
+The 2022-era `/api/tp/*` endpoints (`DocuController`, backed by the `docu_confs` table) acted as a server-side parking spot for an external mail tool's Microsoft Graph access/refresh tokens. After they were token-locked during the security hardening, a follow-up check confirmed the table was **empty in production** and showed no usage — so instead of guarding dead code indefinitely, it has been deleted: routes, controller, model, `services.tp` config, `TP_API_TOKEN` wiring (`.env.example`, `config/deploy.yml`, `.kamal/secrets`), and the table itself (migration `2026_10_22_000001_drop_docu_confs_table`, verified applied in production; endpoints now return 404). The smoke suite now asserts the endpoints stay gone. If the old mail tool ever resurfaces, it must be re-introduced deliberately — with authentication designed in from the start.
+
 ## ⬆️ Laravel 10 → 13 Upgrade - 22 October 2026
 
 Executed `documentation/LARAVEL_UPGRADE_PLAN.md` in three gated steps (10.50 → **11.57** → **12.70** → **13.38**), each verified with the new feature smoke suite (`tests/Feature/SmokeTest.php`: homepage, listing page, search + SQL-injection payload, webhook 401, TP API 401, sync-token 403), a fresh SQLite `migrate:fresh`, and — at the end — a full `sync:tables` against Airtable with record counts identical to the Laravel 10 baseline (294 listings, 524 impact, 206 media, 76 organizations, 70 tags).
